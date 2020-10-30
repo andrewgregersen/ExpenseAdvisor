@@ -60,7 +60,7 @@
                 />
 
            <com.google.android.gms.common.SignInButton
-               android:id="@+id/googleLogin"
+               android:id="@+id/google_Login"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_row="1"
@@ -80,12 +80,19 @@
 
        </LinearLayout>
 
+
        <Button
            android:id="@+id/newAccount"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="Register New Account"
-           android:layout_marginTop="280dp"/>
+           android:layout_marginTop="280dp"
+           android:text="Register New Account" />
+
+       <Button
+           android:id="@+id/forgot"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Forgot Password" />
 
    </LinearLayout>
 

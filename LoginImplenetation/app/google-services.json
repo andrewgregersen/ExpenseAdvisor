@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "518692453774",
+    "firebase_url": "https://expense-advisor.firebaseio.com",
+    "project_id": "expense-advisor",
+    "storage_bucket": "expense-advisor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518692453774:android:0a688815384f570244f8df",
+        "android_client_info": {
+          "package_name": "com.example.loginimplenetation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Hbq-lKy6IXVpxjuzQRcDMeXSPzXuBfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
