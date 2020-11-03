@@ -10,6 +10,7 @@ import android.widget.Switch
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import androidx.appcompat.app.AppCompatActivity
+import com.example.loginimplenetation.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseUser
@@ -23,6 +24,7 @@ import java.lang.Exception
 class MainActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var binding: ActivityMainBinding
 
     public override fun onStart() {
         super.onStart()
@@ -34,7 +36,7 @@ class MainActivity: AppCompatActivity() {
                 if (faccount == null) {
                     updateUI(null)
                 }
-            } else updateUI(account)
+            } else signIn()
         } else updateUI(currentUser)
 
 
@@ -43,13 +45,15 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
         val googleButton = findViewById<Button>(R.id.google_Login).setOnClickListener(google_Login)
         //val facebookButton = findViewById<Button>(R.id.facebook_Login).setOnClickListener(facebook_Login)
-        val loginButton = findViewById<Button>(R.id.Login).setOnClickListener()
+        val loginButton = findViewById<Button>(R.id.Login).setOnClickListener(Login)
 
 
 
@@ -69,9 +73,10 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    //sign in for google
     private fun signIn(){
         val intent = mGoogleSignInClient.signInIntent
-        startActivity(intent, RC_SIGN_IN)
+        startActivityForResult(intent, RC_SIGN_IN)
     }
 
 
@@ -135,11 +140,11 @@ override fun onActivityResult(requestCode: Int,resultCode: Int, data: Intent?){
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener(this){ task ->
                 if(task.isSuccessful){
-                    Log.d(TAG, "createUserWithEmail:success")
+                    Log.d(TAG1, "createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 }else{
-                    Log.w(TAG, "createUserWithEmail:failure",task.exception)
+                    Log.w(TAG1, "createUserWithEmail:failure",task.exception)
                     Toast.makeText(baseContext, "Authentication failed", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -150,13 +155,13 @@ override fun onActivityResult(requestCode: Int,resultCode: Int, data: Intent?){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){ task->
                 if(task.isSuccessful){
-                    Log.d(TAG, "signInWIthEmail:success")
+                    Log.d(TAG1, "signInWIthEmail:success")
                     val user = auth.currentUser
                     if (user != null) {
                         updateUI(user)
                     }
                 }else{
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    Log.w(TAG1, "signInWithEmail:failure", task.exception)
                     Toast.makeText(baseContext,"Authentication failed", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -186,7 +191,7 @@ override fun onActivityResult(requestCode: Int,resultCode: Int, data: Intent?){
         private const val TAG1 = "EmailPassword"
         private const val TAG2 = "GoogleActivity"
         private const val RC_MULTI_FACTOR = 9005
-        private const val RC_SIGN_IN = ""
+        private const val RC_SIGN_IN = 9001
     }
 
 
