@@ -3,9 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@android:dimen/dialog_min_width_major"
         android:gravity="top"
@@ -27,7 +28,7 @@
             android:id="@+id/createUser"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            tools:hint="username"
+            android:hint="@string/username"
             android:inputType="text"
             android:autofillHints="" />
 
@@ -45,7 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:inputType="textPassword"
-            tools:hint="password" />
+            android:hint="@string/password"
+            android:autofillHints="" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,18 +63,19 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:inputType="textPassword"
-            tools:hint="password"
+            android:hint="@string/repeat_password"
             android:autofillHints="" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Security Question"
+            android:text="@string/security_question"
             android:textSize = "16pt"
             android:textColor="@color/text"
             android:textStyle="bold"/>
         <ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            />
 
 
 

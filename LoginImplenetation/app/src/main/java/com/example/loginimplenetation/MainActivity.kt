@@ -4,15 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.databinding.ActivityMainBinding
+import com.example.loginimplenetation.databinding.NewAccountFragmentBinding
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -33,9 +38,9 @@ class MainActivity: AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
             if (account == null) {
-                if (faccount == null) {
-                    updateUI(null)
-                }
+                //if (faccount == null) {
+                  //  updateUI(null)
+                //}
             } else signIn()
         } else updateUI(currentUser)
 
@@ -45,21 +50,33 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        val Snackbar = Snackbar.make(view,coordLayout.id,5)
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
         val googleButton = findViewById<Button>(R.id.google_Login).setOnClickListener(google_Login)
         //val facebookButton = findViewById<Button>(R.id.facebook_Login).setOnClickListener(facebook_Login)
-        val loginButton = findViewById<Button>(R.id.Login).setOnClickListener(Login)
+        val loginButton = findViewById<Button>(R.id.Login).setOnClickListener(){
+            signIn(R.id.Username.toString(),R.id.Password.toString())
+        }
+        val newAccount = binding.newAccount.setOnClickListener(){
+            setContentView(NewAccountFragmentBinding)
+        }
+
 
 
 
 
 
     }
+
+
+
+
 
 
     override fun onClick(v:View) {
@@ -169,19 +186,42 @@ override fun onActivityResult(requestCode: Int,resultCode: Int, data: Intent?){
 
     }
 
+    //updates the UI for the activity either logging a person in or out
     private fun updateUI(user: FirebaseUser?){
         if(user != null){
             binding.status.text = getString(R.string.google_status_fmt, user.email)
             binding.detail.text = getString(R.string.firebase_status_fmt,user.uid)
 
 
-            binding.google_Login.visibility = View.VISIBLE
-            binding.signOutAndDisconect.visibility = View.GONE
+            binding.googleLogin.visibility = View.VISIBLE
+            //binding.signOutAndDisconect.visibility = View.GONE not implemented yet
         }else{
             binding.status.setText(R.string.signed_out)
             binding.detail.text = null
             binding.google_Login.visibility = View.VISIBLE
             binding.signOutAndDisconnect.visibility = View.GONE
+        }
+
+        class NewAccountFragment : Fragment(){
+
+            private lateinit var binding1: NewAccountFragmentBinding
+            override fun onCreateView(
+                inflater: LayoutInflater,
+                container: ViewGroup?,
+                savedInstanceState: Bundle?
+            ): View? {
+                return inflater.inflate(R.layout.New_Account_Fragment, container, false)
+            }
+
+            override  fun onCreate(savedInstanceState: Bundle?){
+                super.onCreate(savedInstanceState)
+                binding1 = NewAccountFragmentBinding.inflate(layoutInflater)
+                val v = binding1.root
+
+
+
+
+            }
         }
 
     }
@@ -195,5 +235,8 @@ override fun onActivityResult(requestCode: Int,resultCode: Int, data: Intent?){
     }
 
 
+
+
 }
+
 
