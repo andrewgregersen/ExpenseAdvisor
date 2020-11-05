@@ -11,12 +11,18 @@ import com.google.firebase.ktx.Firebase
 class LoggedInActivity: AppCompatActivity(){
 
     private var mUser : FirebaseUser? = null
+    private lateinit var auth : FirebaseAuth
 
 
     override fun onStart() {
         super.onStart()
+        auth = FirebaseAuth.getInstance()
         mUser = FirebaseAuth.getInstance().currentUser
         setContentView(R.layout.logged_activity)
+    }
+
+    override fun onCreate(savedInstance: Bundle?) {
+        super.onCreate(savedInstance)
     }
 
     private fun getCurrentUser(mUser: FirebaseUser?){
@@ -26,15 +32,12 @@ class LoggedInActivity: AppCompatActivity(){
         }
     }
 
-    public override fun getIntent(): Intent? {
-        return Intent.ACTION_GET_CONTENT
+    private fun signOut(){
+        auth.signOut()
+        finish()
     }
-
-    companion object{
-        var intent = Intent.ACTION_CALL
-    }
-
 
 
 
 }
+
