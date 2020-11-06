@@ -2,6 +2,7 @@ package com.example.loginimplenetation
 
 import android.content.Intent
 import android.os.Bundle
+import android.service.autofill.OnClickAction
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,63 +37,39 @@ class MainActivity: AppCompatActivity() {
         var account = GoogleSignIn.getLastSignedInAccount(this)
         val currentUser = auth.currentUser
         if (currentUser == null) {
+            /*
             if (account == null) {
                 //if (faccount == null) {
                 //  updateUI(null)
                 //}
             } else signIn()
+            */
         } else updateUI(currentUser)
 
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_main)
         var gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
 
-        actions()
-    }
-
-    private fun actions() {
-        val googleButton = findViewById<Button>(R.id.google_Login)
-        val facebookButton = findViewById<Button>(R.id.facebook_Login)
-        val loginButton = findViewById<Button>(R.id.Login)
-        val newAccount = findViewById<Button>(R.id.newAccount)
-        val reset = findViewById<Button>(R.id.forgot)
-
-        googleButton.setOnClickListener(View.OnClickListener {
-            fun onClick(view: View) {
-                signIn()
-            }
-        })
-
-
-        loginButton.setOnClickListener(View.OnClickListener {
-            fun onClick(view: View) {
-                val email = Username.text.toString().trim()
-                val pass = Password.text.toString().trim()
-
-                if (email.isEmpty()) {
-                    Username.error = "Email Required..."
-                    return
-                }
-                if (pass.isEmpty()) {
-                    Password.error = "Password Required"
-                    return
-                }
-                signIn(email, pass)
-            }
-        })
-
+        val googLog = findViewById<Button>(R.id.google_Login).setOnClickListener(){
+            signIn()
+        }
+        val login = findViewById<Button>(R.id.Login).setOnClickListener(){
+            //debug
+            val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
+            startActivity(intent)
+        }
 
     }
+
+
 
 
 
@@ -192,34 +169,35 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if(user != null){
             val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
             startActivity(intent)
-            updateUI(auth.currentUser)
         }else{
+            setContentView(R.layout.activity_main)
             Snackbar.make(binding.coordLayout,"You have signed out",Snackbar.LENGTH_SHORT).show()
             binding.googleLogin.visibility = View.VISIBLE
         }
 
-        class NewAccountFragment : Fragment(){
-
-            private lateinit var binding1: NewAccountFragmentBinding
-            override fun onCreateView(
-                inflater: LayoutInflater,
-                container: ViewGroup?,
-                savedInstanceState: Bundle?
-            ): View? {
-                return inflater.inflate(R.layout.New_Account_Fragment, container, false)
-            }
-
-            override  fun onCreate(savedInstanceState: Bundle?){
-                super.onCreate(savedInstanceState)
-                binding1 = NewAccountFragmentBinding.inflate(layoutInflater)
-                val v = binding1.root
 
 
+    }
+    class NewAccountFragment : Fragment(){
 
-
-            }
+        private lateinit var binding1: NewAccountFragmentBinding
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            return inflater.inflate(R.layout.new_account_fragment, container, false)
         }
 
+        override  fun onCreate(savedInstanceState: Bundle?){
+            super.onCreate(savedInstanceState)
+            binding1 = NewAccountFragmentBinding.inflate(layoutInflater)
+            val v = binding1.root
+
+
+
+
+        }
     }
 
 
