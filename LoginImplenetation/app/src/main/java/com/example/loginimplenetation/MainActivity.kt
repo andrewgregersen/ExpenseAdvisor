@@ -1,18 +1,15 @@
 package com.example.loginimplenetation
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
-import android.service.autofill.OnClickAction
+import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.databinding.ActivityMainBinding
-import com.example.loginimplenetation.databinding.NewAccountFragmentBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -23,10 +20,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity: AppCompatActivity() {
+
+
+    final val Extra_Message_1 = "com.example.loginimplenetation.NewAccount"
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: ActivityMainBinding
@@ -52,20 +51,44 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        var view = binding.root
+        setContentView(view)
         var gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
 
-        val googLog = findViewById<Button>(R.id.google_Login).setOnClickListener(){
+
+        val login = findViewById<Button>(binding.Login.id)
+        login.setOnClickListener {
+            val username = binding.Username.text.toString().trim()
+            val password = binding.Password.text.toString().trim()
+            if(TextUtils.isEmpty(username)){
+                binding.Username.error = "Email Required..."
+                return@setOnClickListener
+            }
+            if(TextUtils.isEmpty(password)){
+                binding.Password.error = "Password Required..."
+                return@setOnClickListener
+            }
+            signIn(username, password)
+        }
+        /*
+        val googleLog  = findViewById<Button>(binding.googleLogin.id)
+        googleLog.setOnClickListener {
             signIn()
         }
-        val login = findViewById<Button>(R.id.Login).setOnClickListener(){
-            //debug
-            val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
+        
+         */
+
+        val newAccount = findViewById<Button>(binding.newAccount.id)
+        newAccount.setOnClickListener{
+            val intent = Intent(this, NewAccount::class.java).apply{
+                putExtra(Extra_Message_1,"do it")
+            }
             startActivity(intent)
         }
+
 
     }
 
@@ -146,20 +169,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
 
 
 
-    private fun createAccount(email: String, password: String){
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){ task ->
-                if(task.isSuccessful){
-                    Log.d(TAG1, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                }else{
-                    Log.w(TAG1, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed", Toast.LENGTH_SHORT).show()
-                    updateUI(null)
-                }
-            }
-    }
+
 
 
 
@@ -169,41 +179,20 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if(user != null){
             val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
             startActivity(intent)
+            updateUI(auth.currentUser)
         }else{
-            setContentView(R.layout.activity_main)
-            Snackbar.make(binding.coordLayout,"You have signed out",Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.coordLayout, "You have signed out", Snackbar.LENGTH_SHORT).show()
             binding.googleLogin.visibility = View.VISIBLE
         }
 
 
 
     }
-    class NewAccountFragment : Fragment(){
-
-        private lateinit var binding1: NewAccountFragmentBinding
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            return inflater.inflate(R.layout.new_account_fragment, container, false)
-        }
-
-        override  fun onCreate(savedInstanceState: Bundle?){
-            super.onCreate(savedInstanceState)
-            binding1 = NewAccountFragmentBinding.inflate(layoutInflater)
-            val v = binding1.root
-
-
-
-
-        }
-    }
 
 
 
     companion object {
-        private const val TAG1 = "EmailPassword"
+        const val TAG1 = "EmailPassword"
         private const val TAG2 = "GoogleActivity"
         private const val RC_MULTI_FACTOR = 9005
         private const val RC_SIGN_IN = 9001

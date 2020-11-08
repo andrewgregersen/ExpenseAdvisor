@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.Intent.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
@@ -12,6 +14,7 @@ class LoggedInActivity: AppCompatActivity(){
 
     private var mUser : FirebaseUser? = null
     private lateinit var auth : FirebaseAuth
+    private lateinit var binding : LoggedActivityBinding
 
 
     override fun onStart() {
@@ -35,6 +38,10 @@ class LoggedInActivity: AppCompatActivity(){
     private fun signOut(){
         auth.signOut()
         finish()
+    }
+
+    public fun getView(): ConstraintLayout {
+        return binding.root
     }
 
 
