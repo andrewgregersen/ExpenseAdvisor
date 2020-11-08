@@ -25,7 +25,7 @@ import com.google.firebase.ktx.Firebase
 class MainActivity: AppCompatActivity() {
 
 
-    final val Extra_Message_1 = "com.example.loginimplenetation.NewAccount"
+    val Extra_Message_1 = "com.example.loginimplenetation.NewAccount"
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: ActivityMainBinding
@@ -54,7 +54,7 @@ class MainActivity: AppCompatActivity() {
         var view = binding.root
         setContentView(view)
         var gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestId().requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
 
@@ -84,6 +84,12 @@ class MainActivity: AppCompatActivity() {
             val intent = Intent(this, NewAccount::class.java).apply{
                 putExtra(Extra_Message_1,"do it")
             }
+            startActivity(intent)
+        }
+
+        val nextScreen = findViewById<Button>(binding.skip.id)
+        nextScreen.setOnClickListener {
+            val intent = Intent(this, LoggedInActivity::class.java)
             startActivity(intent)
         }
 
@@ -135,7 +141,6 @@ class MainActivity: AppCompatActivity() {
 
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode == RC_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try{

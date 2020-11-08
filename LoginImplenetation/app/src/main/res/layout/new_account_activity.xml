@@ -82,27 +82,6 @@
             android:inputType="textPassword"
             android:hint="@string/repeat_password"
             android:autofillHints="" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/security_question"
-            android:gravity="center"
-            android:textSize = "16pt"
-            android:textColor="@color/text"
-            android:textStyle="bold"/>
-        <ExpandableListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/list"
-            />
-
-        <EditText
-            android:id="@+id/secanswer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity = "center"
-            android:hint = "Security Answer"
-            />
 
         <Button
             android:id="@+id/submit_button"

@@ -24,10 +24,6 @@ class LoggedInActivity: AppCompatActivity(){
         setContentView(R.layout.logged_activity)
     }
 
-    override fun onCreate(savedInstance: Bundle?) {
-        super.onCreate(savedInstance)
-    }
-
     private fun getCurrentUser(mUser: FirebaseUser?){
         if(mUser != null){
             var name = mUser.displayName
@@ -40,7 +36,7 @@ class LoggedInActivity: AppCompatActivity(){
         finish()
     }
 
-    public fun getView(): ConstraintLayout {
+    fun getView(): ConstraintLayout {
         return binding.root
     }
 

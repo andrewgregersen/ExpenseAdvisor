@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -48,22 +49,11 @@
             android:gravity="center"
             />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-
-            >
-
-
             <Button
                 android:id="@+id/Login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_row="0"
-                android:layout_column="0"
                 android:text="Login"
                 />
 
@@ -76,6 +66,12 @@
                 android:gravity="center"
 
                 />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/skip"
+                android:text = "Next Screen"
+                />
 
             <!--   <com.facebook.login.widget.LoginButton
                    android:id="@+id/facebook_Login"
@@ -87,14 +83,13 @@
                     /> -->
 
 
-        </LinearLayout>
 
 
-        <androidx.appcompat.widget.AppCompatButton
+
+        <Button
             android:id="@+id/newAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="280dp"
             android:text="Register New Account"
             android:gravity="center"
             />
@@ -108,8 +103,7 @@
             android:text="Forgot Password"
             android:gravity="center"
             />
-
-    </LinearLayout>
+        </LinearLayout>
 
 
 </androidx.appcompat.widget.ActionMenuView>
