@@ -73,13 +73,11 @@ class MainActivity: AppCompatActivity() {
             }
             signIn(username, password)
         }
-        /*
-        val googleLog  = findViewById<Button>(binding.googleLogin.id)
-        googleLog.setOnClickListener {
+
+        val googleButton = findViewById<com.google.android.gms.common.SignInButton>(binding.googleLogin.id)
+        googleButton.setOnClickListener {
             signIn()
         }
-        
-         */
 
         val newAccount = findViewById<Button>(binding.newAccount.id)
         newAccount.setOnClickListener{
