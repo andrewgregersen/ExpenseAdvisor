@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
+        android:layout_marginLeft="124dp "
         android:layout_marginTop="8dp"
         android:text="@string/Bouton_Add"
         app:layout_constraintStart_toEndOf="@+id/btn_viewAll"
