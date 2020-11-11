@@ -26,6 +26,7 @@ class NewAccount: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = NewAccountActivityBinding.inflate(layoutInflater)
         view = binding.root
+        auth = FirebaseAuth.getInstance()
         setContentView(R.layout.new_account_activity)
 
         activity()

@@ -51,6 +51,7 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        auth = FirebaseAuth.getInstance()
         var view = binding.root
         setContentView(view)
         var gso =
