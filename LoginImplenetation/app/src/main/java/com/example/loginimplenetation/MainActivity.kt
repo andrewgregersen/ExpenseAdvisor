@@ -185,7 +185,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if(user != null){
             val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
             startActivity(intent)
-            updateUI(auth.currentUser)
+            binding.Username.text.clear()
+            binding.Password.text.clear()
         }else{
             Snackbar.make(binding.coordLayout, "You have signed out", Snackbar.LENGTH_SHORT).show()
             binding.googleLogin.visibility = View.VISIBLE
