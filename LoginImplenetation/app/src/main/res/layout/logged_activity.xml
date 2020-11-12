@@ -15,7 +15,7 @@
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Display Name"
+            android:text="@string/email"
             tools:text="hello world"
             tools:visibility="visible" />
         <TextView
@@ -29,8 +29,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/signOut"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:text = "@string/sign_out"
+            android:layout_column="3"
             />
+        
+
+
+
     </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,17 +35,8 @@ class MainActivity: AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         //checks to see if there is an already signed in account
-        var account = GoogleSignIn.getLastSignedInAccount(this)
         val currentUser = auth.currentUser
-        if (currentUser == null) {
-            /*
-            if (account == null) {
-                //if (faccount == null) {
-                //  updateUI(null)
-                //}
-            } else signIn()
-            */
-        } else updateUI(currentUser)
+        updateUI(currentUser)
 
 
     }
@@ -51,15 +44,17 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         var view = binding.root
         setContentView(view)
         var gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestId().requestEmail().build()
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com").requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
 
 
+        //login button that is in conjoined to the create new account (Email)
         val login = findViewById<Button>(binding.Login.id)
         login.setOnClickListener {
             val username = binding.Username.text.toString().trim()
@@ -77,11 +72,13 @@ class MainActivity: AppCompatActivity() {
             signIn(username, password)
         }
 
+        //implements the google login button
         val googleButton = findViewById<com.google.android.gms.common.SignInButton>(binding.googleLogin.id)
         googleButton.setOnClickListener {
             signIn()
         }
 
+        //implements the new account button (sperate email that is not necessarily a google one)
         val newAccount = findViewById<Button>(binding.newAccount.id)
         newAccount.setOnClickListener{
             val intent = Intent(this, NewAccount::class.java).apply{
@@ -90,6 +87,7 @@ class MainActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
+        //debug button to get to the Logged in activity, skipping the login sequence
         val nextScreen = findViewById<Button>(binding.skip.id)
         nextScreen.setOnClickListener {
             val intent = Intent(this, LoggedInActivity::class.java)
@@ -107,7 +105,7 @@ class MainActivity: AppCompatActivity() {
 
 
 
-    //sign in for google
+    //sign in for google, starts a google activity
     private fun signIn(){
         val intent = mGoogleSignInClient.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
@@ -141,37 +139,44 @@ class MainActivity: AppCompatActivity() {
 
 
 
-
+//gives the result for the google login, would update the interface
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
+
         if(requestCode == RC_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try{
                 val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG2, "firebaseAuthWithGoogle:" + account.id)
+                Log.d(TAG2, "firebaseAuthWithGoogle: "+ account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
-            }catch (e: Exception){
-                Log.w(TAG2, "Google sign in failed", e)
-                updateUI(null)
+            }catch(e:ApiException){
+                Log.w(TAG2,"Google sign in failed",e)
             }
         }
+
+
     }
 
+
     private fun firebaseAuthWithGoogle(token: String){
-        val credential = GoogleAuthProvider.getCredential(token, null)
-        auth.signInWithCredential(credential).addOnCompleteListener(this){ task ->
-            if(task.isSuccessful){
-                Log.d(TAG2, "signInWithCredential:success")
+        val credential = GoogleAuthProvider.getCredential(token,null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this){
+                task -> if(task.isSuccessful){
+                Log.d(TAG2,"signInWithCredential:success")
                 val user = auth.currentUser
                 updateUI(user)
             }else{
-                Log.w(TAG2, "signInWithCredential:failure", task.exception)
-                val view = binding.coordLayout
-                Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                Log.w(TAG2, "SignInWithCredential:failure",task.exception)
+                Snackbar.make(binding.root, "Authentication Failed",Snackbar.LENGTH_SHORT).show()
                 updateUI(null)
             }
-        }
+            }
     }
+
+
+
+
 
 
 
@@ -203,6 +208,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         private const val TAG2 = "GoogleActivity"
         private const val RC_MULTI_FACTOR = 9005
         private const val RC_SIGN_IN = 9001
+        private const val web_server_key = "518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com"
     }
 
 

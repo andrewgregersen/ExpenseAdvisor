@@ -32,23 +32,23 @@ class LoggedInActivity: AppCompatActivity(){
         displayStuff()
     }
 
+    //displays the vairous buttons and graphs on the screen
     private fun displayStuff(){
         val btnsignout = findViewById<Button>(binding.signOut.id)
         btnsignout.setOnClickListener {
             logOut()
         }
         val txtnamehere = findViewById<TextView>(binding.putName.id)
-        txtnamehere.text = auth.currentUser?.displayName
+        txtnamehere.text = auth.currentUser?.email
     }
 
+
+    //logs the user out of the application
     private fun logOut(){
         auth.signOut()
         finish()
     }
 
-    fun getView(): ConstraintLayout {
-        return binding.root
-    }
 
 
 
