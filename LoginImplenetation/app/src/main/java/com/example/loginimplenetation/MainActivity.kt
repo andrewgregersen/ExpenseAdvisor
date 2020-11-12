@@ -66,10 +66,12 @@ class MainActivity: AppCompatActivity() {
             val password = binding.Password.text.toString().trim()
             if(TextUtils.isEmpty(username)){
                 binding.Username.error = "Email Required..."
+                binding.Username.requestFocus()
                 return@setOnClickListener
             }
             if(TextUtils.isEmpty(password)){
                 binding.Password.error = "Password Required..."
+                binding.Password.requestFocus()
                 return@setOnClickListener
             }
             signIn(username, password)
