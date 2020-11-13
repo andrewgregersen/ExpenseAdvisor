@@ -23,6 +23,12 @@
         <activity android:name=".NewAccount"
             android:parentActivityName =".MainActivity">
         </activity>
+        <activity android:name=".ForgottenActivity"
+            android:parentActivityName =".MainActivity">
+        </activity>
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".LoggedInActivity">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

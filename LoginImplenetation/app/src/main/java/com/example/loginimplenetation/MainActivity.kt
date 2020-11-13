@@ -88,11 +88,21 @@ class MainActivity: AppCompatActivity() {
         }
 
         //debug button to get to the Logged in activity, skipping the login sequence
+        /*
         val nextScreen = findViewById<Button>(binding.skip.id)
         nextScreen.setOnClickListener {
             val intent = Intent(this, LoggedInActivity::class.java)
             startActivity(intent)
         }
+
+         */
+
+        val forgotPass = findViewById<Button>(binding.forgot.id)
+        forgotPass.setOnClickListener {
+            val intent = Intent(this,ForgottenActivity::class.java)
+        }
+
+
 
 
     }

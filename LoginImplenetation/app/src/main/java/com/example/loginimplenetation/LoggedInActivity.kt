@@ -12,6 +12,7 @@ import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.logged_activity.*
 import kotlin.math.sign
 
 class LoggedInActivity: AppCompatActivity(){
@@ -40,6 +41,19 @@ class LoggedInActivity: AppCompatActivity(){
         }
         val txtnamehere = findViewById<TextView>(binding.putName.id)
         txtnamehere.text = auth.currentUser?.email
+        val btnPhoto = findViewById<Button>(binding.Photos.id)
+        btnPhoto.setOnClickListener {
+            //val intent = Intent(this@LoggedInActivity, Photo::class.java)
+            //startActivity(intent)
+            val message = findViewById<TextView>(binding.message.id)
+            message.text = "This would launch the Photo Activity"
+        }
+        val btnSettings =findViewById<Button>(binding.Settings.id)
+        btnSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
