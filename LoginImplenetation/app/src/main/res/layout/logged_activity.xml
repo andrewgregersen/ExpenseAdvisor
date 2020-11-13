@@ -7,10 +7,12 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/display_name"
             android:layout_width="wrap_content"
@@ -18,26 +20,67 @@
             android:text="@string/email"
             tools:text="hello world"
             tools:visibility="visible" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/putName"
-            android:gravity="center"
-            android:text = "Your name here"/>
 
-        <Button
+        <TextView
+            android:id="@+id/putName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/signOut"
             android:gravity="center"
-            android:text = "@string/sign_out"
-            android:layout_column="3"
-            />
-        
+            android:text="Your name here" />
 
 
 
     </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:paddingTop = "12dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <GridLayout
+            android:layout_width="359dp"
+            android:layout_height="48dp"
+            android:layout_gravity="top"
+            android:columnCount="5"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="52dp">
+
+            <Button
+                android:id="@+id/Photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:text="@string/photos" />
+
+            <Button
+                android:id="@+id/signOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="4"
+                android:gravity="center"
+                android:text="@string/sign_out" />
+
+            <Button
+                android:id="@+id/database"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:text="@string/database" />
+
+            <Button
+                android:id="@+id/Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:text="@string/settings" />
+        </GridLayout>
+    </LinearLayout>
+
 
 
 

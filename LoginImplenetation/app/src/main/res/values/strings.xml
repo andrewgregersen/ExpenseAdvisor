@@ -10,4 +10,6 @@
     <string name = "email">Email</string>
     <string name="sign_out">Sign Out</string>
     <string name="photos">Photos</string>
+    <string name="database">database</string>
+    <string name="settings">settings</string>
 </resources>
