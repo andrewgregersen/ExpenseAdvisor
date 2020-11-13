@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.databinding.ActivityMainBinding
+import com.facebook.*
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -17,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -31,6 +34,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: ActivityMainBinding
+    private lateinit var callbackManager: CallbackManager
 
     public override fun onStart() {
         super.onStart()
@@ -52,6 +56,7 @@ class MainActivity: AppCompatActivity() {
                 .requestIdToken("518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com").requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
+        callbackManager = CallbackManager.Factory.create()
 
 
         //login button that is in conjoined to the create new account (Email)
@@ -97,6 +102,30 @@ class MainActivity: AppCompatActivity() {
 
          */
 
+        //code to make facebook work
+
+
+        binding.facebookLogin.setReadPermissions("email","public_profile")
+        binding.facebookLogin.registerCallback(callbackManager, object: FacebookCallback<LoginResult>{
+            override fun onSuccess(result: LoginResult?) {
+                Log.d(TAG3, "facebook:onSuccess:$result")
+                if (result != null) {
+                    handleFacebookAccessToken(result.accessToken)
+                }
+            }
+
+            override fun onCancel() {
+                Log.d(TAG3, "facebook:onCancel")
+                updateUI(null)
+            }
+
+            override fun onError(error :FacebookException){
+                Log.d(TAG3, "facebook:onError",error)
+                updateUI(null)
+            }
+        })
+
+
         val forgotPass = findViewById<Button>(binding.forgot.id)
         forgotPass.setOnClickListener {
             val intent = Intent(this,ForgottenActivity::class.java)
@@ -141,7 +170,26 @@ class MainActivity: AppCompatActivity() {
     }
 
 
+//facebook methods
 
+    private fun handleFacebookAccessToken(token: AccessToken){
+        Log.d(TAG3, "handleFacebookAccessToken:$token")
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this){
+                task ->
+                if(task.isSuccessful){
+                    Log.d(TAG3, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                }else{
+                    Log.w(TAG3, "signInWithCredential:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+    }
 
 
 
@@ -162,6 +210,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             }catch(e:ApiException){
                 Log.w(TAG2,"Google sign in failed",e)
             }
+        }else{
+            callbackManager.onActivityResult(requestCode,resultCode,data)
         }
 
 
@@ -216,9 +266,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
     companion object {
         const val TAG1 = "EmailPassword"
         private const val TAG2 = "GoogleActivity"
-        private const val RC_MULTI_FACTOR = 9005
+        private const val TAG3 = "FacebookLogin"
         private const val RC_SIGN_IN = 9001
-        private const val web_server_key = "518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com"
     }
 
 
