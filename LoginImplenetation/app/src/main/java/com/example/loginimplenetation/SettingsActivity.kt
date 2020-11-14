@@ -25,6 +25,10 @@ class SettingsActivity: AppCompatActivity(){
 
 
     fun displaySettings(){
+        val bntBack = binding.retur
+        bntBack.setOnClickListener {
+            finish()
+        }
 
     }
 }

@@ -11,51 +11,49 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="match_parent"
-        tools:context = ".MainActivity"
-        android:orientation="vertical"
         android:layout_margin="@android:dimen/app_icon_size"
-        >
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text ="@string/username"/>
+            android:text="@string/username" />
 
         <EditText
             android:id="@+id/Username"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            tools:layout_editor_absoluteX="90dp"
             android:gravity="center"
+            tools:layout_editor_absoluteX="90dp"
             tools:layout_editor_absoluteY="106dp"
 
             />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text = "@string/password"
             android:gravity="center"
-            />
+            android:text="@string/password" />
 
         <EditText
             android:id="@+id/Password"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:gravity="center"
             android:inputType="textPassword"
             tools:layout_editor_absoluteX="90dp"
-            tools:layout_editor_absoluteY="161dp"
-            android:gravity="center"
-            />
+            tools:layout_editor_absoluteY="161dp" />
 
         <Button
-                android:id="@+id/Login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Login"
-                />
+            android:id="@+id/Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Login" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/google_Login"
@@ -65,34 +63,22 @@
             android:layout_column="0"
             android:gravity="center" />
 
-        <com.facebook.login.widget.LoginButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/facebookLogin"
-            android:layout_gravity="center_horizontal"/>
-
-
-
-
 
         <Button
             android:id="@+id/newAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register New Account"
             android:gravity="center"
-            />
-
+            android:text="Register New Account" />
 
 
         <Button
             android:id="@+id/forgot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forgot Password"
             android:gravity="center"
-            />
-        </LinearLayout>
+            android:text="Forgot Password" />
+    </LinearLayout>
 
 
 </androidx.appcompat.widget.ActionMenuView>

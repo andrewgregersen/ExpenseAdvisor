@@ -53,6 +53,14 @@ class LoggedInActivity: AppCompatActivity(){
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
+        //access the database where the individual receipts are stored
+        val bntDatabase = findViewById<Button>(binding.database.id)
+        bntDatabase.setOnClickListener {
+           // val intent = Intent(this,DatabaseActivity::class.java)
+            //startActivity(intent)
+            val message = findViewById<TextView>(binding.message.id)
+            message.text = R.string.DBAccess.toString()
+        }
 
     }
 

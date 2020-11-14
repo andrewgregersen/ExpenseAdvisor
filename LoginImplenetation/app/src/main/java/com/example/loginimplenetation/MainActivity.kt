@@ -103,7 +103,7 @@ class MainActivity: AppCompatActivity() {
          */
 
         //code to make facebook work
-
+/*
 
         binding.facebookLogin.setReadPermissions("email","public_profile")
         binding.facebookLogin.registerCallback(callbackManager, object: FacebookCallback<LoginResult>{
@@ -125,10 +125,11 @@ class MainActivity: AppCompatActivity() {
             }
         })
 
-
+*/
         val forgotPass = findViewById<Button>(binding.forgot.id)
         forgotPass.setOnClickListener {
             val intent = Intent(this,ForgottenActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -171,7 +172,7 @@ class MainActivity: AppCompatActivity() {
 
 
 //facebook methods
-
+/*
     private fun handleFacebookAccessToken(token: AccessToken){
         Log.d(TAG3, "handleFacebookAccessToken:$token")
 
@@ -193,7 +194,7 @@ class MainActivity: AppCompatActivity() {
 
 
 
-
+*/
 
 
 
@@ -210,9 +211,9 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             }catch(e:ApiException){
                 Log.w(TAG2,"Google sign in failed",e)
             }
-        }else{
+        }/*else{
             callbackManager.onActivityResult(requestCode,resultCode,data)
-        }
+        }*/
 
 
     }
