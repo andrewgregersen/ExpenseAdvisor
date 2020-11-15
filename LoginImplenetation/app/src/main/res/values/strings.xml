@@ -14,4 +14,5 @@
     <string name="settings">settings</string>
     <string name="DBAccess">This would open up the receipt database</string>
     <string name="please_enter_email">Please enter Email</string>
+    <string name="your_name_here">Your name here</string>
 </resources>

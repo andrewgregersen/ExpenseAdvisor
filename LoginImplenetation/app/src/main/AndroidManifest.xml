@@ -29,6 +29,9 @@
         <activity android:name=".SettingsActivity"
             android:parentActivityName=".LoggedInActivity">
         </activity>
+        <activity android:name=".CameraAccessActivity"
+            android:parentActivityName=".LoggedInActivity">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

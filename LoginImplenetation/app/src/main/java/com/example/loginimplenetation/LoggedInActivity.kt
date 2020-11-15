@@ -43,10 +43,8 @@ class LoggedInActivity: AppCompatActivity(){
         txtnamehere.text = auth.currentUser?.email
         val btnPhoto = findViewById<Button>(binding.Photos.id)
         btnPhoto.setOnClickListener {
-            //val intent = Intent(this@LoggedInActivity, Photo::class.java)
-            //startActivity(intent)
-            val message = findViewById<TextView>(binding.message.id)
-            message.text = "This would launch the Photo Activity"
+            val intent = Intent(this@LoggedInActivity, CameraAccessActivity::class.java)
+            startActivity(intent)
         }
         val btnSettings =findViewById<Button>(binding.Settings.id)
         btnSettings.setOnClickListener {
