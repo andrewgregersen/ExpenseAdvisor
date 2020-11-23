@@ -35,11 +35,13 @@ class MainActivity: AppCompatActivity() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: ActivityMainBinding
     private lateinit var callbackManager: CallbackManager
+    private var noAccount = true
 
     public override fun onStart() {
         super.onStart()
         //checks to see if there is an already signed in account
         val currentUser = auth.currentUser
+        noAccount = false
         updateUI(currentUser)
 
 
@@ -254,8 +256,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             binding.Username.text.clear()
             binding.Password.text.clear()
         }else{
-            Snackbar.make(binding.coordLayout, "You have signed out", Snackbar.LENGTH_SHORT).show()
-            binding.googleLogin.visibility = View.VISIBLE
+               Snackbar.make(binding.coordLayout, "Login has failed, please sign-in", Snackbar.LENGTH_SHORT).show()
+               binding.googleLogin.visibility = View.VISIBLE
         }
 
 
