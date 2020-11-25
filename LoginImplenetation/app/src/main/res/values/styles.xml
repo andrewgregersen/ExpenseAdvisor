@@ -1,8 +1,8 @@
 <resources>
     <!-- Base application theme. -->
 
-
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#fff</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -31,8 +31,8 @@
     </style>
 
 
+
     <style name="Light" parent = "AppTheme"/>
     <style name="Dark" parent = "AppThemeDark"/>
 
 </resources>
-

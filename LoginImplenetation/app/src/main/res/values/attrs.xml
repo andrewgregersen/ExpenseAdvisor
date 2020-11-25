@@ -3,3 +3,4 @@
     <attr name="PrimaryTextColor" format="color"/>
     <attr name="SecondaryTextColor" format="color"/>
 </resources>
+

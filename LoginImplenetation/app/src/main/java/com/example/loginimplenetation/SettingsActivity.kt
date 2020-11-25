@@ -109,11 +109,19 @@ class ProfileFragment: Fragment(){
                 binding.radiocheck.requestFocus()
             }
 
+
+        }
+
+
         //this is where the information provided would get ported over to the DB for storage
             }
 
         }
-    }
+
+
+
+
+
 
 
 
