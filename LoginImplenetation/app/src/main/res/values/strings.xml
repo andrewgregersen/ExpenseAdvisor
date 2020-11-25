@@ -15,4 +15,11 @@
     <string name="DBAccess">This would open up the receipt database</string>
     <string name="please_enter_email">Please enter Email</string>
     <string name="your_name_here">Your name here</string>
+    <string name="fName">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="budget_period">Budget Period</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="total_budget">Total Budget</string>
 </resources>
