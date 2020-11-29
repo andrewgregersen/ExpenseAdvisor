@@ -2,5 +2,7 @@
 <resources>
     <attr name="PrimaryTextColor" format="color"/>
     <attr name="SecondaryTextColor" format="color"/>
+    <attr name="bgColor" format="color"/>
+
 </resources>
 

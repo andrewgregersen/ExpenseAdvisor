@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:theme = "@style/Light"
+    android:background="?attr/bgColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,17 +14,19 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor = "?attr/PrimaryTextColor"
             android:id="@+id/retur"
             android:text = "Go back"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor = "?attr/PrimaryTextColor"
             android:id="@+id/dark_mode"
-            android:text = "Dark Mode"
-            android:textColor = "@color/text"/>
+            android:text = "Dark Mode" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor = "?attr/PrimaryTextColor"
             android:id="@+id/profile_settings"
             android:text = "Profile Settings"/>
 

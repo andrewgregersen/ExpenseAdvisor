@@ -53,7 +53,7 @@ class SettingsActivity: AppCompatActivity(){
         val swtDarkmode = binding.darkMode
         swtDarkmode.setOnClickListener{
             if(light){
-                setTheme(R.style.AppThemeDark)
+                setTheme(R.style.Dark)
                 light = !light
                 recreate()
             }else {
