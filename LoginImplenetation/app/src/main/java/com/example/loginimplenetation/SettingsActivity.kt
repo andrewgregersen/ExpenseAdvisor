@@ -1,5 +1,6 @@
 package com.example.loginimplenetation
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -18,11 +19,16 @@ class SettingsActivity: AppCompatActivity(){
 
     private lateinit var binding: SettingsActivityBinding
     private lateinit var view: View
+    private var light = true
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         binding = SettingsActivityBinding.inflate(layoutInflater)
         view = binding.root
+        if(!light){
+            setTheme(R.style.Dark)
+        }else
+            setTheme(R.style.Light)
         setContentView(view)
 
 
@@ -35,6 +41,7 @@ class SettingsActivity: AppCompatActivity(){
 
 
     fun displaySettings(){
+
         val bntBack = binding.retur
         bntBack.setOnClickListener {
             finish()
@@ -45,11 +52,16 @@ class SettingsActivity: AppCompatActivity(){
         }
         val swtDarkmode = binding.darkMode
         swtDarkmode.setOnClickListener{
-            if(swtDarkmode.isChecked){
-                setTheme(R.style.Dark)
-            }else
+            if(light){
+                setTheme(R.style.AppThemeDark)
+                light = !light
+                recreate()
+            }else {
                 setTheme(R.style.Light)
-            recreate()
+                light = !light
+                recreate()
+            }
+
         }
 
     }
@@ -70,8 +82,8 @@ class ProfileFragment: Fragment(){
 
     private fun display(){
         val back = binding.cancel
-        back.setOnClickListener{
-            onDestroyView()
+        back.setOnClickListener {
+            returnTransition
         }
         val submit = binding.submit
         submit.setOnClickListener{

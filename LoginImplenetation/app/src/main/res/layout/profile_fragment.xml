@@ -1,93 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="?attr/PrimaryTextColor"
+    android:theme = "@style/Light"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_marginTop="12dp"
     >
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textAlignment="center"
+        android:textSize="10pt"
+        android:gravity="center_horizontal" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cancel"
-            android:gravity= "top"
-            android:text= "Back"
-            />
+            android:gravity="center"
+            android:text="@string/fName" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:text = "@string/fName"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fName"
-                android:hint= "Please enter first name"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:text = "@string/last_name"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lName"
-                android:hint= "Please enter last name"/>
-            <TextView
-                android:id="@+id/radiocheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text = "@string/budget_period"/>
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id = "@+id/radiogroup"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id = "@+id/daily"
-                    android:text="@string/daily"/>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id = "@+id/weekly"
-                    android:text="@string/weekly"/>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id = "@+id/monthly"
-                    android:text="@string/monthly"/>
-            </RadioGroup>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:text = "@string/total_budget"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/budget"
-                android:inputType="numberDecimal"
-                android:hint= "Please enter your budget"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:text = "Size of Household"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/people"
-                android:inputType="number"
-                android:hint= "Amount of people in household"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/submit"
-                android:text = "Submit"/>
+        <EditText
+            android:id="@+id/fName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Please enter first name" />
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_name" />
+
+        <EditText
+            android:id="@+id/lName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Please enter last name" />
+
+        <TextView
+            android:id="@+id/radiocheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/budget_period" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/daily" />
+
+            <RadioButton
+                android:id="@+id/weekly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weekly" />
+
+            <RadioButton
+                android:id="@+id/monthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/monthly" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_budget" />
+
+        <EditText
+            android:id="@+id/budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Please enter your budget"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size of Household" />
+
+        <EditText
+            android:id="@+id/people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Amount of people in household"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+</LinearLayout>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:background="?attr/PrimaryTextColor"
+    android:theme = "@style/Light"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,11 +16,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/retur"
             android:text = "Go back"/>
-        <androidx.appcompat.widget.SwitchCompat
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/dark_mode"
-            android:text = "Dark Mode"/>
+            android:text = "Dark Mode"
+            android:textColor = "@color/text"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
