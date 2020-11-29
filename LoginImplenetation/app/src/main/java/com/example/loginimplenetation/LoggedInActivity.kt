@@ -66,7 +66,6 @@ class LoggedInActivity: AppCompatActivity(){
     //logs the user out of the application
     private fun logOut(){
         auth.signOut()
-
         finish()
     }
 

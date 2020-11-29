@@ -1,13 +1,13 @@
 <resources>
     <!-- Base application theme. -->
 
-    <style name="LightTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="LightTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name = "PrimaryTextColor">#000000</item>
         <item name ="SecondaryTextColor">#606060</item>
         <item name ="bgColor">#fff</item>
     </style>
 
-    <style name="DarkTheme" parent ="Theme.AppCompat.NoActionBar">
+    <style name="DarkTheme" parent ="Theme.AppCompat.DayNight.NoActionBar">
         <item name = "PrimaryTextColor">#fff</item>
         <item name ="SecondaryTextColor">#aeaeae</item>
         <item name ="bgColor">#000000</item>
