@@ -1,47 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="?attr/bgColor"
-    android:theme = "@style/Light"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".CameraAccessActivity">
 
-    <GridLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:columnCount="1"
-        android:rowCount="3">
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/buttonCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_column="0"
-            android:layout_row = "0"
-            android:id="@+id/from_camera"
-            android:text = "Take photo from camera"/>
+            android:layout_weight="1"
+            android:text="Camera" />
 
         <Button
+            android:id="@+id/buttonGallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_column="0"
-            android:layout_row = "1"
-            android:id="@+id/from_gallery"
-            android:text = "Take photo from photo gallery"/>
+            android:layout_weight="1"
+            android:text="Gallery" />
+    </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_column="0"
-            android:layout_row = "2"
-            android:id="@+id/manual"
-            android:text = "Input Data Manually"/>
-
-    </GridLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
 </LinearLayout>
