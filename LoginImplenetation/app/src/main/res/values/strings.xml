@@ -22,4 +22,11 @@
     <string name="budget_period">Budget Period</string>
     <string name="last_name">Last Name</string>
     <string name="total_budget">Total Budget</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Add this for the drawer navigation bar -->
+    <string name="navigation_drawer_open">Drawer Open</string>
+    <string name="navigation_drawer_close">Drawer Closed</string>
 </resources>

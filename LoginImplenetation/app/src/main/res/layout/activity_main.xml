@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.ActionMenuView
+    android:background="?attr/bgColor"
     android:id="@+id/coordLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,35 +19,35 @@
         tools:context=".MainActivity">
 
         <TextView
+            android:textColor= "?attr/PrimaryTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/username" />
 
         <EditText
+            android:textColorHint= "?attr/SecondaryTextColor"
             android:id="@+id/Username"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            tools:layout_editor_absoluteX="90dp"
-            tools:layout_editor_absoluteY="106dp"
-
-            />
+            android:hint ="Email Address"/>
 
         <TextView
+            android:textColor= "?attr/PrimaryTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/password" />
 
         <EditText
+            android:textColorHint= "?attr/SecondaryTextColor"
             android:id="@+id/Password"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:inputType="textPassword"
-            tools:layout_editor_absoluteX="90dp"
-            tools:layout_editor_absoluteY="161dp" />
+            android:hint ="Please enter Your Password" />
 
         <Button
             android:id="@+id/Login"

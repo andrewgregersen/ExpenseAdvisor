@@ -1,90 +1,125 @@
 package com.example.loginimplenetation
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.databinding.SettingsActivityBinding
-import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplenetation.databinding.ProfileFragmentBinding
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.loginimplenetation.databinding.ContentMainBinding
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 
-class SettingsActivity: AppCompatActivity(){
+class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
 
+    //initializes the databinding for objects to make object lookup more efficent
     private lateinit var binding: SettingsActivityBinding
+    private lateinit var cMBinding: ContentMainBinding
     private lateinit var view: View
+    lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    lateinit var drawerLayout: DrawerLayout
+    lateinit var navView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        //inflate the bindings
         binding = SettingsActivityBinding.inflate(layoutInflater)
+        cMBinding = ContentMainBinding.inflate(layoutInflater)
         view = binding.root
         setContentView(view)
 
+        //initialized the other lateinit vars
+        toolbar = cMBinding.toolbar
+        drawerLayout = binding.drawerLayout
+        navView = binding.navView
 
 
 
+        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0)
 
-        displaySettings()
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        navView.setNavigationItemSelectedListener(this)
+
+        //depricated from testing
+        //displaySettings()
 
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_addreceipt -> {
+                Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_notification -> {
+                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_faq -> {
+                Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_update -> {
+                intent = Intent(this,ProfileActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.nav_logout -> {
+                
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+/*
+
+depricated testing code
 
     fun displaySettings(){
+
+
+
+
         val bntBack = binding.retur
         bntBack.setOnClickListener {
             finish()
         }
         val btnEditProfile = binding.profileSettings
         btnEditProfile.setOnClickListener {
-            setContentView(R.layout.profile_fragment)
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        val swtDarkmode = binding.darkMode
+        swtDarkmode.setOnClickListener{
+            if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_NO){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+            //need to write in DB store functionality around here to make note of users choice.
         }
 
+
+
+
     }
+
+*/
+
 }
 
-class ProfileFragment: Fragment(){
-    private lateinit var binding: ProfileFragmentBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = ProfileFragmentBinding.inflate(layoutInflater)
-        display()
-        return inflater.inflate(R.layout.profile_fragment,container, false)
-    }
-
-    private fun display(){
-        val back = binding.cancel
-        back.setOnClickListener{
-            onDestroyView()
-        }
-        val submit = binding.submit
-        submit.setOnClickListener{
-            addInfoToDB()
-        }
-    }
-
-    private fun addInfoToDB(){
-        val fname = binding.fName.text.toString().trim()
-        val lname = binding.lName.text.toString().trim()
-        val budget = binding.budget.text.trim()
-        val periodid = when{
-            binding.daily.id == (binding.radiogroup.checkedRadioButtonId) -> binding.daily
-            binding.weekly.id == (binding.radiogroup.checkedRadioButtonId) -> binding.weekly
-            binding.monthly.id == binding.radiogroup.checkedRadioButtonId -> binding.monthly
-            else -> {
-                binding.radiocheck.error = "You need to select a budget period!"
-                binding.radiocheck.requestFocus()
-            }
-        }
-
-        //this is where the information provided would get ported over to the DB for storage
-
-    }
 
 
-}
+
+
+
+
+
+
+

@@ -1,6 +1,5 @@
 package com.example.loginimplenetation
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,15 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.databinding.ActivityMainBinding
 import com.facebook.*
-import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -30,8 +25,8 @@ import com.google.firebase.ktx.Firebase
 class MainActivity: AppCompatActivity() {
 
 
-    val Extra_Message_1 = "com.example.loginimplenetation.NewAccount"
-    private lateinit var auth: FirebaseAuth
+    private val Extra_Message_1 = "com.example.loginimplenetation.NewAccount"
+    private lateinit var auth : FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: ActivityMainBinding
     private lateinit var callbackManager: CallbackManager
