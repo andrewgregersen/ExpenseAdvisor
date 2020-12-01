@@ -26,12 +26,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
     // Here we can define the PieChart
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,20 +90,16 @@ class HomeFragment : Fragment() {
 
 
         //work with settings
-        settings.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent= Intent(context, SettingsActivity::class.java);
-                startActivity(intent)
-            }
-        })
+        settings.setOnClickListener {
+            val intent = Intent(context, SettingsActivity::class.java);
+            startActivity(intent)
+        }
 
         //work with camera
-        addReceipt.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent2= Intent(context, CameraAccessActivity::class.java);
-                startActivity(intent2)
-            }
-        })
+        addReceipt.setOnClickListener {
+            val intent2 = Intent(context, CameraAccessActivity::class.java);
+            startActivity(intent2)
+        }
 
         return view
     }

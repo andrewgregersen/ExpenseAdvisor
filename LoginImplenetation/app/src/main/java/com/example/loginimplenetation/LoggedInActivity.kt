@@ -12,6 +12,7 @@ import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.example.loginimplenetation.fragments.CategoriesFragment
 import com.example.loginimplenetation.fragments.HistoryFragments
 import com.example.loginimplenetation.fragments.HomeFragment
+import com.example.loginimplenetation.fragments.SettingsFragment
 import com.example.mainpage.Adapter.ViewPageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
