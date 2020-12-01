@@ -68,10 +68,12 @@ class ProfileActivity: AppCompatActivity(){
                 }
 
 
+
+
+
             }
 
 
-            //this is where the information provided would get ported over to the DB for storage
         }
 
 

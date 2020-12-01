@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
         //Declare variable for buttons
 
 
-        val settings = view?.findViewById<Button>(binding.settings)
+        val settings = view?.findViewById<Button>(binding.settings.id)
         val signout = view?.findViewById<Button>(binding.signout.id)
         val addReceipt=  view?.findViewById<Button>(binding.addReceipt.id)
 
@@ -92,26 +92,18 @@ class HomeFragment : Fragment() {
             activity!!.finish()
         }
 
-
-
-
-
         //work with settings
 
-        settings.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent= Intent(context, SettingsActivity::class.java);
-                startActivity(intent)
-            }
-        })
+        settings.setOnClickListener {
+            val intent = Intent(context, SettingsActivity::class.java);
+            startActivity(intent)
+        }
 
         //work with camera
-        addReceipt.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent2= Intent(context, CameraAccessActivity::class.java);
-                startActivity(intent2)
-            }
-        })
+        addReceipt.setOnClickListener {
+            val intent2 = Intent(context, CameraAccessActivity::class.java);
+            startActivity(intent2)
+        }
 
         return view
     }

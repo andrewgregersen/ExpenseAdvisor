@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:inputType="textPassword"
-            android:hint ="Please enter Your Password" />
+            android:hint ="Your Password" />
 
         <Button
             android:id="@+id/Login"

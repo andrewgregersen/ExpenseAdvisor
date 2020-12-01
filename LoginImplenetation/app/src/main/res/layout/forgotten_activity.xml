@@ -19,19 +19,18 @@
 
         <EditText
             android:textColorHint= "?attr/SecondaryTextColor"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:id="@+id/email"
-            android:hint = "@string/email"
+            android:id="@+id/Email"
+            android:hint =  "@string/email"
             android:gravity="center_horizontal" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reset Password"
-            tools:layout_editor_absoluteX="430dp"
-            tools:layout_editor_absoluteY="747dp" />
+             />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

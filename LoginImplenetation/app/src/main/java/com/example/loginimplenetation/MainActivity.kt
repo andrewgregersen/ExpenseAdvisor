@@ -251,7 +251,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             binding.Username.text.clear()
             binding.Password.text.clear()
         }else{
-               Snackbar.make(binding.coordLayout, "Login has failed, please sign-in", Snackbar.LENGTH_SHORT).show()
+               Toast.makeText(this, "Login has failed, please sign-in", Toast.LENGTH_SHORT).show()
                binding.googleLogin.visibility = View.VISIBLE
         }
 

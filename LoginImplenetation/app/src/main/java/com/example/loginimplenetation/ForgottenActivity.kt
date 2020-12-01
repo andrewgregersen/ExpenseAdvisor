@@ -3,10 +3,18 @@ package com.example.loginimplenetation
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.loginimplenetation.databinding.ActivityMainBinding
 import com.example.loginimplenetation.databinding.ForgottenActivityBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.new_account_activity.*
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class ForgottenActivity: AppCompatActivity() {
 
@@ -14,31 +22,38 @@ class ForgottenActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ForgottenActivityBinding.inflate(layoutInflater)
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         setContentView(R.layout.forgotten_activity)
+        val resetBtn = findViewById<Button>(binding.reset.id)
+        resetBtn.setOnClickListener {
+            val email = findViewById<EditText>(R.id.Email)
+            if (TextUtils.isEmpty(email.text.toString().trim())) {
+                email.error = "Please enter an email address..."
+                email.requestFocus()
+                println("Is Empty")
+                return@setOnClickListener
 
-        display()
-    }
-
-
-
-
-    private fun display(){
-        val btnreset = binding.button2
-        btnreset.setOnClickListener {
-            if(TextUtils.isEmpty(binding.email.text.toString().trim())){
-                binding.email.error = "Email Required.."
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()) {
+                email.error = "This is not an email address..."
+                email.requestFocus()
+                println("Not an Email")
                 return@setOnClickListener
             }
-            if(!Patterns.EMAIL_ADDRESS.matcher(binding.email.text.toString().trim()).matches()){
-                binding.email.error = "This is not an email address..."
-                binding.email.requestFocus()
-                return@setOnClickListener
-            }
-            auth.sendPasswordResetEmail(binding.email.text.toString().trim())
+            auth.sendPasswordResetEmail(email.text.toString().trim())
+            Toast.makeText(this, "Please Check Your Email to Reset Your Password!",Toast.LENGTH_SHORT).show()
+            finish()
+
+
+
         }
     }
+
+
+
+
+
 }
