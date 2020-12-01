@@ -76,7 +76,6 @@ class HomeFragment : Fragment() {
         //Declare variable for buttons
 
         val signout = view?.findViewById<Button>(binding.signout.id)
-        val settings=  view?.findViewById<Button>(binding.settings.id)
         val addReceipt=  view?.findViewById<Button>(binding.addReceipt.id)
 
 
@@ -90,10 +89,6 @@ class HomeFragment : Fragment() {
 
 
         //work with settings
-        settings.setOnClickListener {
-            val intent = Intent(context, SettingsActivity::class.java);
-            startActivity(intent)
-        }
 
         //work with camera
         addReceipt.setOnClickListener {

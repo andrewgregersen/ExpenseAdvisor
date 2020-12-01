@@ -26,14 +26,11 @@
         <activity android:name=".ForgottenActivity"
             android:parentActivityName =".MainActivity">
         </activity>
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".LoggedInActivity">
-        </activity>
         <activity android:name=".CameraAccessActivity"
             android:parentActivityName=".LoggedInActivity">
         </activity>
         <activity android:name=".ProfileActivity"
-            android:parentActivityName=".SettingsActivity">
+            android:parentActivityName=".LoggedInActivity">
         </activity>
 
         <provider
