@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.databinding.NewAccountActivityBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.new_account_activity.*
 import java.util.regex.Pattern
 
 class NewAccount: AppCompatActivity(){
@@ -44,31 +43,31 @@ class NewAccount: AppCompatActivity(){
             val pass1 = findViewById<EditText>(binding.createPass1.id).text.toString().trim()
             val pass2 = findViewById<EditText>(binding.createPass2.id).text.toString().trim()
             if(TextUtils.isEmpty(username)){
-                createUser.error = "Email Required.."
+                binding.createUser.error = "Email Required.."
                 return@setOnClickListener
             }
             if(!Patterns.EMAIL_ADDRESS.matcher(username).matches()){
-                createUser.error = "This is not an email address..."
-                createUser.requestFocus()
+                binding.createUser.error = "This is not an email address..."
+                binding.createUser.requestFocus()
                 return@setOnClickListener
             }
             if(TextUtils.isEmpty(pass1)){
-                createPass1.error = "Password Required..."
-                createPass1.requestFocus()
+                binding.createPass1.error = "Password Required..."
+                binding.createPass1.requestFocus()
                 return@setOnClickListener
             }
             if(TextUtils.isEmpty(pass2)){
-                createPass2.error = "Please Confirm Password..."
-                createPass2.requestFocus()
+                binding.createPass2.error = "Please Confirm Password..."
+                binding.createPass2.requestFocus()
                 return@setOnClickListener
             }
-            if(!TextUtils.equals(createPass1.text,createPass2.text)){
-                createPass2.error = "Passwords do not match..."
-                createPass2.requestFocus()
+            if(!TextUtils.equals(binding.createPass1.text,binding.createPass2.text)){
+                binding.createPass2.error = "Passwords do not match..."
+                binding.createPass2.requestFocus()
                 return@setOnClickListener
             }
             if(pass1.length <=5){
-                createPass1.error = "Password needs to be 6 characters or longer...."
+                binding.createPass1.error = "Password needs to be 6 characters or longer...."
 
             }else createAccount(username,pass1)
         }

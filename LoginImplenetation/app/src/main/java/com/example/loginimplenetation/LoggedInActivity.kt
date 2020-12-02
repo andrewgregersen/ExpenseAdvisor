@@ -1,13 +1,7 @@
 package com.example.loginimplenetation
 
-import android.content.Intent
-import android.content.Intent.*
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.example.loginimplenetation.fragments.CategoriesFragment
 import com.example.loginimplenetation.fragments.HistoryFragments
@@ -15,9 +9,9 @@ import com.example.loginimplenetation.fragments.HomeFragment
 import com.example.mainpage.Adapter.ViewPageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.logged_activity.*
-import kotlin.math.sign
+
+
+
 
 class LoggedInActivity: AppCompatActivity(){
 

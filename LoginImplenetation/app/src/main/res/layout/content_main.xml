@@ -12,12 +12,15 @@
         android:background="?attr/bgColor"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+
+
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
             android:background="@color/teal_700"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,6 +38,14 @@
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
+
+        <Button
+            android:id="@+id/goBack2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Back"
+            android:textColor="?attr/PrimaryTextColor"
+            />
 
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -17,7 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.loginimplenetation.R
-import kotlinx.android.synthetic.main.camera_access_activity.*
+import com.example.loginimplenetation.databinding.CameraAccessActivityBinding
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -26,6 +26,7 @@ import java.util.*
 
 class CameraAccessActivity : AppCompatActivity() {
 
+    private lateinit var binding: CameraAccessActivityBinding
     var currentPath: String? = null
     val TAKE_PICTURE = 1
     val SELECT_PICTURE = 2
@@ -38,12 +39,13 @@ class CameraAccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.camera_access_activity)
+        binding = CameraAccessActivityBinding.inflate(layoutInflater)
 
-        buttonGallery.setOnClickListener {
+        binding.buttonGallery.setOnClickListener {
             dispatchGalleryIntent()
         }
 
-        buttonCamera.setOnClickListener {
+        binding.buttonCamera.setOnClickListener {
             cameraTest()
         }
     }
@@ -55,11 +57,11 @@ class CameraAccessActivity : AppCompatActivity() {
                 //From previous method dispatchCameraIntent
                 val file = File(currentPath)
                 val uri= Uri.fromFile(file)
-                imageView.setImageURI(uri)
+                binding.imageView.setImageURI(uri)
 
                 //From method cameraTest
                 val thumBnail: Bitmap = data!!.extras!!.get("data") as Bitmap
-                imageView.setImageBitmap(thumBnail)
+                binding.imageView.setImageBitmap(thumBnail)
 
 
             }catch (e: IOException ){
@@ -70,7 +72,7 @@ class CameraAccessActivity : AppCompatActivity() {
         if(requestCode == SELECT_PICTURE && resultCode== Activity.RESULT_OK){
             try{
                 val uri= data!!.data
-                imageView.setImageURI(uri)
+                binding.imageView.setImageURI(uri)
 
             }catch (e: IOException ){
                 e.printStackTrace()

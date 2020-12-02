@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.databinding.ProfileActivityBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity: AppCompatActivity(){
 
@@ -66,6 +68,10 @@ class ProfileActivity: AppCompatActivity(){
                     binding.radiocheck.error = "You need to select a budget period"
                     binding.radiocheck.requestFocus()
                 }
+
+                //
+                val DB = DatabaseHelper(this)
+                FirebaseAuth.getInstance().currentUser?.let { it1 -> DB.insertprofile(budget.toDouble(), fname, lname,housesize.toInt(), it1.uid,budgetperiod) }
 
 
 

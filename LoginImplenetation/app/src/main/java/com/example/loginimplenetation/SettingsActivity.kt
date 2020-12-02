@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.databinding.SettingsActivityBinding
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -32,6 +33,13 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
         cMBinding = ContentMainBinding.inflate(layoutInflater)
         view = binding.root
         setContentView(view)
+
+
+        //initalized the back button
+        val backBTN = findViewById<Button>(R.id.goBack2)
+        backBTN.setOnClickListener {
+            finish()
+        }
 
         //initialized the other lateinit vars
         toolbar = cMBinding.toolbar
