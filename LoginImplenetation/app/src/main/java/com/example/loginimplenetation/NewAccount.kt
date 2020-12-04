@@ -84,10 +84,11 @@ class NewAccount: AppCompatActivity(){
                 if(task.isSuccessful){
                     Log.d(MainActivity.TAG1, "createUserWithEmail:success")
                     val user = auth.currentUser
+                    user?.sendEmailVerification()
                     finish()
                 }else{
                     Log.w(MainActivity.TAG1, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Authentication failed, please try again", Toast.LENGTH_SHORT).show()
                 }
             }
     }

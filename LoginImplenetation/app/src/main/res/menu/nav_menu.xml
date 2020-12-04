@@ -23,6 +23,11 @@
             android:icon="@drawable/ic_faq"
             android:title="FAQ"/>
 
+        <item
+            android:id="@+id/nav_darkmode"
+            android:icon ="@drawable/ic_faq"
+            android:title="Viewing Mode"/>
+
     </group>
 
     <item android:title="Account setting">

@@ -14,6 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.loginimplenetation.databinding.ContentMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
@@ -73,12 +75,24 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             R.id.nav_faq -> {
                 Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
             }
+            R.id.nav_darkmode -> {
+                if(theme.equals(R.style.Light)){
+                    setTheme(R.style.Dark)
+                }else
+                    setTheme(R.style.Light)
+                recreate()
+            }
             R.id.nav_update -> {
                 intent = Intent(this,ProfileActivity::class.java)
                 startActivity(intent)
             }
             R.id.nav_logout -> {
-                
+                Toast.makeText(this, "Would sign you out if this were on the home page", Toast.LENGTH_SHORT).show()
+                /* can be implemented once moved to main screen
+                auth.signOut()
+                finish()
+
+                 */
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
