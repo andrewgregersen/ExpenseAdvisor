@@ -26,12 +26,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
     // Here we can define the PieChart
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,8 +64,8 @@ class HomeFragment : Fragment() {
         val chart = view.findViewById<View>(R.id.chart) as PieChart
 
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        dataSet?.setColors(*ColorTemplate.COLORFUL_COLORS)
-        chart.setData(data)
+        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        chart.data = data
 
         //set animation
         chart.animateY(2000)
@@ -82,9 +76,9 @@ class HomeFragment : Fragment() {
         //Declare variable for buttons
 
 
-        val settings = view?.findViewById<Button>(binding.settings.id)
-        val signout = view?.findViewById<Button>(binding.signout.id)
-        val addReceipt=  view?.findViewById<Button>(binding.addReceipt.id)
+        val settings = view.findViewById<Button>(binding.settings.id)
+        val signout = view.findViewById<Button>(binding.signout.id)
+        val addReceipt= view.findViewById<Button>(binding.addReceipt.id)
 
 
         signout.setOnClickListener {
@@ -95,13 +89,13 @@ class HomeFragment : Fragment() {
         //work with settings
 
         settings.setOnClickListener {
-            val intent = Intent(context, SettingsActivity::class.java);
+            val intent = Intent(context, SettingsActivity::class.java)
             startActivity(intent)
         }
 
         //work with camera
         addReceipt.setOnClickListener {
-            val intent2 = Intent(context, CameraAccessActivity::class.java);
+            val intent2 = Intent(context, CameraAccessActivity::class.java)
             startActivity(intent2)
         }
 

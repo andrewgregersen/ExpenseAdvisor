@@ -18,8 +18,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.loginimplenetation.R
 import com.example.loginimplenetation.databinding.CameraAccessActivityBinding
+import com.google.mlkit.vision.common.InputImage
+import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
+import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +33,9 @@ class CameraAccessActivity : AppCompatActivity() {
     var currentPath: String? = null
     val TAKE_PICTURE = 1
     val SELECT_PICTURE = 2
+    private var imL: Int = 0
+    private var imW: Int = 0
+
 
     companion object{
         private const val CAMERA_PERMISSION_CODE= 1
@@ -47,6 +53,10 @@ class CameraAccessActivity : AppCompatActivity() {
 
         binding.buttonCamera.setOnClickListener {
             cameraTest()
+        }
+        binding.button4.setOnClickListener {
+            val intent = Intent(this, TextRecognition::class.java)
+            startActivity(intent)
         }
     }
 
@@ -86,6 +96,9 @@ class CameraAccessActivity : AppCompatActivity() {
         intent.action= Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select image"), SELECT_PICTURE)
     }
+
+
+
 
     fun dispatchCameraIntent(){
 
@@ -153,5 +166,18 @@ class CameraAccessActivity : AppCompatActivity() {
                 arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE
             )
         }
+    }
+
+
+
+    private fun imageFromBuffer(byteBuffer: ByteBuffer, rotationDegrees: Int){
+        //Writes Frame Metadata for ML Implementation
+        val image = InputImage.fromByteBuffer(
+            byteBuffer,
+            imL, //image length
+            imW, //image width
+            rotationDegrees,
+            InputImage.IMAGE_FORMAT_NV21 // or IMAGE_FORMAT_YV12
+        )
     }
 }
