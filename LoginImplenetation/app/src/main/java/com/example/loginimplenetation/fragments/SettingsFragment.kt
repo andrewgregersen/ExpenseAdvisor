@@ -14,7 +14,6 @@ import com.example.loginimplenetation.ProfileActivity
 import com.example.loginimplenetation.R
 import com.example.loginimplenetation.databinding.ContentMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 
 
 class SettingsFragment: AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{

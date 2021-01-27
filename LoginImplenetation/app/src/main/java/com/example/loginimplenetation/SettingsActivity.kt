@@ -13,9 +13,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.loginimplenetation.databinding.ContentMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 
 class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{

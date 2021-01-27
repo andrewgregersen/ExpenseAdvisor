@@ -4,22 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.loginimplenetation.R
 import com.example.loginimplenetation.databinding.CameraAccessActivityBinding
 import com.google.mlkit.vision.common.InputImage
-import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -145,7 +140,7 @@ class CameraAccessActivity : AppCompatActivity() {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE)
             }
             else{
-                Toast.makeText(this, "Permission denail", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permission denial", Toast.LENGTH_LONG).show()
             }
 
 

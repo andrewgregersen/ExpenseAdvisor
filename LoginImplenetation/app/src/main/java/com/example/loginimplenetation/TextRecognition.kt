@@ -1,6 +1,6 @@
 package com.example.loginimplenetation
 
-import android.graphics.Bitmap
+
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
@@ -9,7 +9,6 @@ import com.example.loginimplenetation.databinding.TextRecognitionActivityBinding
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.TextRecognizer
 import java.io.File
 
 class TextRecognition : AppCompatActivity() {
@@ -22,7 +21,7 @@ class TextRecognition : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button2.setOnClickListener {
-            val file = File("download.png")
+            val file = File("test.png")
             if(file.exists()){ //if the file exists
                 recognizeText(InputImage.fromBitmap(BitmapFactory.decodeFile(file.absolutePath),0)) //convert the image into a bitmap and then pass it to the MLA
             }
@@ -45,21 +44,9 @@ class TextRecognition : AppCompatActivity() {
             for (block in visionText.textBlocks) {
                 val boundingBox = block.boundingBox
                 val cornerPoints = block.cornerPoints
-                val text = block.text
 
 
-                for (line in block.lines) {
-                    //do something
-                    for (element in line.elements) {
-                        //do someting to process the data
-                        //need to store the data somehow, blocks store strings
-
-
-                        //for testing
-
-                        binding.textView.text = element.text
-                    }
-                }
+                binding.textView.setText(block.text)
             }
         }
             .addOnFailureListener { e ->
