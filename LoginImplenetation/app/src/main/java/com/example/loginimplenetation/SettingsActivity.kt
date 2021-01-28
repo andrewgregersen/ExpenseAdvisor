@@ -40,6 +40,8 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             finish()
         }
 
+
+
         //initialized the other lateinit vars
         toolbar = cMBinding.toolbar
         drawerLayout = binding.drawerLayout

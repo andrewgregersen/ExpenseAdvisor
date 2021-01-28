@@ -49,10 +49,7 @@ class CameraAccessActivity : AppCompatActivity() {
         binding.buttonCamera.setOnClickListener {
             cameraTest()
         }
-        binding.button4.setOnClickListener {
-            val intent = Intent(this, TextRecognition::class.java)
-            startActivity(intent)
-        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

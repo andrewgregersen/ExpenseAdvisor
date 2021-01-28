@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.CameraAccessActivity
 import com.example.loginimplenetation.R
 import com.example.loginimplenetation.SettingsActivity
+import com.example.loginimplenetation.TextRecognition
 import com.example.loginimplenetation.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -79,11 +80,17 @@ class HomeFragment : Fragment() {
         val settings = view.findViewById<Button>(binding.settings.id)
         val signout = view.findViewById<Button>(binding.signout.id)
         val addReceipt= view.findViewById<Button>(binding.addReceipt.id)
+        val button = view.findViewById<Button>(binding.button4.id)
 
 
         signout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             activity!!.finish()
+        }
+
+        button.setOnClickListener {
+            val intent = Intent(context, TextRecognition::class.java)
+            startActivity(intent)
         }
 
         //work with settings

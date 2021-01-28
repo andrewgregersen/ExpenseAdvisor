@@ -40,7 +40,7 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
         <activity android:name=".TextRecognition"
-            android:parentActivityName=".CameraAccessActivity">
+            android:parentActivityName=".LoggedInActivity">
         </activity>
 
         <provider

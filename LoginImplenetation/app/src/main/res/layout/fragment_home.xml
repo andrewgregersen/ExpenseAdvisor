@@ -69,6 +69,13 @@
             android:layout_marginBottom="19dp"
             android:text="SIGN OUT" />
 
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/addReceipt"
+            android:text="Button" />
+
     </RelativeLayout>
 
 </FrameLayout>

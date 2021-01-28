@@ -2,7 +2,9 @@ package com.example.loginimplenetation
 
 
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.databinding.TextRecognitionActivityBinding
@@ -20,15 +22,21 @@ class TextRecognition : AppCompatActivity() {
         binding = TextRecognitionActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.button2.setOnClickListener {
-            val file = File("test.png")
+        val button2 = findViewById<Button>(binding.button2.id)
+        val button3 = findViewById<Button>(binding.button3.id)
+
+        button2.setOnClickListener {
+            val file = File("Test.jpeg")
             if(file.exists()){ //if the file exists
-                recognizeText(InputImage.fromBitmap(BitmapFactory.decodeFile(file.absolutePath),0)) //convert the image into a bitmap and then pass it to the MLA
+                val myBitmap = BitmapFactory.decodeFile(file.absolutePath)
+                val image = ImageDecoder.d
+                val input = InputImage.fromFilePath()
+                recognizeText(input) //convert the image into a bitmap and then pass it to the MLA
             }
 
         }
 
-        binding.button3.setOnClickListener{
+        button3.setOnClickListener{
             finish()
         }
     }
