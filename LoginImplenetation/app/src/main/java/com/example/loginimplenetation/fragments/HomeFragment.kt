@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import com.example.loginimplenetation.CameraAccessActivity
-import com.example.loginimplenetation.R
-import com.example.loginimplenetation.SettingsActivity
-import com.example.loginimplenetation.TextRecognition
+import com.example.loginimplenetation.*
 import com.example.loginimplenetation.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -89,7 +86,7 @@ class HomeFragment : Fragment() {
         }
 
         button.setOnClickListener {
-            val intent = Intent(context, TextRecognition::class.java)
+            val intent = Intent(context, TextRecognitionActivity::class.java)
             startActivity(intent)
         }
 
