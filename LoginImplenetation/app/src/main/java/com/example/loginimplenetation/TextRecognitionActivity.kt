@@ -1,20 +1,22 @@
 package com.example.loginimplenetation
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import java.io.IOException
+import java.io.InputStream
 
 
 class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private final val TAG = "TextRecognitionActivity"
-    private lateinit var mSelectedImage: Bitmap
-    //Max width (portrait mode)
-    private lateinit var iMaxWidth: Integer
-    private lateinit var iMaxHeight: Integer
+    private var mSelectedImage: Bitmap? = null
     private lateinit var doTheThing: Button
     private lateinit var leave: Button
     private lateinit var textView: TextView
@@ -27,7 +29,12 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
 
         val dropdown = findViewById<Spinner>(R.id.spinner)
 
-        dropdown.adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arrayOf("TestImage1", "TestImage2"))
+        dropdown.adapter = ArrayAdapter<String>(
+            this, android.R.layout.simple_spinner_dropdown_item, arrayOf(
+                "TestImage1",
+                "TestImage2"
+            )
+        )
         dropdown.onItemSelectedListener
 
         textView = findViewById<TextView>(R.id.textView)
@@ -47,7 +54,7 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
 
 
     private fun runTextRecognition(){
-        val image = InputImage.fromBitmap(mSelectedImage,0)
+        val image = InputImage.fromBitmap(mSelectedImage, 0)
         val recognizer = TextRecognition.getClient()
         doTheThing.isEnabled = false
         recognizer.process(image)
@@ -82,7 +89,30 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
     }
 
 
+    override fun onItemSelected(parent: AdapterView<*>?, v: View, position: Int, id: Long){
+        when(position){
+            0 -> mSelectedImage = getBitmapFromAsset(this, "download.png")
+            1 -> mSelectedImage = getBitmapFromAsset(this, "Please_walk_on_the_grass.jpg")
+        }
+    }
 
+
+    fun getBitmapFromAsset(context: Context, filePath: String?): Bitmap? {
+        val assetManager = context.assets
+        val `is`: InputStream
+        var bitmap : Bitmap? = null
+        try {
+            `is` = assetManager.open(filePath!!)
+            bitmap = BitmapFactory.decodeStream(`is`)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return bitmap
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>){
+        //do nothing
+    }
 
 
 
