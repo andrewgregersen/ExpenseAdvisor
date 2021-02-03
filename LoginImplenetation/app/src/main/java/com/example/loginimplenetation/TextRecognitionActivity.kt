@@ -14,7 +14,9 @@ import java.io.IOException
 import java.io.InputStream
 
 
-class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedListener{
+
+//AdapterView.OnItemSelectedListener for spinner
+class TextRecognitionActivity: AppCompatActivity() {
     private final val TAG = "TextRecognitionActivity"
     private var mSelectedImage: Bitmap? = null
     private lateinit var doTheThing: Button
@@ -26,7 +28,7 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
-
+/*
         val dropdown = findViewById<Spinner>(R.id.spinner)
 
         dropdown.adapter = ArrayAdapter<String>(
@@ -36,6 +38,10 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
             )
         )
         dropdown.onItemSelectedListener
+
+        */
+
+        mSelectedImage = getBitmapFromAsset(this, "Test.jpg")
 
         textView = findViewById<TextView>(R.id.textView)
 
@@ -87,17 +93,17 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
             }
         }
     }
-
+/*
 
     override fun onItemSelected(parent: AdapterView<*>?, v: View, position: Int, id: Long){
         when(position){
-            0 -> mSelectedImage = getBitmapFromAsset(this, "download.png")
-            1 -> mSelectedImage = getBitmapFromAsset(this, "Please_walk_on_the_grass.jpg")
+            0 -> mSelectedImage = getBitmapFromAsset(this, "download.jpg")
+            1 -> mSelectedImage = getBitmapFromAsset(this, "Test.jpg")
         }
     }
 
-
-    fun getBitmapFromAsset(context: Context, filePath: String?): Bitmap? {
+*/
+    private fun getBitmapFromAsset(context: Context, filePath: String?) : Bitmap{
         val assetManager = context.assets
         val `is`: InputStream
         var bitmap : Bitmap? = null
@@ -107,13 +113,17 @@ class TextRecognitionActivity: AppCompatActivity(), AdapterView.OnItemSelectedLi
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return bitmap
+        return bitmap!!
     }
 
+
+ /*
     override fun onNothingSelected(parent: AdapterView<*>){
         //do nothing
     }
 
+
+  */
 
 
 
