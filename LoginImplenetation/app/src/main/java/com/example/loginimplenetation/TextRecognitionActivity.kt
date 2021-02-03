@@ -41,7 +41,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
         */
 
-        mSelectedImage = getBitmapFromAsset(this, "Test.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "test2.jpg")
 
         textView = findViewById<TextView>(R.id.textView)
 
@@ -79,12 +79,13 @@ class TextRecognitionActivity: AppCompatActivity() {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
+        textView.text = ""
         for(i in blocks){
-            var lines = i.lines
+            var lines = i.lines //returns a list of lines in the block
             for(j in lines){
-                var elements = j.elements
+                var elements = j.elements //returns a list of elements in the line
                 for(k in elements){
-                    textView.text = k.text //replace with adding it to a list or doing something with the data (maybe a list of arrays for each individual category that the DB has
+                    textView.text = textView.text.toString() + " " + k.text //do something with the data (maybe a list of arrays for each individual category that the DB has
                     //will need to parse data for the recycler view and then display it on it for manual editing (Category, Amount, Item Name, Price)
                     //Category will need to be auto populated from a dictionary based upon the Item name, will have to make a function to populate it
                     //add the Category to the list of parsed lines
