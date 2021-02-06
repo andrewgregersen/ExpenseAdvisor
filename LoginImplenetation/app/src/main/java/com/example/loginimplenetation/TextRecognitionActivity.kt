@@ -4,9 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -21,29 +25,21 @@ class TextRecognitionActivity: AppCompatActivity() {
     private var mSelectedImage: Bitmap? = null
     private lateinit var doTheThing: Button
     private lateinit var leave: Button
-    private lateinit var textView: TextView
+    private lateinit var manager: RecyclerView.LayoutManager
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var myAdapter: RecyclerView.Adapter<*>
     //need to implement a recycler view to display the data
 
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
-/*
-        val dropdown = findViewById<Spinner>(R.id.spinner)
 
-        dropdown.adapter = ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_dropdown_item, arrayOf(
-                "TestImage1",
-                "TestImage2"
-            )
-        )
-        dropdown.onItemSelectedListener
 
-        */
 
-        mSelectedImage = getBitmapFromAsset(this, "test2.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
 
-        textView = findViewById<TextView>(R.id.textView)
+        manager = LinearLayoutManager(this)
 
         doTheThing = findViewById<Button>(R.id.button2)
         leave = findViewById<Button>(R.id.button3)
@@ -79,20 +75,27 @@ class TextRecognitionActivity: AppCompatActivity() {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
-        textView.text = ""
+        var values = arrayListOf<String>()
+        var str = ""
         for(i in blocks){
             var lines = i.lines //returns a list of lines in the block
             for(j in lines){
                 var elements = j.elements //returns a list of elements in the line
+                str =""
                 for(k in elements){
-                    textView.text = textView.text.toString() + " " + k.text //do something with the data (maybe a list of arrays for each individual category that the DB has
-                    //will need to parse data for the recycler view and then display it on it for manual editing (Category, Amount, Item Name, Price)
-                    //Category will need to be auto populated from a dictionary based upon the Item name, will have to make a function to populate it
-                    //add the Category to the list of parsed lines
-                    Thread.sleep(3000) //show me the text, not needed for final testing
+                    str = "$str ${k.text}"
+                    //this gives text item by item seperated on " ".
                 }
+                values.add(str)
             }
         }
+        myAdapter = MyAdapter(values.toTypedArray())
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
+            layoutManager = manager
+            adapter = myAdapter
+        }
+
+
     }
 /*
 
@@ -123,11 +126,31 @@ class TextRecognitionActivity: AppCompatActivity() {
         //do nothing
     }
 
-
   */
 
 
 
 
 
+}
+
+
+class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+    class ViewHolder(private val view: View):RecyclerView.ViewHolder(view){
+    fun bind(text: String){
+        val tv = view.findViewById<TextView>(R.id.textView)
+        tv.text = text
+
+        }
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
+        val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
+        return ViewHolder(vh)
+    }
+    override fun onBindViewHolder(holder: ViewHolder,position:Int){
+        holder.bind(myDataSet[position])
+    }
+    override fun getItemCount(): Int{
+        return myDataSet.size
+    }
 }
