@@ -176,33 +176,32 @@ class DatabaseHelper(var Context: Context):
         else
             Toast.makeText(Context, "Success to insert item, Step 1", Toast.LENGTH_LONG).show()
 
-
         /* STEP 2, GET ITEM ID */
         var id= getLastItemID()
 
 
         /**** STEP 3 LINK ITEM AND IT'S CATEGORY ****/
+        val db3 = this.writableDatabase
+        val cv3= ContentValues()
+        cv3.put(COLUMN_BELONG_ITEM_ID, id)
+        cv3.put(COLUMN_BELONG_CATEGORY_ID, getCategoryID(category))
 
-            val db3 = this.writableDatabase
-            val cv3= ContentValues()
-            cv3.put(COLUMN_BELONG_ITEM_ID, id)
-            cv3.put(COLUMN_BELONG_CATEGORY_ID, getCategoryID(category))
+        if(getCategoryID(category) == -1){
+            Toast.makeText(Context, "Failed!! CATEGORY ID doesn't exist: STEP 3", Toast.LENGTH_LONG).show()
+            return
+        }
 
-            if(getCategoryID(category) == -1){
-                Toast.makeText(Context, "Failed!! CATEGORY ID doesn't exist: STEP 3", Toast.LENGTH_LONG).show()
-                return
-            }
+        val solution= db3.insert(BELONG, null, cv3)
 
-            val solution= db3.insert(BELONG, null, cv3)
-
-            if (solution == -1.toLong())
-                Toast.makeText(Context, "Failed to insert in STEP 3", Toast.LENGTH_LONG).show()
-            else
-                Toast.makeText(Context, "Item insertion success", Toast.LENGTH_LONG).show()
+        if (solution == -1.toLong())
+            Toast.makeText(Context, "Failed to insert in STEP 3", Toast.LENGTH_LONG).show()
+        else
+            Toast.makeText(Context, "Item insertion success", Toast.LENGTH_LONG).show()
 
 
-         Toast.makeText(Context, "TOUT VAS BIEN", Toast.LENGTH_LONG).show()
-         db.close()
+        Toast.makeText(Context, "TOUT VAS BIEN", Toast.LENGTH_LONG).show()
+
+        db.close()
     }
 
 
@@ -469,6 +468,7 @@ class DatabaseHelper(var Context: Context):
     /****************************************/
 
     fun updateItem(itemName: String, price:Int, category: String){
+    // This function is used to update an item in the database
 
         val db = this.writableDatabase
         val cv = ContentValues()
