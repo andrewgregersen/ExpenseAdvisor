@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -145,7 +146,8 @@ class TextRecognitionActivity: AppCompatActivity() {
 
     //parses out extraneous information from the list of strings that make up a receipt
     private fun removeExtra(items: ArrayList<String>){
-
+        //load the dictionary of terms to skip
+        val `is` = openFileInput("dictionary.txt") //create a file input stream and create a red black tree for O(log[2](N)) search functionality
     }
 
     //parses and submits final list of items to DB
