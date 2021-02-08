@@ -24,7 +24,6 @@ class TextRecognitionActivity: AppCompatActivity() {
     private final val TAG = "TextRecognitionActivity"
     private var mSelectedImage: Bitmap? = null
     private lateinit var doTheThing: Button
-    private lateinit var leave: Button
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: RecyclerView.Adapter<*>
@@ -42,14 +41,22 @@ class TextRecognitionActivity: AppCompatActivity() {
         manager = LinearLayoutManager(this)
 
         doTheThing = findViewById<Button>(R.id.button2)
-        leave = findViewById<Button>(R.id.button3)
+        val leave = findViewById<Button>(R.id.button3)
+        val submit = findViewById<Button>(R.id.Submit)
 
+
+        //for testing
         doTheThing.setOnClickListener{
             runTextRecognition()
         }
-
+        //cancel upload of receipt
         leave.setOnClickListener {
             finish()
+        }
+
+        //submit finalized item list (after allowing for editing)
+        submit.setOnClickListener{
+            submitItems()
         }
 
     }
@@ -58,11 +65,14 @@ class TextRecognitionActivity: AppCompatActivity() {
     private fun runTextRecognition(){
         val image = InputImage.fromBitmap(mSelectedImage, 0)
         val recognizer = TextRecognition.getClient()
-        doTheThing.isEnabled = false
+        doTheThing.isEnabled = false //removed for final release
         recognizer.process(image)
             .addOnSuccessListener{ texts ->
                 doTheThing.isEnabled = true
                 processTextRecognition(texts)
+            }
+            .addOnFailureListener{
+                Toast.makeText(this,"Failed to read text",Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -83,17 +93,21 @@ class TextRecognitionActivity: AppCompatActivity() {
                 var elements = j.elements //returns a list of elements in the line
                 str =""
                 for(k in elements){
-                    str = "$str ${k.text}"
+                    str = "$str ${k.text.trim()}"
                     //this gives text item by item seperated on " ".
                 }
                 values.add(str)
             }
         }
+        removeExtra(values)
         myAdapter = MyAdapter(values.toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
             adapter = myAdapter
         }
+
+
+        //need to implement editting for each row, after editting then need to push to DB
 
 
     }
@@ -129,6 +143,16 @@ class TextRecognitionActivity: AppCompatActivity() {
   */
 
 
+    //parses out extraneous information from the list of strings that make up a receipt
+    private fun removeExtra(items: ArrayList<String>){
+
+    }
+
+    //parses and submits final list of items to DB
+    private fun submitItems(){
+
+    }
+
 
 
 
@@ -136,6 +160,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
 class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+
     class ViewHolder(private val view: View):RecyclerView.ViewHolder(view){
     fun bind(text: String){
         val tv = view.findViewById<TextView>(R.id.textView)
@@ -152,5 +177,8 @@ class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAd
     }
     override fun getItemCount(): Int{
         return myDataSet.size
+    }
+    fun getDataSet(): Array<String>{
+        return myDataSet
     }
 }
