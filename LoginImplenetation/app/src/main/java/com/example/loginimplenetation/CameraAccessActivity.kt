@@ -121,10 +121,10 @@ class CameraAccessActivity : AppCompatActivity() {
     }
 
     fun createImage(): File{
-        var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageName= "JPEG_"+timeStamp+"_"
-        var storageDir= getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        var image= File.createTempFile(imageName, ".jpg", storageDir)
+        //var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        //val imageName= "JPEG_"+timeStamp+"_"
+        //var storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        var image= File.createTempFile("JPG_"+SimpleDateFormat("yyyy,MMdd_HHmmSS"), ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         currentPath= image.absolutePath
         return image
     }

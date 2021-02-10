@@ -13,26 +13,26 @@ class RBT <T: Comparable<Any>> {
     private lateinit var overRoot: Node<T>
     //default constrictor for tree
     fun RBT(){
-        overRoot = Node(null,null,null,null,false)
+        overRoot = Node(null,null,null,false)
     }
 
     //initialize the RBT with some value
     fun RBT(key: T, left: Node<T>, right: Node<T>){
-        overRoot = Node(key,left,right,null,false)
+        overRoot = Node(key,left,right,false)
     }
- 
+
     fun getSize(): Int{
         return size
     }
 
 
     fun get(key:T): T? {
-        var temp = overRoot
+        var temp: Node<T>? = overRoot
         while(temp!=null){
             val cmp = key.compareTo(temp.key)
-            when{
-                cmp<0 -> temp = temp.left!! //will not be null regardless
-                cmp>0 -> temp = temp.right!!
+            temp = when{
+                cmp<0 -> temp.left
+                cmp>0 -> temp.right
                 else -> return temp.key
             }
         }
@@ -65,6 +65,7 @@ class RBT <T: Comparable<Any>> {
 
     //inserts an object of type T into the RBT
     fun insert(k: T){
+        size++
         if(overRoot == null){
             overRoot.key = k
             return
@@ -75,6 +76,7 @@ class RBT <T: Comparable<Any>> {
         else if(k.compareTo(overRoot.key)<0){
             insert(overRoot.right,k)
         }
+
     }
 
     private fun insert(root: Node<T>?, k: T){
@@ -84,7 +86,9 @@ class RBT <T: Comparable<Any>> {
     }
 
 
-
+/*
+Dont need to implement delete, as I only need to read from this tree. If I need to change the contents of the tree, I will just change whats in the dictionary document
+ */
 
 
 
@@ -93,13 +97,11 @@ class RBT <T: Comparable<Any>> {
         key: Any?,
         left: Node<T>?,
         right: Node<T>?,
-        parent: Node<T>?,
         red: Boolean
     ) {
         lateinit var key: T
         var left: Node<T>? = null
         var right: Node<T>? = null
-        var parent: Node<T>? = null
         var red: Boolean = false
 
     }
