@@ -149,9 +149,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         //load the dictionary of terms to skip
         val `is` = openFileInput("dictionary.txt") //create a file input stream and create a red black tree for O(log[2](N)) search functionality
         var tree = RBT<String>()
-        for(x in `is`.read().){
 
-        }
     }
 
     //parses and submits final list of items to DB

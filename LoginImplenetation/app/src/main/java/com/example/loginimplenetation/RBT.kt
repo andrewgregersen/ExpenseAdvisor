@@ -8,7 +8,8 @@ This is what this code is based off of, albeit stripped down to only what I need
 -Andrew Gregersen
  */
 
-class RBT <T: Comparable<T>,Value> {
+class RBT <T: Comparable<Any>> {
+    private var size: Int = 0
     private lateinit var overRoot: Node<T>
     //default constrictor for tree
     fun RBT(){
@@ -19,6 +20,10 @@ class RBT <T: Comparable<T>,Value> {
     fun RBT(key: T, left: Node<T>, right: Node<T>){
         overRoot = Node(key,left,right,null,false)
     }
+ 
+    fun getSize(): Int{
+        return size
+    }
 
 
     fun get(key:T): T? {
@@ -26,8 +31,8 @@ class RBT <T: Comparable<T>,Value> {
         while(temp!=null){
             val cmp = key.compareTo(temp.key)
             when{
-                cmp<0 -> temp = temp.left
-                cmp>0 -> temp = temp.right
+                cmp<0 -> temp = temp.left!! //will not be null regardless
+                cmp>0 -> temp = temp.right!!
                 else -> return temp.key
             }
         }
@@ -36,6 +41,26 @@ class RBT <T: Comparable<T>,Value> {
 
     private fun isRed(node: Node<T>): Boolean{
         return node.red
+    }
+
+    private fun rotateLeft(h: Node<T>): Node<T>{
+        assert(isRed(h))
+        val x = h.right
+        h.right = x?.left
+        x?.left = h
+        val left = x?.left
+        x?.red = left!!.red
+        return x
+    }
+
+    private fun rotateRight(h: Node<T>): Node<T>{
+        assert(isRed(h))
+        val x = h.left
+        h.left = x?.right
+        x?.right = h
+        val right = x?.right
+        x?.red = right!!.red
+        return x
     }
 
     //inserts an object of type T into the RBT
@@ -64,8 +89,8 @@ class RBT <T: Comparable<T>,Value> {
 
 
     //node object to implement a RBT
-    class Node<T: Comparable<T>>(
-        key: T,
+    class Node<T: Comparable<Any>>(
+        key: Any?,
         left: Node<T>?,
         right: Node<T>?,
         parent: Node<T>?,
