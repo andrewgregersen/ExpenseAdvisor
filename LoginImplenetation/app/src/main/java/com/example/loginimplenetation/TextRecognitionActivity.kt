@@ -100,7 +100,7 @@ class TextRecognitionActivity: AppCompatActivity() {
                 values.add(str)
             }
         }
-        removeExtra(values)
+        //removeExtra(values)
         myAdapter = MyAdapter(values.toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
@@ -151,6 +151,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         var tree = RBT<String>()
 
     }
+
 
     //parses and submits final list of items to DB
     private fun submitItems(){

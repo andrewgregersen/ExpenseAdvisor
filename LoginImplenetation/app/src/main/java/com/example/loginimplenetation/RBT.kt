@@ -8,7 +8,7 @@ This is what this code is based off of, albeit stripped down to only what I need
 -Andrew Gregersen
  */
 
-class RBT <T: Comparable<Any>> {
+class RBT <T: Comparable<T>> {
     private var size: Int = 0
     private lateinit var overRoot: Node<T>
     //default constrictor for tree
@@ -17,7 +17,7 @@ class RBT <T: Comparable<Any>> {
     }
 
     //initialize the RBT with some value
-    fun RBT(key: T, left: Node<T>, right: Node<T>){
+    fun RBT(key: T, left: Node<T>? = null, right: Node<T>? = null){
         overRoot = Node(key,left,right,false)
     }
 
@@ -74,15 +74,27 @@ class RBT <T: Comparable<Any>> {
             insert(overRoot.left,k)
         }
         else if(k.compareTo(overRoot.key)<0){
-            insert(overRoot.right,k)
+            overRoot.right = insert(overRoot.right,k)
         }
 
     }
 
-    private fun insert(root: Node<T>?, k: T){
+    private fun insert(root: Node<T>?, k: T): Node<T>{
         if(root == null){
-
+            return Node(k,null,null,false)
         }
+        val cmp = k.compareTo(root.key)
+        when{
+           cmp <0 -> root.left = insert(root.left,k)
+            cmp >0 -> root.left = insert(root.right,k)
+            else -> return root //item is already in the tree
+        }
+        if(root.right?.red!! && !root.left?.red!!)
+            return rotateLeft(root)
+        if(!root.right?.red!! && root.left?.red!!)
+            return rotateRight(root)
+        else
+            return root
     }
 
 
@@ -93,10 +105,10 @@ Dont need to implement delete, as I only need to read from this tree. If I need 
 
 
     //node object to implement a RBT
-    class Node<T: Comparable<Any>>(
+    class Node<T: Comparable<T>>(
         key: Any?,
-        left: Node<T>?,
-        right: Node<T>?,
+        left: Node<T>? = null,
+        right: Node<T>? = null,
         red: Boolean
     ) {
         lateinit var key: T
