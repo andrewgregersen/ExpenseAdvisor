@@ -1,6 +1,7 @@
 package com.example.loginimplenetation
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import java.io.File
+import java.io.FileReader
 import java.io.IOException
 import java.io.InputStream
 
@@ -86,6 +88,7 @@ class TextRecognitionActivity: AppCompatActivity() {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
+        val tree = loadTree()
         var values = arrayListOf<String>()
         var str = ""
         for(i in blocks){
@@ -94,13 +97,13 @@ class TextRecognitionActivity: AppCompatActivity() {
                 var elements = j.elements //returns a list of elements in the line
                 str =""
                 for(k in elements){
-                    str = "$str ${k.text.trim()}"
-                    //this gives text item by item seperated on " ".
+                    if(tree.contains(k.text.trim()))
+                        str = "$str ${k.text.trim()}"//this gives text item by item seperated on " ".
+
                 }
                 values.add(str)
             }
         }
-        //removeExtra(values)
         myAdapter = MyAdapter(values.toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
@@ -144,12 +147,26 @@ class TextRecognitionActivity: AppCompatActivity() {
   */
 
 
-    //parses out extraneous information from the list of strings that make up a receipt
-    private fun removeExtra(items: ArrayList<String>){
+    //creates the dictionary of terms to remove
+    private fun loadTree(): RBT<String>{
         //load the dictionary of terms to skip
-        val `is` = openFileInput("dictionary.txt") //create a file input stream and create a red black tree for O(log[2](N)) search functionality
-        var tree = RBT<String>()
+        val tree = RBT<String>()
+        try{
+            val `is` = this.assets.open("dictionary.txt")//create a file input stream and create a red black tree for O(log[2](N)) search functionality
+            `is`.bufferedReader().forEachLine {
+                tree.insert(it) //each line of dictionary.txt is its own entry
+            }
+        }catch(e: IOException){
+            Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
+        }
+        Toast.makeText(this,"Successfully loaded data",Toast.LENGTH_SHORT).show()
+        return tree
+    }
 
+
+    //parses out extraneous information from the list of strings that make up a receipt
+    private fun removeExtra(items: ArrayList<String>): ArrayList<String>{
+        return items
     }
 
 

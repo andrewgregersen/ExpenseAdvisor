@@ -10,10 +10,10 @@ This is what this code is based off of, albeit stripped down to only what I need
 
 class RBT <T: Comparable<T>> {
     private var size: Int = 0
-    private lateinit var overRoot: Node<T>
+    private var overRoot: Node<T>?
     //default constrictor for tree
-    fun RBT(){
-        overRoot = Node(null,null,null,false)
+    constructor(){
+        overRoot = null
     }
 
     //initialize the RBT with some value
@@ -37,6 +37,10 @@ class RBT <T: Comparable<T>> {
             }
         }
         return null
+    }
+
+    fun contains(key: T): Boolean{
+        return get(key) == key
     }
 
     private fun isRed(node: Node<T>): Boolean{
@@ -67,14 +71,14 @@ class RBT <T: Comparable<T>> {
     fun insert(k: T){
         size++
         if(overRoot == null){
-            overRoot.key = k
+            overRoot?.key = k
             return
         }
-        else if(k.compareTo(overRoot.key)<0){
-            insert(overRoot.left,k)
+        else if(overRoot?.key?.let { k.compareTo(it) }!! <0){
+            overRoot?.left = insert(overRoot?.left,k)
         }
-        else if(k.compareTo(overRoot.key)<0){
-            overRoot.right = insert(overRoot.right,k)
+        else if(k.compareTo(overRoot?.key!!)<0){
+            overRoot?.right = insert(overRoot?.right,k)
         }
 
     }
