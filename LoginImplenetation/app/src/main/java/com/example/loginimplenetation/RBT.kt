@@ -29,18 +29,20 @@ class RBT <T: Comparable<T>> {
     fun get(key:T): T? {
         var temp: Node<T>? = overRoot
         while(temp!=null){
-            val cmp = key.compareTo(temp.key)
-            temp = when{
-                cmp<0 -> temp.left
-                cmp>0 -> temp.right
-                else -> return temp.key
+            val cmp = temp.key?.let { key.compareTo(it) }
+            if (cmp != null) {
+                temp = when{
+                    cmp<0 -> temp.left
+                    cmp>0 -> temp.right
+                    else -> return temp.key
+                }
             }
         }
         return null
     }
 
     fun contains(key: T): Boolean{
-        return get(key) == key
+        return get(key)?.compareTo(key)  ==0
     }
 
     private fun isRed(node: Node<T>): Boolean{
@@ -71,13 +73,12 @@ class RBT <T: Comparable<T>> {
     fun insert(k: T){
         size++
         if(overRoot == null){
-            overRoot?.key = k
-            return
-        }
-        else if(overRoot?.key?.let { k.compareTo(it) }!! <0){
-            overRoot?.left = insert(overRoot?.left,k)
+            overRoot = Node(k,null,null,false)
         }
         else if(k.compareTo(overRoot?.key!!)<0){
+            overRoot?.left = insert(overRoot?.left,k)
+        }
+        else if(k.compareTo(overRoot?.key!!)>0){
             overRoot?.right = insert(overRoot?.right,k)
         }
 
@@ -87,11 +88,13 @@ class RBT <T: Comparable<T>> {
         if(root == null){
             return Node(k,null,null,false)
         }
-        val cmp = k.compareTo(root.key)
-        when{
-           cmp <0 -> root.left = insert(root.left,k)
-            cmp >0 -> root.left = insert(root.right,k)
-            else -> return root //item is already in the tree
+        val cmp = root.key?.let { k.compareTo(it) }
+        if (cmp != null) {
+            when{
+                cmp <0 -> root.left = insert(root.left,k)
+                cmp >0 -> root.left = insert(root.right,k)
+                else -> return root //item is already in the tree
+            }
         }
         if(root.right?.red!! && !root.left?.red!!)
             return rotateLeft(root)
@@ -109,16 +112,10 @@ Dont need to implement delete, as I only need to read from this tree. If I need 
 
 
     //node object to implement a RBT
-    class Node<T: Comparable<T>>(
-        key: Any?,
-        left: Node<T>? = null,
-        right: Node<T>? = null,
-        red: Boolean
-    ) {
-        lateinit var key: T
-        var left: Node<T>? = null
-        var right: Node<T>? = null
+    class Node<T: Comparable<T>> constructor(
+        var key: T?,
+        var left: Node<T>?,
+        var right: Node<T>?,
         var red: Boolean = false
-
-    }
+    )
 }

@@ -97,7 +97,7 @@ class TextRecognitionActivity: AppCompatActivity() {
                 var elements = j.elements //returns a list of elements in the line
                 str =""
                 for(k in elements){
-                    if(tree.contains(k.text.trim()))
+                    if(!tree.contains(k.text.toLowerCase().trim()))
                         str = "$str ${k.text.trim()}"//this gives text item by item seperated on " ".
 
                 }
