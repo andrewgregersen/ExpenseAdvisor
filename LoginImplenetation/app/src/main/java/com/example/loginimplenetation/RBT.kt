@@ -84,24 +84,27 @@ class RBT <T: Comparable<T>> {
 
     }
 
-    private fun insert(root: Node<T>?, k: T): Node<T>{
+    private fun insert(root: Node<T>?, k: T): Node<T>?{
         if(root == null){
             return Node(k,null,null,false)
-        }
-        val cmp = root.key?.let { k.compareTo(it) }
-        if (cmp != null) {
-            when{
-                cmp <0 -> root.left = insert(root.left,k)
-                cmp >0 -> root.left = insert(root.right,k)
-                else -> return root //item is already in the tree
+        }else {
+            val cmp = root.key?.let { k.compareTo(it) }
+            if (cmp != null) {
+                when {
+                    cmp < 0 -> root.left = insert(root.left, k)
+                    cmp > 0 -> root.right = insert(root.right, k)
+                    else -> return root //item is already in the tree
+                }
+            } else {
+                if (root.right?.red!! && !root.left?.red!!)
+                    return rotateLeft(root)
+                if (!root.right?.red!! && root.left?.red!!)
+                    return rotateRight(root)
+                else
+                    return root
             }
         }
-        if(root.right?.red!! && !root.left?.red!!)
-            return rotateLeft(root)
-        if(!root.right?.red!! && root.left?.red!!)
-            return rotateRight(root)
-        else
-            return root
+        return root
     }
 
 
