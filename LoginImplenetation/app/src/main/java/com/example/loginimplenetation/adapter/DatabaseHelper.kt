@@ -42,6 +42,9 @@ class DatabaseHelper(var Context: Context):
      private const val COLUMN_PROFILE_USER_ID = "PROFILE_USER_ID"
      private const val COLUMN_BUDGET = "BUDGET"
      private const val COLUMN_FAVORITE = "FAVORITE"
+     private const val COLUMN_NAME = "NAME"
+     private const val COLUMN_HOUSE_HOLD_SIZE = "HOUSEHOLD_SIZE"
+     private const val COLUMN_BUDGET_PERIOD = "BUDGET_PERIOD"
 
      //Table Notification
      private const val NOTIFICATION = "NOTIFICATION"
@@ -90,8 +93,9 @@ class DatabaseHelper(var Context: Context):
         db?.execSQL(createTableCategory)
 
         //4.Table profile
-        val createTableProfile = "CREATE TABLE " + PROFILE + " (" + COLUMN_PROFILE_USER_ID + " INTEGER, "+
-                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE+ " VARCHAR(256), PRIMARY KEY (" +
+        val createTableProfile = "CREATE TABLE " + PROFILE + " (" + COLUMN_PROFILE_USER_ID + " VARCHAR(256), "+ COLUMN_NAME + "VARCHAR(256), "
+                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " DOUBLE, " + COLUMN_HOUSE_HOLD_SIZE + "INTEGER, " + COLUMN_BUDGET_PERIOD + "VARCHAR(256), " +
+                        COLUMN_FAVORITE + " VARCHAR(256), PRIMARY KEY (" +
                 COLUMN_PROFILE_USER_ID +
                 ", "+ COLUMN_PROFILE_TYPE + "), FOREIGN KEY("+ COLUMN_PROFILE_USER_ID +") " +
                 "REFERENCES "+ USER + "("+ COLUMN_ID +"))"
@@ -153,17 +157,20 @@ class DatabaseHelper(var Context: Context):
             Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
-    fun insertprofil() {
+    fun insertprofile(budget: Double, fName: String, lName: String, houseHoldSize: Int, UID: String, budgetperiod: String) {
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_PROFILE_TYPE, "one")
-        cv.put(COLUMN_PROFILE_USER_ID, 1)
-        cv.put(COLUMN_BUDGET, 1000)
+        cv.put(COLUMN_NAME, fName + lName)
+        cv.put(COLUMN_PROFILE_USER_ID, UID)
+        cv.put(COLUMN_BUDGET, budget)
+        cv.put(COLUMN_HOUSE_HOLD_SIZE,houseHoldSize)
+        cv.put(COLUMN_BUDGET_PERIOD, budgetperiod)
         cv.put(COLUMN_FAVORITE, "one")
 
         val result = db.insert(PROFILE, null, cv)
 
-        if (result == -1.toLong())
+        if (result == (-1).toLong())
             Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
         else
             Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()

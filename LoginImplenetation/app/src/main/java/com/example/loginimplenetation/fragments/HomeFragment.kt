@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import com.example.loginimplenetation.CameraAccessActivity
-import com.example.loginimplenetation.R
-import com.example.loginimplenetation.SettingsActivity
+import com.example.loginimplenetation.*
 import com.example.loginimplenetation.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -25,12 +23,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     // Here we can define the PieChart
     override fun onCreateView(
@@ -70,8 +62,8 @@ class HomeFragment : Fragment() {
         val chart = view.findViewById<View>(R.id.chart) as PieChart
 
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        dataSet?.setColors(*ColorTemplate.COLORFUL_COLORS)
-        chart.setData(data)
+        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        chart.data = data
 
         //set animation
         chart.animateY(2000)
@@ -81,9 +73,11 @@ class HomeFragment : Fragment() {
 
         //Declare variable for buttons
 
-        val signout = view?.findViewById<Button>(binding.signout.id)
-        val settings=  view?.findViewById<Button>(binding.settings.id)
-        val addReceipt=  view?.findViewById<Button>(binding.addReceipt.id)
+
+        val settings = view.findViewById<Button>(binding.settings.id)
+        val signout = view.findViewById<Button>(binding.signout.id)
+        val addReceipt= view.findViewById<Button>(binding.addReceipt.id)
+        val button = view.findViewById<Button>(binding.button4.id)
 
 
         signout.setOnClickListener {
@@ -91,25 +85,23 @@ class HomeFragment : Fragment() {
             activity!!.finish()
         }
 
-
-
-
+        button.setOnClickListener {
+            val intent = Intent(context, TextRecognitionActivity::class.java)
+            startActivity(intent)
+        }
 
         //work with settings
-        settings.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent= Intent(context, SettingsActivity::class.java);
-                startActivity(intent)
-            }
-        })
+
+        settings.setOnClickListener {
+            val intent = Intent(context, SettingsActivity::class.java)
+            startActivity(intent)
+        }
 
         //work with camera
-        addReceipt.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent2= Intent(context, CameraAccessActivity::class.java);
-                startActivity(intent2)
-            }
-        })
+        addReceipt.setOnClickListener {
+            val intent2 = Intent(context, CameraAccessActivity::class.java)
+            startActivity(intent2)
+        }
 
         return view
     }

@@ -4,31 +4,33 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.loginimplenetation.R
-import kotlinx.android.synthetic.main.camera_access_activity.*
+import com.example.loginimplenetation.databinding.CameraAccessActivityBinding
+import com.google.mlkit.vision.common.InputImage
 import java.io.File
 import java.io.IOException
+import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class CameraAccessActivity : AppCompatActivity() {
 
+    private lateinit var binding: CameraAccessActivityBinding
     var currentPath: String? = null
     val TAKE_PICTURE = 1
     val SELECT_PICTURE = 2
+    private var imL: Int = 0
+    private var imW: Int = 0
+
 
     companion object{
         private const val CAMERA_PERMISSION_CODE= 1
@@ -38,14 +40,16 @@ class CameraAccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.camera_access_activity)
+        binding = CameraAccessActivityBinding.inflate(layoutInflater)
 
-        buttonGallery.setOnClickListener {
+        binding.buttonGallery.setOnClickListener {
             dispatchGalleryIntent()
         }
 
-        buttonCamera.setOnClickListener {
+        binding.buttonCamera.setOnClickListener {
             cameraTest()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -55,11 +59,11 @@ class CameraAccessActivity : AppCompatActivity() {
                 //From previous method dispatchCameraIntent
                 val file = File(currentPath)
                 val uri= Uri.fromFile(file)
-                imageView.setImageURI(uri)
+                binding.imageView.setImageURI(uri)
 
                 //From method cameraTest
                 val thumBnail: Bitmap = data!!.extras!!.get("data") as Bitmap
-                imageView.setImageBitmap(thumBnail)
+                binding.imageView.setImageBitmap(thumBnail)
 
 
             }catch (e: IOException ){
@@ -70,7 +74,7 @@ class CameraAccessActivity : AppCompatActivity() {
         if(requestCode == SELECT_PICTURE && resultCode== Activity.RESULT_OK){
             try{
                 val uri= data!!.data
-                imageView.setImageURI(uri)
+                binding.imageView.setImageURI(uri)
 
             }catch (e: IOException ){
                 e.printStackTrace()
@@ -84,6 +88,9 @@ class CameraAccessActivity : AppCompatActivity() {
         intent.action= Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select image"), SELECT_PICTURE)
     }
+
+
+
 
     fun dispatchCameraIntent(){
 
@@ -114,10 +121,10 @@ class CameraAccessActivity : AppCompatActivity() {
     }
 
     fun createImage(): File{
-        var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageName= "JPEG_"+timeStamp+"_"
-        var storageDir= getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        var image= File.createTempFile(imageName, ".jpg", storageDir)
+        //var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        //val imageName= "JPEG_"+timeStamp+"_"
+        //var storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        var image= File.createTempFile("JPG_"+SimpleDateFormat("yyyy,MMdd_HHmmSS"), ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         currentPath= image.absolutePath
         return image
     }
@@ -130,7 +137,7 @@ class CameraAccessActivity : AppCompatActivity() {
                 startActivityForResult(intent, CAMERA_REQUEST_CODE)
             }
             else{
-                Toast.makeText(this, "Permission denail", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permission denial", Toast.LENGTH_LONG).show()
             }
 
 
@@ -151,5 +158,18 @@ class CameraAccessActivity : AppCompatActivity() {
                 arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE
             )
         }
+    }
+
+
+
+    private fun imageFromBuffer(byteBuffer: ByteBuffer, rotationDegrees: Int){
+        //Writes Frame Metadata for ML Implementation
+        val image = InputImage.fromByteBuffer(
+            byteBuffer,
+            imL, //image length
+            imW, //image width
+            rotationDegrees,
+            InputImage.IMAGE_FORMAT_NV21 // or IMAGE_FORMAT_YV12
+        )
     }
 }

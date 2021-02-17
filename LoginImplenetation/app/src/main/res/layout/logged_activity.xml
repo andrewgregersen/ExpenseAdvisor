@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/purple_700"
+        android:background="?attr/colorTab"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -24,8 +24,8 @@
             android:id="@+id/bar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/Orange"
-            app:tabTextColor="@color/white" />
+            app:tabBackground="?attr/colorTab"
+            app:tabTextColor="?attr/PrimaryTextColor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/appBarLayout"
-        android:background="@color/white"/>
+        android:background="?attr/bgColor"/>
 
 
 
