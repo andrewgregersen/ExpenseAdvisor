@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.TextRecognizerOptions
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
@@ -69,6 +72,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     private fun runTextRecognition(){
         val image = InputImage.fromBitmap(mSelectedImage, 0)
         val recognizer = TextRecognition.getClient()
+
         doTheThing.isEnabled = false //removed for final release
         recognizer.process(image)
             .addOnSuccessListener{ texts ->
@@ -89,29 +93,40 @@ class TextRecognitionActivity: AppCompatActivity() {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
-        val keytree = loadKeyTree()
         val tree = loadTree()
-
-        if(tree==null || keytree==null){
-            return //exit attempt at analysing photo
-        }
-
         values = arrayListOf()
-        var str = ""
-        for(i in blocks){
-            //println(i.text.trim())
-            var lines = i.lines //returns a list of lines in the block
-            for(j in lines){
-                var elements = j.elements //returns a list of elements in the line
-                str =""
-                for(k in elements){
-                    if(!tree.contains(k.text.toLowerCase().trim()))
-                        str = "$str ${k.text.trim()}"//this gives text item by item seperated on " ".
 
+
+
+        var str = ""
+        var prev: Rect? = null
+        for(i in blocks){
+            if(prev == null){
+                prev = i.boundingBox
+            }
+            else if(i.boundingBox?.top== prev.top){ //the blocks are on the same line
+                for(j in i.lines){
+                    for(k in j.elements){
+                        if(!tree.contains(k.text.toLowerCase().trim()))
+                            str="$str ${k.text.trim()}"
+                    }
                 }
+                prev = i.boundingBox
+            }
+            else{//blocks are not on the same line
                 values.add(str)
+                str=""
+                prev = i.boundingBox
+                for(j in i.lines){
+                    for(k in j.elements){
+                        if(!tree.contains(k.text.toLowerCase().trim()))
+                            str="$str ${k.text.trim()}"
+                    }
+                }
             }
         }
+        values.add(str)//at end of receipt
+
         myAdapter = MyAdapter(values.toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
@@ -154,7 +169,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
     //creates the dictionary of terms to remove
-    private fun loadTree(): RBT<String>?{
+    private fun loadTree(): RBT<String>{
         //load the dictionary of terms to skip
         val tree = RBT<String>()
         try{
@@ -164,7 +179,6 @@ class TextRecognitionActivity: AppCompatActivity() {
             }
         }catch(e: IOException){
             Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
-            return null
         }
         Toast.makeText(this,"Successfully loaded data",Toast.LENGTH_SHORT).show()
         return tree

@@ -11,5 +11,18 @@ daily
 special
 mastercard
 visa
+tm
+store
+mgr
+mngr
+manager
+thank
+you
+shopping
+card
+for
+with
+us
+
 
 
