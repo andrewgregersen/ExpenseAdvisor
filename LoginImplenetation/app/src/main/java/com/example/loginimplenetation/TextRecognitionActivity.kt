@@ -30,6 +30,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: RecyclerView.Adapter<*>
+    private lateinit var values: ArrayList<String>
     //need to implement a recycler view to display the data
 
 
@@ -88,10 +89,17 @@ class TextRecognitionActivity: AppCompatActivity() {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
+        val keytree = loadKeyTree()
         val tree = loadTree()
-        var values = arrayListOf<String>()
+
+        if(tree==null || keytree==null){
+            return //exit attempt at analysing photo
+        }
+
+        values = arrayListOf()
         var str = ""
         for(i in blocks){
+            //println(i.text.trim())
             var lines = i.lines //returns a list of lines in the block
             for(j in lines){
                 var elements = j.elements //returns a list of elements in the line
@@ -112,8 +120,6 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //need to implement editting for each row, after editting then need to push to DB
-
-
     }
 /*
 
@@ -148,7 +154,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
     //creates the dictionary of terms to remove
-    private fun loadTree(): RBT<String>{
+    private fun loadTree(): RBT<String>?{
         //load the dictionary of terms to skip
         val tree = RBT<String>()
         try{
@@ -158,8 +164,24 @@ class TextRecognitionActivity: AppCompatActivity() {
             }
         }catch(e: IOException){
             Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
+            return null
         }
         Toast.makeText(this,"Successfully loaded data",Toast.LENGTH_SHORT).show()
+        return tree
+    }
+
+    private fun loadKeyTree():RBT<String>?{
+        //loads a dictionary of key terms to help catagorize the individual items
+        val tree = RBT<String>()
+        try{
+            val `is` = this.assets.open("keyDict.txt")
+            `is`.bufferedReader().forEachLine {
+                tree.insert(it)
+            }
+        }catch(e:IOException){
+            Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
+            return null
+        }
         return tree
     }
 
