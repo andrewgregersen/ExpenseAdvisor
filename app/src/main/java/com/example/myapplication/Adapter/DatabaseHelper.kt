@@ -341,6 +341,24 @@ class DatabaseHelper(var Context: Context):
     }
 
 
+
+    fun getItemCategoryInBelong(id: Int): Int{
+
+        val db = this.readableDatabase
+        val query = "SELECT " + COLUMN_BELONG_CATEGORY_ID + " FROM " + BELONG + " WHERE " +
+                COLUMN_BELONG_ITEM_ID + " = "+ id + " ORDER BY " + COLUMN_BELONG_CATEGORY_ID + " LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(!cursor.moveToNext()){
+            // Toast.makeText(Context, "category "+ category + " doesn't exist", Toast.LENGTH_LONG).show()
+        }
+
+        var id = cursor.getString(cursor.getColumnIndex(COLUMN_BELONG_CATEGORY_ID)).toInt()
+        Toast.makeText(Context,"category id in belong is " + id, Toast.LENGTH_LONG).show()
+        return id
+    }
+
     fun getItemsOfCategory(category: String): MutableList<String> {
 
         var categoryFound = getCategoryID(category)
@@ -428,6 +446,7 @@ class DatabaseHelper(var Context: Context):
            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
         }
         var id = cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)).toInt()
+        cursor.close()
         return id
     }
 
@@ -467,17 +486,38 @@ class DatabaseHelper(var Context: Context):
     /* FUNCTION OF DELETING IN THE DATABASE */
     /****************************************/
 
-    fun updateItem(itemName: String, price:Int, category: String){
     // This function is used to update an item in the database
+    fun updateItem(itemName: String, price:Int, category: String, Itemid: Int){
 
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_ITEM_NAME, itemName)
         cv.put(COLUMN_PRICE, price)
 
-       // database.update(TABLE_NAME, cv, ""+KEY_UserName+"= '"+ username+"' AND "+KEY_CID+"='"+Cid+"'  AND "+KEY_Password+"='"+password+"'" , null);
-        //        database.close();
+        //get the current category of the item
+        val currentCategory = getItemCategoryInBelong(Itemid)
+        val futureCategory= getCategoryID(category)
 
+        //update the table item and close cursor
+        val query= "UPDATE "+ ITEM + " SET "+ COLUMN_ITEM_NAME + " = '"+itemName+"' " +
+                ", "+ COLUMN_PRICE + " = "+ price + " WHERE " + COLUMN_ITEM_ID + " = " + Itemid
+
+        var cursor = db.rawQuery(query, null)
+        cursor.moveToFirst();
+        cursor.close();
+
+        //Check if category has changed, if yes, then update
+        if (!currentCategory.equals(futureCategory))
+        {
+            Toast.makeText(Context, "different category to update", Toast.LENGTH_LONG).show()
+
+            val queryTemp= "UPDATE "+ BELONG + " SET "+ COLUMN_BELONG_CATEGORY_ID + " = " + futureCategory +
+                    " WHERE " + COLUMN_BELONG_ITEM_ID + " = " + Itemid
+
+            val cursorTemp = db.rawQuery(queryTemp, null)
+            cursorTemp.moveToFirst()
+            cursor.close()
+        }
     }
 
  }
