@@ -6,4 +6,5 @@
     <!-- Add this for the drawer navigation bar -->
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Closed</string>
+    <string name="todo">TODO</string>
 </resources>

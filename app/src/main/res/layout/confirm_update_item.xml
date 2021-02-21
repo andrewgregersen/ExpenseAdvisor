@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/changeItemName"
+        android:layout_width="match_parent"
+        android:layout_height="61dp" />
+
+    <EditText
+        android:id="@+id/changeItemPrice"
+        android:layout_width="match_parent"
+        android:layout_height="68dp" />
+
+    <Button
+        android:id="@+id/changeCategory"
+        style="@style/Base.CardView"
+        android:layout_width="106dp"
+        android:layout_height="43dp"
+        android:text="Select" />
+
+    <EditText
+        android:id="@+id/showChangedCategory"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelChange"
+            style="@style/Base.CardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/submitChange"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import java.sql.Time
+import java.sql.Types.TIMESTAMP
+import javax.xml.datatype.DatatypeConstants.DATETIME
 
 class DatabaseHelper(var Context: Context):
     SQLiteOpenHelper(Context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -24,9 +27,10 @@ class DatabaseHelper(var Context: Context):
      //Table Receipt
      private const val RECEIPT = "RECEIPT"
      private const val COLUMN_RECEIPT_ID = "RECEIPT_ID"
-     private const val COLUMN_RECEIPT_USER_ID = "UID"
+     //private const val COLUMN_RECEIPT_USER_ID = "UID"
      private const val COLUMN_TOTAL = "TOTAL"
      private const val COLUMN_STORE = "STORE"
+     private const val COLUMN_DATE = "DATE"
 
      //Table Item
      private const val ITEM = "ITEM"
@@ -54,7 +58,7 @@ class DatabaseHelper(var Context: Context):
 
      //Table Purchase
      private const val PURCHASE = "PURCHASE"
-     private const val COLUMN_DATE = "DATE"
+     //private const val COLUMN_DATE = "DATE"
      private const val COLUMN_PURCHASE_USER_ID = "PURCHASE_UID"
      private const val COLUMN_PURCHASE_ITEM_ID = "PURCHASE_ITEM_ID"
 
@@ -130,6 +134,13 @@ class DatabaseHelper(var Context: Context):
                 "REFERENCES "+ ITEM + "("+ COLUMN_ITEM_ID +"), FOREIGN KEY ("+ COLUMN_BELONG_CATEGORY_ID +") "+
                 "REFERENCES "+ CATEGORY + "("+ COLUMN_CATEGORY_ID + ") ON DELETE CASCADE)"
         db?.execSQL(createTableBelong)
+
+        val createTableReceipt= "CREATE TABLE "+ RECEIPT + " (" + COLUMN_RECEIPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+               COLUMN_TOTAL + " INTEGER, "+ COLUMN_STORE + " VARCHAR(256), "+ COLUMN_DATE +
+               " DATETIME DEFAULT CURRENT_TIMESTAMP) "
+        db?.execSQL(createTableReceipt)
+
+
 
 
 //        val createTable= "CREATE TABLE " + TABLE_NAME +" (" +
@@ -258,6 +269,7 @@ class DatabaseHelper(var Context: Context):
         cv.put(COLUMN_BELONG_ITEM_ID, 1)
 
 
+
         val result = db.insert(BELONG, null, cv)
 
         if (result == -1.toLong())
@@ -265,6 +277,37 @@ class DatabaseHelper(var Context: Context):
         else
             Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
+
+    fun insertReceipt(total: Int, store: String){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(COLUMN_TOTAL, total)
+        cv.put(COLUMN_STORE, store)
+
+        val result = db.insert(RECEIPT, null, cv)
+
+
+
+        if (result == -1.toLong())
+            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
+        else
+            Toast.makeText(Context, "Success" + total.toString() + " "+ store, Toast.LENGTH_LONG).show()
+
+    }
+
+    fun insertContains(receiptID: Int, itemID: Int){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(COLUMN_CONTAINS_ITEM_ID, itemID)
+        cv.put(COLUMN_CONTAINS_RECEIPT_ID, receiptID)
+
+        val result = db.insert(CONTAINS, null, cv)
+
+
+
+    }
+
+
 
 
 
@@ -321,6 +364,25 @@ class DatabaseHelper(var Context: Context):
         }
         var id = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY_ID)).toInt()
         return id
+    }
+
+
+    fun getCategoryName(categoryID: Int): String{
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_CATEGORY_NAME + " FROM " + CATEGORY + " WHERE " + COLUMN_CATEGORY_ID + " = " +
+                categoryID + " ORDER BY " + COLUMN_CATEGORY_NAME + " DESC LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY_NAME))
+        cursor.close()
+
+        return category
+
     }
 
 
@@ -401,6 +463,23 @@ class DatabaseHelper(var Context: Context):
 
     }
 
+    fun getPriceOfSingleItem(id: Int):Int{
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_PRICE + " FROM " + ITEM + " WHERE " + COLUMN_ITEM_ID + " = " +
+                id + " ORDER BY " + COLUMN_PRICE + " DESC LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)).toInt()
+        cursor.close()
+
+        return price
+    }
+
     fun getOnlyPriceOfItemOfCategory(category: String):MutableList<String>{
         var categoryFound = getCategoryID(category)
 
@@ -464,6 +543,155 @@ class DatabaseHelper(var Context: Context):
         var id = cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)).toInt()
         return id
 
+    }
+
+
+    fun getAll_Receipt_ID(): MutableList<Int>{
+
+        var list: MutableList<Int> = ArrayList()
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_RECEIPT_ID + " FROM " + RECEIPT + " ORDER BY " + COLUMN_RECEIPT_ID + " DESC "
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return ArrayList()
+        }
+
+        var id :Int
+
+        if(cursor.moveToFirst()){
+            do {
+
+                id= cursor.getString(cursor.getColumnIndex(COLUMN_RECEIPT_ID)).toInt()
+                list.add(id)
+                //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
+
+            }while (cursor.moveToNext())
+        }
+
+        return list
+    }
+
+    fun getAll_Total_Receipt_ID(): MutableList<String>{
+
+        var list: MutableList<String> = ArrayList()
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_TOTAL + " FROM " + RECEIPT
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return ArrayList()
+        }
+
+        var price :String
+
+        if(cursor.moveToFirst()){
+            do {
+
+                price = cursor.getString(cursor.getColumnIndex(COLUMN_TOTAL)).toString()
+                list.add(price)
+                //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
+
+            }while (cursor.moveToNext())
+        }
+
+        return list
+    }
+
+
+    fun getAll_Date_Receipt_ID(): MutableList<String>{
+
+        var list: MutableList<String> = ArrayList()
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_DATE + " FROM " + RECEIPT
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return ArrayList()
+        }
+
+        var price :String
+
+        if(cursor.moveToFirst()){
+            do {
+
+                price = cursor.getString(cursor.getColumnIndex(COLUMN_DATE)).toString()
+                list.add(price)
+                //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
+
+            }while (cursor.moveToNext())
+        }
+
+        return list
+    }
+
+
+
+
+
+    fun getReceiptDate(id: Int): String{
+
+        val db = this.readableDatabase
+        val query= "SELECT "+ COLUMN_DATE + " FROM " + RECEIPT + " WHERE " + COLUMN_RECEIPT_ID + " = " + id + " ORDER BY " +
+                COLUMN_DATE + " LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var date = cursor.getString(cursor.getColumnIndex(COLUMN_DATE)).toString()
+
+        return date
+
+
+
+    }
+
+    fun getReceiptTotal_Price(id: Int): String{
+
+        val db = this.readableDatabase
+        val query= "SELECT "+ COLUMN_PRICE + " FROM " + RECEIPT + " WHERE " + COLUMN_RECEIPT_ID + " = " + id + " ORDER BY " +
+                COLUMN_PRICE + " LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var price = cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)).toString()
+
+        return price
+    }
+
+
+
+
+
+
+
+
+
+
+    fun getLastReceiptID():Int{
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_RECEIPT_ID + " FROM " + RECEIPT + " ORDER BY " + COLUMN_RECEIPT_ID + " DESC LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var id = cursor.getString(cursor.getColumnIndex(COLUMN_RECEIPT_ID)).toInt()
+        cursor.close()
+        return id
     }
 
 

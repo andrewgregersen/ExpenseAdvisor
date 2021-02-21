@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Adapter.DatabaseHelper
+import com.example.myapplication.Adapter.ReceiptAdapter
 import com.example.myapplication.Adapter.RecyclerView_Adapter
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
@@ -21,62 +21,96 @@ import kotlinx.android.synthetic.main.fragment_history.*
 
 class HistoryFragments : Fragment() {
 
-    private var titlesList= mutableListOf<String>()
-    private var descList= mutableListOf<String>()
-    private var imageList = mutableListOf<Int>()
+//    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+//
+//        var text: TextView= itemView.findViewById(R.id.hhistory_title)
+//        var description: TextView= itemView.findViewById(R.id.hhistory_description)
+//        var edit: ImageView= itemView.findViewById(R.id.heditItem)
+//        var delete: ImageView= itemView.findViewById(R.id.hdeleteItem)
+//        var historyRecyclerView: RecyclerView= itemView.findViewById(R.id.historyRecycleView)
+//
+//
+//        fun udapteEvent(){
+//            text.text= "Maman"
+//            description.text= "Papa Jean"
+//
+//
+//
+//
+//        }
+//
+//    }
+
+//    inner class HistoryAdapter(val items: List<String>, val title: List<String> )
+//        :RecyclerView.Adapter<HistoryFragments.ViewHolder>(){
+//
+//
+//
+//
+//
+//
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//            val view= LayoutInflater.from(parent.context).inflate(R.layout.history_layout, parent, false)
+//            return ViewHolder(view)
+//        }
+//
+//        override fun getItemCount(): Int {
+//            return items.size
+//        }
+//
+//        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//            holder.text.text = title[position]
+//            holder.description.text= items[position]
+//            holder.udapteEvent()
+//
+//        }
+//
+//
+//    }
 
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-         postToList()
-
-        //itemName = findViewById(R.id.idItemName) as EditText
- //THE PROBLEME IS HERE
 
 
-        rv_recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
-        rv_recyclerView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
 
     }
 
 
-    private fun addToList(title: String, description: String, image: Int){
-        titlesList.add(title)
-        descList.add(description)
-        imageList.add(image)
-    }
-
-    //sample for test
-    private fun postToList(){
-        for(i in 1..25){
-            addToList("Title $i", "Description $i", R.mipmap.ic_launcher_round)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        postToList()
-        val view: View = inflater!!.inflate(R.layout.fragment_history, container, false)
-//        rv_recyclerView?.layoutManager= LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-//        rv_recyclerView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
+//        val list= listOf("a", "b", "c")
+//        val list2= listOf("1","2","3")
+//
+//        historyRecycleView?.hasFixedSize()
+//        historyRecycleView?.layoutManager= LinearLayoutManager(context)
+//        historyRecycleView?.itemAnimator= DefaultItemAnimator()
+//        historyRecycleView?.adapter= HistoryAdapter(list,list2)
+        val db = DatabaseHelper(this.requireContext())
+
+        //discribe the array to pass to the recycler view
+        val id = db.getAll_Receipt_ID() as ArrayList<Int>
+        var total= db.getAll_Total_Receipt_ID() as ArrayList<String>
+        val date= db.getAll_Date_Receipt_ID() as ArrayList<String>
 
 
-
-        //  private var listView: ListView? = null
-        //       listView= view?.findViewById(R.id.listView_cat) as ListView
+        var mylist= arrayListOf("Mango", "Banana", "Yep", "Avocadot", "Bujumbura") as ArrayList<String>
 
 
-                rv_recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
-                rv_recyclerView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
+        var view = inflater.inflate(R.layout.fragment_history, container, false)
+        var historyRecycleView = view.findViewById<RecyclerView>(R.id.historyRecycleView)
+        //var Myadapter = list?.let { getContext()?.let { it1 -> ReceiptAdapter(it1, it) } }
+        var Myadapter= ReceiptAdapter(requireContext(), id, date, total)
+        //var linearLayoutManager = LinearLayoutManager(getContext())
+        historyRecycleView.layoutManager= LinearLayoutManager(getContext())
+        historyRecycleView.adapter = Myadapter
 
-
-        // Inflate the layout for this fragment
         return view
     }
 

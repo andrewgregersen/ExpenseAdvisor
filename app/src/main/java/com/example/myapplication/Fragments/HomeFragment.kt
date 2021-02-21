@@ -66,7 +66,7 @@ class HomeFragment : Fragment()  {
         }
 
 
-        db.getCategoryID("Food")
+        //db.getCategoryID("Food")
 
 
 

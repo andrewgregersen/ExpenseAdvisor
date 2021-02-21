@@ -13,8 +13,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,14 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MainPage">
-        <activity android:name="com.example.myapplication.ItemOfCategory.OtherItem"></activity>
-        <activity android:name="com.example.myapplication.ItemOfCategory.BeautyItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.AdvertisementItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.LaundryItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.HealthItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.EducationItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.ElectronicsItem" />
-        <activity android:name="com.example.myapplication.ItemOfCategory.FoodItems" />
+        <activity android:name=".Update"></activity>
+        <activity android:name=".ItemOfCategory.OtherItem" />
+        <activity android:name=".ItemOfCategory.BeautyItem" />
+        <activity android:name=".ItemOfCategory.AdvertisementItem" />
+        <activity android:name=".ItemOfCategory.LaundryItem" />
+        <activity android:name=".ItemOfCategory.HealthItem" />
+        <activity android:name=".ItemOfCategory.EducationItem" />
+        <activity android:name=".ItemOfCategory.ElectronicsItem" />
+        <activity android:name=".ItemOfCategory.FoodItems" />
         <activity android:name=".ManualEntry" />
         <activity android:name=".Camera_Activity" />
         <activity android:name=".SettingsActivity" />

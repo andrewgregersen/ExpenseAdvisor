@@ -7,6 +7,7 @@ import com.example.myapplication.Adapter.DatabaseHelper
 import com.example.myapplication.Adapter.RecyclerView_Adapter
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.android.synthetic.main.item_layout_fulllist.*
 
 class OtherItem : AppCompatActivity() {
     private var titlesList= mutableListOf<String>()

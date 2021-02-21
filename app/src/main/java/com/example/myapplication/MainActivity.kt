@@ -32,15 +32,18 @@ class MainActivity : AppCompatActivity() {
         //we want to define initial categories when starting the project
         val category = arrayOf(
             "Food","Drinks", "Electronics", "Education", "Health", "Laundry", "Advertisement", "Beauty",
-            "Sport",
+            "Sport"
         )
         for (item in category){
             db.insertcat(item)
         }
 
+        //val temp = db.getItemID("mango")
+        //db.updateItem("banana", 50, "Food", temp)
         //db.getOnlyPriceOfItemOfCategory("Food")
         //db.getItemsOfCategory("Food")
-
+        //db.insertReceipt(23, "BAchinois")
+        //db.getReceipt()
 
         //function that create all the fragments.
         setUpTabs()
@@ -72,5 +75,6 @@ class MainActivity : AppCompatActivity() {
         bar2.getTabAt(0)!!.setIcon(R.drawable.ic_home_24px)
         bar2.getTabAt(1)!!.setIcon(R.drawable.ic_category_24px)
         bar2.getTabAt(2)!!.setIcon(R.drawable.ic_history_24px)
+
     }
 }

@@ -6,25 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
         tools:context=".MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recyclerView"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/historyRecycleView"
             android:layout_width="match_parent"
-            android:layout_height="553dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            tools:itemCount="17"
-            tools:listitem="@layout/item_layout" />
-
-
+            tools:listitem="@layout/history_layout"/>
     </RelativeLayout>
-
-
-
 
 </FrameLayout>

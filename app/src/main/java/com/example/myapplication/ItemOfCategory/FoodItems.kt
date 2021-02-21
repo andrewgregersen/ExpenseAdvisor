@@ -7,6 +7,7 @@ import com.example.myapplication.Adapter.DatabaseHelper
 import com.example.myapplication.Adapter.RecyclerView_Adapter
 import com.example.myapplication.R
 import kotlinx.android.synthetic.main.fragment_history.*
+import kotlinx.android.synthetic.main.item_layout_fulllist.*
 
 class FoodItems : AppCompatActivity() {
 
@@ -17,21 +18,17 @@ class FoodItems : AppCompatActivity() {
     val context = this
     val db = DatabaseHelper(context)
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_layout_fulllist)
 
         //postToList()
-
         titlesList = db.getItemsOfCategory("Food")
         descList= db.getOnlyPriceOfItemOfCategory("Food")
         postToList(titlesList.size) //get enough drawable for all items
 
         rv_recyclerView?.layoutManager = LinearLayoutManager(this)
         rv_recyclerView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
-
     }
 
     private fun addToList(image: Int){

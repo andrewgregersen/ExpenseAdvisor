@@ -60,6 +60,7 @@ class ManualEntry : AppCompatActivity() {
             val name: String = itemName!!.text.toString()
             val category: String = choice
             val price: String = itemPrice!!.text.toString().trim()
+            val store: String = itemStore!!.text.toString().trim()
             var finalPrice: Int = 0
 
             try{
@@ -67,9 +68,19 @@ class ManualEntry : AppCompatActivity() {
             } catch(e: NumberFormatException){ // handle your exception
                 e.message
             }
-            var store: String = itemStore!!.text.toString().trim()
+
             db.insertItem(name, finalPrice, category )
             //Toast.makeText(applicationContext, name + " "+ finalPrice+ " "+ category, Toast.LENGTH_LONG).show()
+
+            //create the receipt
+            db.insertReceipt(finalPrice, store)
+
+            //Link receipt and item
+            var itemID= db.getLastItemID()
+            var receiptID= db.getLastReceiptID()
+
+            db.insertContains(receiptID, itemID)
+
 
             val intent = Intent(this, MainActivity::class.java);
             startActivity(intent)
