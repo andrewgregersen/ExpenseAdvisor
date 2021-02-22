@@ -1,11 +1,11 @@
 package com.example.loginimplenetation
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.TextRecognizer
-import com.google.mlkit.vision.text.TextRecognizerOptions
-import java.io.File
-import java.io.FileReader
 import java.io.IOException
 import java.io.InputStream
-
 
 
 //AdapterView.OnItemSelectedListener for spinner
 class TextRecognitionActivity: AppCompatActivity() {
     private final val TAG = "TextRecognitionActivity"
-    private var mSelectedImage: Bitmap? = null
+    private var mSelectedImage: Bitmap? = null //will be initalized with the image passed to the activity from camera
     private lateinit var doTheThing: Button
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
@@ -42,12 +37,12 @@ class TextRecognitionActivity: AppCompatActivity() {
         setContentView(R.layout.text_recognition_activity)
 
 
-
+        //mSelectedImage = For Nesi to figure out
         mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
 
         manager = LinearLayoutManager(this)
 
-        doTheThing = findViewById<Button>(R.id.button2)
+        doTheThing = findViewById(R.id.button2)
         val leave = findViewById<Button>(R.id.button3)
         val submit = findViewById<Button>(R.id.Submit)
 
@@ -80,7 +75,7 @@ class TextRecognitionActivity: AppCompatActivity() {
                 processTextRecognition(texts)
             }
             .addOnFailureListener{
-                Toast.makeText(this,"Failed to read text",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to read text", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -101,31 +96,47 @@ class TextRecognitionActivity: AppCompatActivity() {
         var str = ""
         var prev: Rect? = null
         for(i in blocks){
+            println(i.boundingBox)
+
             if(prev == null){
                 prev = i.boundingBox
+                for(j in i.lines)
+                    for(k in j.elements){
+                        str="$str ${k.text.trim()}"
+                    }
             }
-            else if(i.boundingBox?.top== prev.top){ //the blocks are on the same line
+            else if((-4<i.boundingBox?.top?.minus(prev.top)!!) && (10>i.boundingBox?.top?.minus(prev.top)!!)){ //the blocks are on the same line within a small margin of error
                 for(j in i.lines){
                     for(k in j.elements){
                         if(!tree.contains(k.text.toLowerCase().trim()))
                             str="$str ${k.text.trim()}"
+
                     }
                 }
                 prev = i.boundingBox
             }
             else{//blocks are not on the same line
                 values.add(str)
-                str=""
                 prev = i.boundingBox
                 for(j in i.lines){
+                    str=""
+                    println(j.text)
                     for(k in j.elements){
-                        if(!tree.contains(k.text.toLowerCase().trim()))
-                            str="$str ${k.text.trim()}"
+                        if(!tree.contains(k.text.toLowerCase().trim())){
+                            if(k.text.contains("\n")){
+                                str="$str ${k.text.trim()}"
+                                values.add(str)
+                                str=""
+                            }
+                            else str="$str ${k.text.trim()}"
+                        }
+
                     }
                 }
             }
         }
         values.add(str)//at end of receipt
+        println(values)
 
         myAdapter = MyAdapter(values.toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
@@ -177,10 +188,10 @@ class TextRecognitionActivity: AppCompatActivity() {
             `is`.bufferedReader().forEachLine {
                 tree.insert(it) //each line of dictionary.txt is its own entry
             }
-        }catch(e: IOException){
-            Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
+        }catch (e: IOException){
+            Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this,"Successfully loaded data",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Successfully loaded data", Toast.LENGTH_SHORT).show()
         return tree
     }
 
@@ -192,8 +203,8 @@ class TextRecognitionActivity: AppCompatActivity() {
             `is`.bufferedReader().forEachLine {
                 tree.insert(it)
             }
-        }catch(e:IOException){
-            Toast.makeText(this,"Failed to loaded data",Toast.LENGTH_SHORT).show()
+        }catch (e: IOException){
+            Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
             return null
         }
         return tree
@@ -211,8 +222,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
     }
 
-
-
+    // Functions for loading images from app assets.
 
 }
 
@@ -227,10 +237,10 @@ class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAd
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
-        val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent,false)
+        val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(vh)
     }
-    override fun onBindViewHolder(holder: ViewHolder,position:Int){
+    override fun onBindViewHolder(holder: ViewHolder, position: Int){
         holder.bind(myDataSet[position])
     }
     override fun getItemCount(): Int{
