@@ -105,37 +105,40 @@ class TextRecognitionActivity: AppCompatActivity() {
                         str="$str ${k.text.trim()}"
                     }
             }
-            else if((-4<i.boundingBox?.top?.minus(prev.top)!!) && (10>i.boundingBox?.top?.minus(prev.top)!!)){ //the blocks are on the same line within a small margin of error
-                if(i.boundingBox?.left!! <prev.left!!){ //if current bounding box's left most border is at a x-loc smaller than the previous ones
-                    for(j in i.lines){
-                        var temp = ""
-                        for(k in j.elements){
-                            if(!tree.contains(k.text.toLowerCase().trim()))
-                                temp = "$temp ${k.text.trim()}"
+            else if((-4<i.boundingBox?.top?.minus(prev.top)!!) && (10>i.boundingBox?.top?.minus(prev.top)!!)) {
+                for (j in i.lines) {//the blocks are on the same line within a small margin of error
+                    if (prev != null) {
+                        if (i.boundingBox?.left!! < prev.left!!) { //if current bounding box's left most border is at a x-loc smaller than the previous ones
+                            var temp = ""
+                            for (k in j.elements) {
+                                if (!tree.contains(k.text.toLowerCase().trim()))
+                                    temp = "$temp ${k.text.trim()}"
+                            }
+                            str = "$temp $str" //place the items before the current string
+                        } else {//continue as normal
+                            for (j in i.lines) {
+                                for (k in j.elements) {
+                                    if (!tree.contains(k.text.toLowerCase().trim()))
+                                        str = "$str ${k.text.trim()}"
+                                }
+                            }
                         }
-                        str = "$temp $str" //place the items before the current string
                     }
+                    prev = i.boundingBox //save the previous bounding box
                 }
-                else{//continue as normal
-                    for(j in i.lines){
-                        for(k in j.elements){
-                            if(!tree.contains(k.text.toLowerCase().trim()))
-                                str="$str ${k.text.trim()}"
-                        }
-                    }
-                }
-                prev = i.boundingBox //save the previous bounding box
             }
+
             else{//blocks are not on the same line
-                values.add(str)
+
                 prev = i.boundingBox
                 for(j in i.lines){
+                    values.add(str)
                     str=""
                     for (k in j.elements) {
                         if (!tree.contains(k.text.toLowerCase().trim()))
                             str = "$str ${k.text.trim()}"
                     }
-                    values.add(str)
+                    println(str)
                 }
 
             }
