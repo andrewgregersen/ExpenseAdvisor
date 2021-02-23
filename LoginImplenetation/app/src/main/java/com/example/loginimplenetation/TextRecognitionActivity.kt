@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -207,7 +206,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         //loads a dictionary of key terms to help catagorize the individual items
         val tree = RBT<String>()
         try{
-            val `is` = this.assets.open("keyDict.txt")
+            val `is` = this.assets.open("regexDict.txt")
             `is`.bufferedReader().forEachLine {
                 tree.insert(it)
             }
@@ -230,7 +229,27 @@ class TextRecognitionActivity: AppCompatActivity() {
 
     }
 
-    // Functions for loading images from app assets.
+   private fun runDBParser(): ArrayList<String>{
+       val regexlist = loadRegex()
+       var ans = ArrayList<String>()
+       for(x in values){ //for each line of text in the document get rid of bad terms
+           for(y in regexlist)
+       }
+
+    return ans
+   }
+    private fun loadRegex(): ArrayList<Regex>{
+        var ans = ArrayList<Regex>()
+        try{
+            val `is` = this.assets.open("regexDict.txt")
+            `is`.bufferedReader().forEachLine {
+                ans.add(Regex.fromLiteral(it))
+            }
+        }catch (e: IOException){
+            Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
+        }
+        return ans
+    }
 
 }
 
