@@ -37,8 +37,8 @@
             android:parentActivityName=".LoggedInActivity">
         </activity>
         <meta-data
-            android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="ocr" />
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="text" />
         <activity android:name=".TextRecognitionActivity"
             android:parentActivityName=".LoggedInActivity">
         </activity>

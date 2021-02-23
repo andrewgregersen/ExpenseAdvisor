@@ -5,6 +5,7 @@ package com.example.loginimplenetation
 /*
 Please look at the code here: https://codereview.stackexchange.com/questions/177924/red-black-tree-implementation-in-kotlin
 This is what this code is based off of, albeit stripped down to only what I need to use in the project
+Java code can be found here, as I also used this as a reference to confirm functionality of the RBT: https://www.programiz.com/dsa/red-black-tree
 -Andrew Gregersen
  */
 
@@ -119,6 +120,7 @@ Dont need to implement delete, as I only need to read from this tree. If I need 
         var key: T?,
         var left: Node<T>?,
         var right: Node<T>?,
-        var red: Boolean = false
+        var red: Boolean = false,
+        //var parent: Node<T>?
     )
 }
