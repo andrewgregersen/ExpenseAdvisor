@@ -50,7 +50,7 @@ class MainActivity: AppCompatActivity() {
         setContentView(view)
         var gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com").requestEmail().build()
+                .requestIdToken(secretkey).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
         callbackManager = CallbackManager.Factory.create()
@@ -251,7 +251,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             binding.Username.text.clear()
             binding.Password.text.clear()
         }else{
-               Snackbar.make(binding.coordLayout, "Login has failed, please sign-in", Snackbar.LENGTH_SHORT).show()
+               Toast.makeText(this, "Login has failed, please sign-in", Toast.LENGTH_SHORT).show()
                binding.googleLogin.visibility = View.VISIBLE
         }
 
@@ -266,6 +266,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         private const val TAG2 = "GoogleActivity"
         private const val TAG3 = "FacebookLogin"
         private const val RC_SIGN_IN = 9001
+        private const val secretkey = "518692453774-bdhq1tsv3172bi7svmodd72l9fumnjro.apps.googleusercontent.com"
     }
 
 

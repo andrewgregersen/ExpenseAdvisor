@@ -25,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Gallery" />
+
+
     </LinearLayout>
 
     <ImageView
@@ -33,5 +35,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         app:srcCompat="@drawable/ic_launcher_background" />
+
+
 
 </LinearLayout>
