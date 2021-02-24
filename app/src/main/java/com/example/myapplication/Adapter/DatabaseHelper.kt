@@ -428,11 +428,9 @@ class DatabaseHelper(var Context: Context):
         var list: MutableList<String> = ArrayList()
 
         val db = this.readableDatabase
-        val query= "Select " + COLUMN_ITEM_NAME + ", "+ COLUMN_PRICE + " from " + ITEM +
-                " as I, "+ BELONG + " as B, "+ CATEGORY + " as C where I."+ COLUMN_ITEM_ID +
-                " = B."+ COLUMN_BELONG_ITEM_ID + " and B." + COLUMN_BELONG_CATEGORY_ID +
-                " = " + categoryFound
-
+        val query= "Select I." + COLUMN_ITEM_NAME + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+
+                COLUMN_BELONG_ITEM_ID+ " = I." + COLUMN_ITEM_ID +
+                " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
 
         var cursor: Cursor? = null
@@ -445,18 +443,20 @@ class DatabaseHelper(var Context: Context):
         }
 
         var name:String
-        var price:String
+
 
         if(cursor.moveToFirst()){
             do {
 
                 name= cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_NAME))
-                price= cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))
+
                 list.add(name)
                 //Toast.makeText(Context, name +" cost "+ price.toInt(), Toast.LENGTH_LONG).show()
 
 
             }while (cursor.moveToNext())
+
+            db.close()
         }
         Toast.makeText(Context, "" + list.size+ " item(s) found ", Toast.LENGTH_LONG).show()
         return list
@@ -481,15 +481,14 @@ class DatabaseHelper(var Context: Context):
     }
 
     fun getOnlyPriceOfItemOfCategory(category: String):MutableList<String>{
+
         var categoryFound = getCategoryID(category)
 
         var list: MutableList<String> = ArrayList()
 
         val db = this.readableDatabase
-        val query= "Select " + COLUMN_ITEM_NAME + ", "+ COLUMN_PRICE + " from " + ITEM +
-                " as I, "+ BELONG + " as B, "+ CATEGORY + " as C where I."+ COLUMN_ITEM_ID +
-                " = B."+ COLUMN_BELONG_ITEM_ID + " and B." + COLUMN_BELONG_CATEGORY_ID +
-                " = " + categoryFound
+        val query= "Select I." + COLUMN_PRICE + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+ COLUMN_BELONG_ITEM_ID+ " = I." + COLUMN_ITEM_ID +
+                " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
         var cursor: Cursor? = null
         try {
@@ -506,6 +505,7 @@ class DatabaseHelper(var Context: Context):
                 list.add(price)
                 //Toast.makeText(Context, "The price is "+ price, Toast.LENGTH_LONG).show()
             }while (cursor.moveToNext())
+            db.close()
         }
         //Toast.makeText(Context, "The price size "+ list.size, Toast.LENGTH_LONG).show()
         return list
