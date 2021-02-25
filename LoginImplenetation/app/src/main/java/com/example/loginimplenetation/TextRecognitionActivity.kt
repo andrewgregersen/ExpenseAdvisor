@@ -17,7 +17,7 @@ import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import java.io.IOException
 import java.io.InputStream
-
+//Mostly Written by Andrew Gregersen for Senior Capstone at Bellevue College
 
 //AdapterView.OnItemSelectedListener for spinner
 class TextRecognitionActivity: AppCompatActivity() {
@@ -218,22 +218,21 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
-    //parses out extraneous information from the list of strings that make up a receipt
-    private fun removeExtra(items: ArrayList<String>): ArrayList<String>{
-        return items
-    }
-
-
-    //parses and submits final list of items to DB
+       //parses and submits final list of items to DB
+    //will want to convert all strings and items to all upper case or all lower case for ease of DB management
     private fun submitItems(){
 
     }
 
+
+//parses out information that the user does not need or that we determine to be bad info, will probably capture items that we want to keep but will work overall
    private fun runDBParser(): ArrayList<String>{
        val regexlist = loadRegex()
        var ans = ArrayList<String>()
        for(x in values){ //for each line of text in the document get rid of bad terms
-           for(y in regexlist)
+           for(y in regexlist){
+
+           }
        }
 
     return ans
