@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loginimplenetation.adapter.RegexHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -27,7 +28,6 @@ class TextRecognitionActivity: AppCompatActivity() {
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: RecyclerView.Adapter<*>
-    private lateinit var values: ArrayList<String>
     //need to implement a recycler view to display the data
 
 
@@ -67,6 +67,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         val image = InputImage.fromBitmap(mSelectedImage, 0)
         val recognizer = TextRecognition.getClient()
 
+
         doTheThing.isEnabled = false //removed for final release
         recognizer.process(image)
             .addOnSuccessListener{ texts ->
@@ -88,7 +89,7 @@ class TextRecognitionActivity: AppCompatActivity() {
             return
         }
         val tree = loadTree()
-        values = arrayListOf()
+        var values: ArrayList<String> = arrayListOf()
 
 
 
@@ -144,8 +145,9 @@ class TextRecognitionActivity: AppCompatActivity() {
         }
         values.add(str)//at end of receipt
         println(values)
+        values = RegexHelper().runParserForUserDisplay(values)
 
-        myAdapter = MyAdapter(values.toTypedArray())
+        myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
             adapter = myAdapter
@@ -225,32 +227,10 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
-//parses out information that the user does not need or that we determine to be bad info, will probably capture items that we want to keep but will work overall
-   private fun runDBParser(): ArrayList<String>{
-       val regexlist = loadRegex()
-       var ans = ArrayList<String>()
-       for(x in values){ //for each line of text in the document get rid of bad terms
-           for(y in regexlist){
-
-           }
-       }
-
-    return ans
    }
-    private fun loadRegex(): ArrayList<Regex>{
-        var ans = ArrayList<Regex>()
-        try{
-            val `is` = this.assets.open("regexDict.txt")
-            `is`.bufferedReader().forEachLine {
-                ans.add(Regex.fromLiteral(it))
-            }
-        }catch (e: IOException){
-            Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
-        }
-        return ans
-    }
 
-}
+
+
 
 
 class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){

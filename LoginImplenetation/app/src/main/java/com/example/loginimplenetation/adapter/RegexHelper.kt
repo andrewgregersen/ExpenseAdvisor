@@ -1,5 +1,7 @@
 package com.example.loginimplenetation.adapter
 
+import kotlin.text.Regex
+
 class RegexHelper {
 
 
@@ -7,53 +9,52 @@ class RegexHelper {
     //returns a string <Name, Quantity, Price>
     //unless it is a time stamp <Date, Time> or <Time, Date>
 
-    fun runParserForUserDisplay(s: String):String{
-        val a = ArrayList<Regex>()
-        a.add(Regex.fromLiteral("([^\\d+])"))//removes words that are only numbers
-        a.add(Regex.fromLiteral("([a-zA-Z\\s])"))//gets the name of an item
-        a.add(Regex.fromLiteral("([^\\sa-zA-z]+)"))//selects the price from an item
-        a.add(Regex.fromLiteral("([a-zA-Z\\s]+"))//lines that are only words
-        a.add(Regex.fromLiteral("([^a-zA-Z\\s#]+\\d+[:\\-\\/]\\d"))//used to find the timestamp on a receipt
-        var r = s.split(" ")
-        var ans = ""
-        for(x in r){
-            if(a[0].containsMatchIn(x))
-                continue
-            else if(a[1].containsMatchIn(x))
-                ans = "$ans $x" //parses out name
-            else if(a[2].containsMatchIn(x)){
-                ans = "$ans $x"
-                return ans //got the price return back to main main activity
-            }
-            else if(a[3].containsMatchIn(x)){
+    fun runParserForUserDisplay(s: ArrayList<String>):ArrayList<String>{
+        var ans1= ArrayList<String>()
+        var found = false
+        var temp = ""
+         //gets timestamp
+        for(x in s) { //for each line in the receipt
+            if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x) && !found) {
+                found = true
+                ans1.add(0,storeTimeStamp(x)) //any potential timestamp that the receipt might have, runs only once if at all
                 continue
             }
-            else if(a[4].containsMatchIn(x))
-                ans="$ans $x"
+            if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)){
+                ans1.add(1,x) //let the user deal with extra garbage words
+                continue
+            }
+            val y = x.trim().split(" ")
+            temp = ""
+            for (z in y) { //go word by word
+                when{
+                    Regex(pattern = "(\\d{4,})").matches(z) -> continue //skips elements that are numbers and have more than four digits
+                    Regex(pattern = "(\\d{1,}\\W\\s{0,}[^\\d])").matches(z)->continue
+                    Regex(pattern = "([a-zA-Z]+)").matches(z) -> temp = "$temp $z" //gets all strings
+                    Regex(pattern = "([^a-zA-z]+)").matches(z)-> temp = "$temp $z"//gets all prices
+                }
+            }
+            if(temp != ""){
+                ans1.add(temp.trim())
+            }
         }
-        return ans
+        return ans1
     }
 
 
-    fun runParseForDB(s: String):ArrayList<String>{
-        val a = ArrayList<Regex>()
-        a.add(Regex.fromLiteral("([a-zA-Z\\s])"))//gets the name of an item
-        a.add(Regex.fromLiteral("([^\\sa-zA-z]+)"))//selects the price from an item
-        a.add(Regex.fromLiteral("([^a-zA-Z\\s#]+\\d+[:\\-\\/]\\d"))//used to find the timestamp on a receipt also the least common answer
-        val r = s.split(" ")
-        var ans = ArrayList<String>()
-        for(x in r){
-            if(a[0].containsMatchIn(x))
-                ans.add(x) //parses out name
-            else if(a[1].containsMatchIn(x)){
-                ans.add(x)
-                return ans //got the price return back to main main activity also at the end of a line
+
+    fun storeTimeStamp(s: String):String{
+        var ans: String = ""
+        val y = s.split(" ")
+        for(x in y){
+            x.trim()
+            when{
+                Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").matches(x) -> ans = "$ans $x"
             }
-            else if(a[2].containsMatchIn(x))
-                ans.add(x)
+
         }
         return ans
-        }
+    }
 
 
 

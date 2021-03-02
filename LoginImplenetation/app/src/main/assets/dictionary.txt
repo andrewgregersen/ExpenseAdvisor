@@ -53,6 +53,12 @@ lb
 ib
 n
 f
-
+sale
+canada
+north
+south
+east
+west
+is
 
 
