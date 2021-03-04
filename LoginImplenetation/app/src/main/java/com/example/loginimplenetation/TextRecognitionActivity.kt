@@ -38,6 +38,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
         //mSelectedImage = For Nesi to figure out
         mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
+        //mSelectedImage = getIntent().getParcelableExtra("data")
 
         manager = LinearLayoutManager(this)
 

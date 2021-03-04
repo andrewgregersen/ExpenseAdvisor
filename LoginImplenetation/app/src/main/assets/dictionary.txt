@@ -60,5 +60,11 @@ south
 east
 west
 is
+has
+saved
+was
+program
+progran
+
 
 
