@@ -56,6 +56,36 @@ class RegexHelper {
         return ans
     }
 
+    fun parseforDB(s:String):Map<String,Map<Double,Int>>{
+        var bool1 = false
+        var bool2 = false
+        var itemList =HashMap<String,Map<Double,Int>>()
+        //prepare items in the display list to be pushed to the DB
+        var y = 0 //to make my life easier
+        val a = s.split(" ")
+        var name = ""
+        var price = 0.0
+        var amount: Int = 0
+        for(x in a){
+            if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
+                itemList[x] = HashMap(amount)
+                bool1=!bool1
+                continue
+            }
+            if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
+                total = x
+                bool2=!bool2
+                continue
+            }
+            when{
+                Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x"
+                Regex(pattern = "(\\d{1,3})").matches(x) -> amount = x.toInt() //gets the amount of items requested
+                Regex(pattern = "([^a-zA-z]+)").matches(x)-> price = x.toDouble()
+            }
+        }
+        return itemList
+    }
+
 
 
 }

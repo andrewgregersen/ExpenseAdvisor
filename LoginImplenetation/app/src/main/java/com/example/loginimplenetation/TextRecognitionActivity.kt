@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.RegexHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
@@ -156,6 +157,25 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //need to implement editting for each row, after editting then need to push to DB
+
+
+        pushToDB(values)
+    }
+
+
+    private fun pushToDB(tp: ArrayList<String>){
+        var timeStamp = ""
+        var total = ""
+
+        //finally push to the database
+
+        //create a new receipt
+        val RID = DatabaseHelper().insert
+
+        for(x in itemList.keys){
+
+        }
+
     }
 /*
 
