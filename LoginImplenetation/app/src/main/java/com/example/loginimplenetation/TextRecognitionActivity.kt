@@ -165,14 +165,35 @@ class TextRecognitionActivity: AppCompatActivity() {
 
     private fun pushToDB(tp: ArrayList<String>){
         var timeStamp = ""
+        var bool1 = false
+        var bool2 = false
         var total = ""
+        for(x in tp){
+            if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
+                timeStamp = x
+                tp.remove(x)//remove it from the list
+                bool1=!bool1
+                continue
+            }
+            else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
+                total = x
+                tp.remove(x) //remove it from the List
+                bool2=!bool2
+                continue
+            }
+            if(bool1 && bool2)
+                break
+        }
+
+        val items = RegexHelper().parseforDB(tp)
 
         //finally push to the database
 
         //create a new receipt
-        val RID = DatabaseHelper().insert
+        val RID = DatabaseHelper(this).//insertRec(timeStamp,Total)
 
-        for(x in itemList.keys){
+        for(x in items.keys){
+            DataBaseHelper().//insert(x,items.get(x).keys.elementAt(0),items.get(x).values.elementAt(0),items.get(x).values.elementAt(1))
 
         }
 
