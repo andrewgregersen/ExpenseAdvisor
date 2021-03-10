@@ -12,7 +12,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.RegexHelper
 import com.example.myapplication.Adapter.DatabaseHelper
 import com.google.mlkit.vision.common.InputImage
