@@ -59,9 +59,14 @@ class RegexHelper {
     fun parseforDB(s:ArrayList<String>):Map<String,Map<Double,Int>>{
         var itemList =HashMap<String,Map<Double,Int>>()
         //prepare items in the display list to be pushed to the DB
+        var name = ""
+        var amount = 0
+        var price = 0.0
         for(y in s){
             val a = y.split(" ")
-            var name = ""
+            name = ""
+            amount = 0
+            price = 0.0
             for(x in a){
                 when{
                     Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x"
@@ -69,6 +74,7 @@ class RegexHelper {
                     Regex(pattern = "([^a-zA-z]+)").matches(x)-> price = x.toDouble()
                 }
             }
+            itemList[name] = HashMap<Double,Int>(amount, price.toFloat())
         }
 
         return itemList
