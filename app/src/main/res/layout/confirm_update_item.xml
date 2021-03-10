@@ -8,19 +8,21 @@
     <EditText
         android:id="@+id/changeItemName"
         android:layout_width="match_parent"
-        android:layout_height="61dp" />
+        android:layout_height="61dp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/changeItemPrice"
         android:layout_width="match_parent"
-        android:layout_height="68dp" />
+        android:layout_height="68dp"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/changeCategory"
         style="@style/Base.CardView"
         android:layout_width="106dp"
         android:layout_height="43dp"
-        android:text="Select" />
+        android:text="select" />
 
     <EditText
         android:id="@+id/showChangedCategory"

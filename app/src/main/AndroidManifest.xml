@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myapplication">
-
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature
-        android:name="android.hardware.Camera"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    package="com.example.loginimplenetation">
 
     <application
         android:allowBackup="true"
@@ -19,38 +8,60 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MainPage">
-        <activity android:name=".Update"></activity>
-        <activity android:name=".ItemOfCategory.OtherItem" />
-        <activity android:name=".ItemOfCategory.BeautyItem" />
-        <activity android:name=".ItemOfCategory.AdvertisementItem" />
-        <activity android:name=".ItemOfCategory.LaundryItem" />
-        <activity android:name=".ItemOfCategory.HealthItem" />
-        <activity android:name=".ItemOfCategory.EducationItem" />
-        <activity android:name=".ItemOfCategory.ElectronicsItem" />
-        <activity android:name=".ItemOfCategory.FoodItems" />
-        <activity android:name=".ManualEntry" />
-        <activity android:name=".Camera_Activity" />
-        <activity android:name=".SettingsActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/LightTheme"
+        android:name = "androidx.multidex.MultiDexApplication" >
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoggedInActivity"
+            android:parentActivityName =".MainActivity">
+        </activity>
+        <activity android:name=".NewAccount"
+            android:parentActivityName =".MainActivity">
+        </activity>
+        <activity android:name=".ForgottenActivity"
+            android:parentActivityName =".MainActivity">
+        </activity>
+        <activity android:name=".CameraAccessActivity"
+            android:parentActivityName=".LoggedInActivity">
+        </activity>
+        <activity android:name=".ProfileActivity"
+            android:parentActivityName=".SettingsActivity">
+        </activity>
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".LoggedInActivity">
+        </activity>
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="text" />
+        <activity android:name=".TextRecognitionActivity"
+            android:parentActivityName=".LoggedInActivity">
+        </activity>
 
         <provider
+            android:authorities="com.example.loginimplenetation.fileprovider"
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.myapplication.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths">
+
+            </meta-data>
         </provider>
+
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera2" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
 </manifest>

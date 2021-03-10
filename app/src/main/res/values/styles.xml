@@ -1,15 +1,23 @@
-
 <resources>
-   <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-       <item name="colorPrimary">@color/design_default_color_on_primary</item>
-       <item name="colorPrimaryDark">@color/design_default_color_primary_dark</item>
+    <!-- Base application theme. -->
 
-   </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="LightTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name = "PrimaryTextColor">#000000</item>
+        <item name ="SecondaryTextColor">#606060</item>
+        <item name ="bgColor">#fff</item>
+        <item name ="colorTab">@color/tabColor</item>
     </style>
+
+    <style name="DarkTheme" parent ="Theme.AppCompat.DayNight.NoActionBar">
+        <item name = "PrimaryTextColor">#fff</item>
+        <item name ="SecondaryTextColor">#aeaeae</item>
+        <item name ="bgColor">#000000</item>
+        <item name ="colorTab">@color/purple_700</item>
+    </style>
+
+    <style name="Light" parent ="LightTheme"/>
+    <style name="Dark" parent="DarkTheme"/>
+
 
 
 </resources>

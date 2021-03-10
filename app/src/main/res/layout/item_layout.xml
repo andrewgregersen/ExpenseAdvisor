@@ -60,6 +60,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/rest"
             android:layout_width="78dp"
             android:layout_height="71dp"
             android:layout_alignLeft="@+id/centre"
@@ -86,9 +87,7 @@
                 android:background="@drawable/ic_edit_24"
                 android:clickable="true"
                 android:focusable="true" />
-
         </LinearLayout>
-
 
     </RelativeLayout>
 

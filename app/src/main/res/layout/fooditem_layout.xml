@@ -85,10 +85,7 @@
                 android:layout_marginLeft="10dp"
                 android:focusable="true"
                 android:clickable="true"/>
-
-
         </LinearLayout>
-
 
     </RelativeLayout>
 
