@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
-import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.RegexHelper
@@ -39,7 +37,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
 
-        mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "TestHM2.jpg")
         //mSelectedImage = getIntent().getParcelableExtra("data")
 
         manager = LinearLayoutManager(this)
@@ -72,6 +70,7 @@ class TextRecognitionActivity: AppCompatActivity() {
                 processTextRecognition(texts)
             }
             .addOnFailureListener{
+                doTheThing.isEnabled = true
                 Toast.makeText(this, "Failed to read text", Toast.LENGTH_SHORT).show()
             }
     }
@@ -93,7 +92,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         var str = ""
         var prev: Rect? = null
         for(i in blocks){
-            println(i.boundingBox)
+            //println(i.boundingBox)
 
             if(prev == null){
                 prev = i.boundingBox
@@ -135,13 +134,13 @@ class TextRecognitionActivity: AppCompatActivity() {
                         if (!tree.contains(k.text.toLowerCase().trim()))
                             str = "$str ${k.text.trim()}"
                     }
-                    println(str)
+                    //println(str)
                 }
 
             }
         }
         values.add(str)//at end of receipt
-        println(values)
+        //println(values)
         values = RegexHelper().runParserForUserDisplay(values)
 
         myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
@@ -196,8 +195,11 @@ class TextRecognitionActivity: AppCompatActivity() {
                 bool1=!bool1
                 continue
             }
+
             else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
-                total = x
+                val e = x.split(regex = Regex(pattern = "(total.|Total.|TOTAL.)"))
+                total = e[1].trim()
+                total = total.removePrefix("$")
                 index2  = tp.indexOf(x) //remove it from the List
                 bool2=!bool2
                 continue

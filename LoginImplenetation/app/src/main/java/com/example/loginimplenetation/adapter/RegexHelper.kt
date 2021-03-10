@@ -59,13 +59,14 @@ class RegexHelper {
     fun parseforDB(s:ArrayList<String>):Map<String,Map<Double,Int>>{
         var itemList =HashMap<String,Map<Double,Int>>()
         //prepare items in the display list to be pushed to the DB
+        val b = HashMap<Double,Int>()
         var name = ""
         var amount = 0
         var price = 0.0
         for(y in s){
             val a = y.split(" ")
             name = ""
-            amount = 0
+            amount = 1 //there will always be at least one of each item
             price = 0.0
             for(x in a){
                 when{
@@ -73,11 +74,18 @@ class RegexHelper {
                     Regex(pattern = "(\\d{1,3})").matches(x) -> amount = x.toInt() //gets the amount of items requested
                     Regex(pattern = "([^a-zA-z]+)").matches(x)->{
                         val y = x.split(regex = Regex(pattern="([$])"))
-                        price = y[0].toDouble()
+                        if(y.isEmpty())
+                            price = x.trim().toDouble()
+                        else if(y.size==1)
+                            price = y[0].trim().toDouble()
+                        else
+                            price = y[1].trim().toDouble()
                     }
                 }
             }
-            itemList[name] = HashMap<Double,Int>(amount, price.toFloat())
+            b.clear() //only want to use this to create one item at a time
+            b[price] = amount
+            itemList[name] = b //stores all items with a price, amount, and name
         }
 
         return itemList
