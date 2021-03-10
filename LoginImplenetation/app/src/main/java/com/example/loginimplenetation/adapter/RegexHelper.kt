@@ -71,7 +71,10 @@ class RegexHelper {
                 when{
                     Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x"
                     Regex(pattern = "(\\d{1,3})").matches(x) -> amount = x.toInt() //gets the amount of items requested
-                    Regex(pattern = "([^a-zA-z]+)").matches(x)-> price = x.toDouble()
+                    Regex(pattern = "([^a-zA-z]+)").matches(x)->{
+                        val y = x.split(regex = Regex(pattern="([$])"))
+                        price = y[0].toDouble()
+                    }
                 }
             }
             itemList[name] = HashMap<Double,Int>(amount, price.toFloat())

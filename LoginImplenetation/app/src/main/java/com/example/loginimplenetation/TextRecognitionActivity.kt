@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.RegexHelper
-import com.example.myapplication.Adapter.DatabaseHelper
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -29,6 +31,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: RecyclerView.Adapter<*>
+    private lateinit var submit: Button
     //need to implement a recycler view to display the data
 
 
@@ -36,8 +39,6 @@ class TextRecognitionActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
 
-
-        //mSelectedImage = For Nesi to figure out
         mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
         //mSelectedImage = getIntent().getParcelableExtra("data")
 
@@ -45,7 +46,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
         doTheThing = findViewById(R.id.button2)
         val leave = findViewById<Button>(R.id.button3)
-        val submit = findViewById<Button>(R.id.Submit)
+
 
 
         //for testing
@@ -56,12 +57,6 @@ class TextRecognitionActivity: AppCompatActivity() {
         leave.setOnClickListener {
             finish()
         }
-
-        //submit finalized item list (after allowing for editing)
-        submit.setOnClickListener{
-            submitItems()
-        }
-
     }
 
 
@@ -157,33 +152,62 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //need to implement editting for each row, after editting then need to push to DB
+        submit = findViewById(R.id.Submit)
+        submit.setOnClickListener {
+
+            pushToDB((myAdapter as MyAdapter).getDataSet())
 
 
-        pushToDB(values)
+
+            /*
+            var a = ArrayList<String>()
+            for(x in recyclerView){
+                var l = findViewById<EditText>(x.id)
+                a.add(l.text.toString().trim())
+            }
+            pushToDB(a)
+            Toast.makeText(this,"Receipt Added Successfully",Toast.LENGTH_SHORT).show()
+
+             */
+        }
+
+
+
+
+
     }
 
 
-    private fun pushToDB(tp: ArrayList<String>){
+    private fun pushToDB(tc: Array<String>){
+        var tp = ArrayList<String>()
+        for(x in tc){
+            tp.add(x)
+        }
         var timeStamp = ""
         var bool1 = false
         var bool2 = false
+        var index1 = -1
+        var index2 = -1
         var total = ""
         for(x in tp){
             if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
                 timeStamp = x
-                tp.remove(x)//remove it from the list
+                index1 = tp.indexOf(x)//remove it from the list
                 bool1=!bool1
                 continue
             }
             else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
                 total = x
-                tp.remove(x) //remove it from the List
+                index2  = tp.indexOf(x) //remove it from the List
                 bool2=!bool2
                 continue
             }
             if(bool1 && bool2)
                 break
         }
+        //remove them from the list
+        tp.removeAt(index1)
+        tp.removeAt(index2)
 
         val items = RegexHelper().parseforDB(tp)
 
@@ -277,7 +301,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
 class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){
-
+    private lateinit var mydatadet: Array<String>
     class ViewHolder(private val view: View):RecyclerView.ViewHolder(view){
     fun bind(text: String){
         val tv = view.findViewById<TextView>(R.id.textView)
@@ -286,6 +310,7 @@ class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAd
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
+        mydatadet = myDataSet
         val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(vh)
     }
