@@ -18,14 +18,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.loginimplenetation.R
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class  Camera_Activity : AppCompatActivity() {
+class  CameraAccessActivity : AppCompatActivity() {
 
     var currentPath: String? = null
     val TAKE_PICTURE = 1
@@ -41,7 +40,7 @@ class  Camera_Activity : AppCompatActivity() {
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera_)
+        setContentView(R.layout.activity_camera)
 
         buttonGallery.setOnClickListener {
            dispatchGalleryIntent()

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.RegexHelper
+import com.example.myapplication.Adapter.DatabaseHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -190,10 +191,11 @@ class TextRecognitionActivity: AppCompatActivity() {
         //finally push to the database
 
         //create a new receipt
-        val RID = DatabaseHelper(this).//insertRec(timeStamp,Total)
+        val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location
 
         for(x in items.keys){
-            DataBaseHelper().//insert(x,items.get(x).keys.elementAt(0),items.get(x).values.elementAt(0),items.get(x).values.elementAt(1))
+            DatabaseHelper(this).insertItem(x,
+                items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0),"Test")//insert the items into the DB in a new testing category
 
         }
 
