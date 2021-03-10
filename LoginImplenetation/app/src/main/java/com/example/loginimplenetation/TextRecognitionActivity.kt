@@ -12,7 +12,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.RegexHelper
+import com.example.myapplication.Adapter.DatabaseHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -156,6 +158,47 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //need to implement editting for each row, after editting then need to push to DB
+
+
+        pushToDB(values)
+    }
+
+
+    private fun pushToDB(tp: ArrayList<String>){
+        var timeStamp = ""
+        var bool1 = false
+        var bool2 = false
+        var total = ""
+        for(x in tp){
+            if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
+                timeStamp = x
+                tp.remove(x)//remove it from the list
+                bool1=!bool1
+                continue
+            }
+            else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
+                total = x
+                tp.remove(x) //remove it from the List
+                bool2=!bool2
+                continue
+            }
+            if(bool1 && bool2)
+                break
+        }
+
+        val items = RegexHelper().parseforDB(tp)
+
+        //finally push to the database
+
+        //create a new receipt
+        val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location
+
+        for(x in items.keys){
+            DatabaseHelper(this).insertItem(x,
+                items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0),"Test")//insert the items into the DB in a new testing category
+
+        }
+
     }
 /*
 
