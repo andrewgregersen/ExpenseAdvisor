@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:gravity="center">
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:textColor="@color/text"
+        android:layout_gravity="center_vertical"
         android:textSize = "15pt"/>
 
 
