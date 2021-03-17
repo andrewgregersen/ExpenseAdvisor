@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.R
-import com.example.myapplication.Adapter.ReceiptAdapter
+import com.example.loginimplementation.Adapter.ReceiptAdapter
 import com.example.loginimplementation.MainActivity
+import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.R
 import kotlinx.android.synthetic.main.activity_manual_entry.*
 import kotlinx.android.synthetic.main.fragment_history.*
 

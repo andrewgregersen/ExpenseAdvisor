@@ -28,8 +28,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="594dp"
+        android:layout_width="396dp"
+        android:layout_height="544dp"
         android:layout_weight="0"
         app:srcCompat="@drawable/ic_launcher_background"
         tools:ignore="VectorDrawableCompat" />

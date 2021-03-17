@@ -1,4 +1,4 @@
-package com.example.loginimplenetation.adapter
+package com.example.loginimplementation.Adapter
 
 import kotlin.text.Regex
 
@@ -59,6 +59,7 @@ class RegexHelper {
     fun parseforDB(s:ArrayList<String>):Map<String,Map<Double,Int>>{
         var itemList =HashMap<String,Map<Double,Int>>()
         //prepare items in the display list to be pushed to the DB
+        val b = HashMap<Double, Int>()
         var name = ""
         var amount = 0
         var price = 0.0
@@ -71,10 +72,21 @@ class RegexHelper {
                 when{
                     Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x"
                     Regex(pattern = "(\\d{1,3})").matches(x) -> amount = x.toInt() //gets the amount of items requested
-                    Regex(pattern = "([^a-zA-z]+)").matches(x)-> price = x.toDouble()
+                    Regex(pattern = "([^a-zA-z]+)").matches(x)-> {
+                        val y = x.split(regex = Regex(pattern = "([$])"))
+                        if(y.isEmpty())
+                            price = x.trim().toDouble()
+                        else if (y.size==1)
+                            price= y[0].trim().toDouble()
+                        else
+                            price= y[1].trim().toDouble()
+
+                    }
                 }
             }
-            itemList[name] = HashMap<Double,Int>(amount, price.toFloat())
+            b.clear()
+            b[price] = amount
+            itemList[name] = b
         }
 
         return itemList

@@ -1,5 +1,4 @@
-package com.example.loginimplenetation
-
+package com.example.loginimplementation
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,17 +7,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.adapter.RegexHelper
+import com.example.loginimplementation.Adapter.RegexHelper
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import java.io.IOException
 import java.io.InputStream
+
+
 //Mostly Written by Andrew Gregersen for Senior Capstone at Bellevue College
 
 //AdapterView.OnItemSelectedListener for spinner
@@ -39,7 +42,39 @@ class TextRecognitionActivity: AppCompatActivity() {
 
         //mSelectedImage = For Nesi to figure out
         mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
-        //mSelectedImage = getIntent().getParcelableExtra("data")
+
+//        val bytes: ByteArray? = intent.getByteArrayExtra("image")
+//        val bmp = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+//        val extras: Bundle? = intent.extras
+//        val byteArray= extras?.getByteArray("image")
+//
+//        val bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
+//        mSelectedImage= bmp
+
+        // GET FROM A FILE ( TO LOOK CLOSER )
+//        val bitmap = BitmapFactory.decodeStream(applicationContext
+//                .openFileInput("myImage"))
+//
+//
+//         mSelectedImage = bitmap
+
+
+
+
+
+        //mSelectedImage = For Nesi to figure out
+        //mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
+
+
+
+        //mSelectedImage = getIntent().getParcelableExtra("image")
+
+//        val bytes: ByteArray? = intent.getByteArrayExtra("image")
+//        val bmp = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+//        mSelectedImage= bmp
+
+
+
 
         manager = LinearLayoutManager(this)
 
@@ -146,7 +181,7 @@ class TextRecognitionActivity: AppCompatActivity() {
             }
         }
         values.add(str)//at end of receipt
-        println(values)
+        //println(values)
         values = RegexHelper().runParserForUserDisplay(values)
 
         myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
@@ -159,7 +194,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         //need to implement editting for each row, after editting then need to push to DB
 
 
-        pushToDB(values)
+
     }
 
 
@@ -167,37 +202,42 @@ class TextRecognitionActivity: AppCompatActivity() {
         var timeStamp = ""
         var bool1 = false
         var bool2 = false
+        var index1 = -1
+        var index2 = -1
         var total = ""
         for(x in tp){
             if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
                 timeStamp = x
-                tp.remove(x)//remove it from the list
+                index1 = tp.lastIndexOf(x)
                 bool1=!bool1
                 continue
             }
             else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
                 total = x
-                tp.remove(x) //remove it from the List
+                index2 = tp.lastIndexOf(x)
                 bool2=!bool2
                 continue
             }
             if(bool1 && bool2)
                 break
         }
+        //remove them from the list
+        tp.removeAt(index1)
+        tp.removeAt(index2)
 
         val items = RegexHelper().parseforDB(tp)
 
         //finally push to the database
 
-        //create a new receipt
+        //create a new receipt  (PASS TO OTHERS FOR NOW)
         val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location
 
         for(x in items.keys){
             DatabaseHelper(this).insertItem(
                 x,
-                items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0)
-            )//insert the items into the DB in a new testing category
-
+                items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0), "Others"
+            )
+            //insert the items into the DB in a new testing category
         }
 
     }
@@ -211,7 +251,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 */
-    private fun getBitmapFromAsset(context: Context, filePath: String?) : Bitmap{
+    fun getBitmapFromAsset(context: Context, filePath: String?) : Bitmap{
         val assetManager = context.assets
         val `is`: InputStream
         var bitmap : Bitmap? = null
@@ -223,14 +263,6 @@ class TextRecognitionActivity: AppCompatActivity() {
         }
         return bitmap!!
     }
-
-
- /*
-    override fun onNothingSelected(parent: AdapterView<*>){
-        //do nothing
-    }
-
-  */
 
 
     //creates the dictionary of terms to remove
@@ -270,13 +302,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     private fun submitItems(){
 
     }
-
-
    }
-
-
-
-
 
 class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){
 

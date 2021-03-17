@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.loginimplementation
 
 class Receipt {
     companion object{

@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
-import com.example.loginimplenetation.R
-import com.example.myapplication.ItemOfCategory.*
-import com.example.myapplication.list_view_model_file
-import kotlinx.android.synthetic.main.fragment_categories.*
+import com.example.loginimplementation.ItemOfCategory.*
+import com.example.loginimplementation.R
+import com.example.loginimplementation.list_view_model_file
 
 
 class CategoriesFragment : Fragment() {

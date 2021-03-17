@@ -1,4 +1,4 @@
-package com.example.loginimplenetation
+package com.example.loginimplementation
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,7 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplementation.MainActivity
-import com.example.loginimplenetation.databinding.NewAccountActivityBinding
+import com.example.loginimplementation.R
+import com.example.loginimplementation.databinding.NewAccountActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class NewAccount: AppCompatActivity(){

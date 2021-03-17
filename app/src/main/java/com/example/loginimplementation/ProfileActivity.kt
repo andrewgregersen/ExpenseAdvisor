@@ -1,11 +1,11 @@
-package com.example.loginimplenetation
+package com.example.loginimplementation
 
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.databinding.ProfileActivityBinding
+import com.example.loginimplementation.databinding.ProfileActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity: AppCompatActivity(){

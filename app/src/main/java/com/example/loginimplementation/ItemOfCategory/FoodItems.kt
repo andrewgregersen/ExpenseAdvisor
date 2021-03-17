@@ -1,4 +1,4 @@
-package com.example.myapplication.ItemOfCategory
+package com.example.loginimplementation.ItemOfCategory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.R
-import com.example.myapplication.Adapter.RecyclerView_Adapter
+import com.example.loginimplementation.R
+import com.example.loginimplementation.Adapter.RecyclerView_Adapter
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.item_layout_fulllist.*
 import java.security.AccessController.getContext

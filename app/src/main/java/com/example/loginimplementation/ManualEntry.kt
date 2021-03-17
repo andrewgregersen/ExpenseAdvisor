@@ -1,12 +1,12 @@
-package com.example.myapplication
+package com.example.loginimplementation
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplementation.Adapter.DatabaseHelper
 import com.example.loginimplementation.MainActivity
-import com.example.loginimplenetation.R
+import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.R
 import kotlinx.android.synthetic.main.activity_manual_entry.*
 
 class ManualEntry : AppCompatActivity() {
@@ -16,6 +16,7 @@ class ManualEntry : AppCompatActivity() {
     private var itemPrice: EditText? = null
     private var itemStore: EditText? = null
     private var choice: String = ""
+    private var itemQuantity: EditText? = null
     //private var cancel: Button? = null
 
 
@@ -29,6 +30,7 @@ class ManualEntry : AppCompatActivity() {
         itemCategory= findViewById(R.id.cat_choice) as TextView
         itemPrice = findViewById(R.id.idPrice) as EditText
         itemStore = findViewById(R.id.idStoreName) as EditText
+        itemQuantity = findViewById(R.id.text_description) as EditText
 
         //Show popup for categories
         idCategorie.setOnClickListener {
@@ -60,6 +62,7 @@ class ManualEntry : AppCompatActivity() {
             val category: String = choice
             val price: String = itemPrice!!.text.toString().trim()
             val store: String = itemStore!!.text.toString().trim()
+            val quantity: String = itemQuantity!!.text.toString().trim()
             var finalPrice: Double = 0.0
 
             try{
@@ -68,7 +71,7 @@ class ManualEntry : AppCompatActivity() {
                 e.message
             }
 
-            db.insertItem(name, finalPrice, db.getCategoryID(category))
+            db.insertItem(name, finalPrice, quantity.toInt(), category)
             //Toast.makeText(applicationContext, name + " "+ finalPrice+ " "+ category, Toast.LENGTH_LONG).show()
 
             //create the receipt
@@ -86,5 +89,9 @@ class ManualEntry : AppCompatActivity() {
             Toast.makeText(applicationContext, "Submit", Toast.LENGTH_LONG).show()
 
         }
+
+
+
+
     }
 }

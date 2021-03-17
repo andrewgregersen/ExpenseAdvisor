@@ -1,8 +1,9 @@
-package com.example.loginimplenetation
+package com.example.loginimplementation
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,13 +14,16 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import kotlinx.android.synthetic.main.activity_camera.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,9 +42,7 @@ class  CameraAccessActivity : AppCompatActivity() {
 //        private const val CAMERA_REQUEST_CODE = 2
 //    }
 
-    var buttonCamera: Button = findViewById(R.id.buttonCamera)
-    var buttonGallery:Button= findViewById(R.id.buttonGallery)
-    var imageView: ImageView = findViewById(R.id.imageView)
+
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,23 +56,71 @@ class  CameraAccessActivity : AppCompatActivity() {
         buttonCamera.setOnClickListener {
            dispatchCameraIntent()
         }
+
+        var btn: Button = findViewById(R.id.submitIt)
+        btn.setOnClickListener {
+            var intent = Intent(this, TextRecognitionActivity::class.java)
+//                intent.putExtra("image", imageView.drawToBitmap())
+            startActivity(intent)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == TAKE_PICTURE && resultCode== Activity.RESULT_OK){
 
+
             val bitmap: Bitmap = BitmapFactory.decodeFile(currentPath)
             imageView.setImageBitmap(bitmap)
 
-            //************************ need to pass the image to machine learning here. ******************************//
-            var btn: Button = findViewById(R.id.submitIt)
-            btn.setOnClickListener {
-                var intent: Intent = Intent(this, TextRecognitionActivity::class.java)
-                intent.putExtra("data", bitmap)
-                startActivity(intent)
+            val mSelectedImage = TextRecognitionActivity().getBitmapFromAsset(this, "testR.jpg")
 
-            }
+            //************************ need to pass the image to machine learning here. ******************************//
+
+
+
+
+
+                // PASSING FROM A FILE (NEED A CLOSE LOOK)
+//                var fileName: String? = "myImage" //no .png or .jpg needed
+//
+//                try {
+//                    val bytes = ByteArrayOutputStream()
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+//                    val fo: FileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE)
+//                    fo.write(bytes.toByteArray())
+//                    // remember close file output
+//                    fo.close()
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    fileName = null
+//                }
+
+
+
+
+
+
+
+
+
+
+
+                //passImage(mSelectedImage)
+
+
+
+//                val stream = ByteArrayOutputStream()
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//                val bytes = stream.toByteArray()
+//
+//                val in1 = Intent(this, TextRecognitionActivity::class.java)
+//
+//                in1.putExtra("image", bytes)
+//                startActivity(in1)
+
+
         }
 
         if(requestCode == SELECT_PICTURE && resultCode== Activity.RESULT_OK){
@@ -120,5 +170,25 @@ class  CameraAccessActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun passImage(bitmap: Bitmap){
+
+        var stream = ByteArrayOutputStream()
+
+        if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)){
+            //val bytes = stream.toByteArray()
+            var intent = Intent(this, TextRecognitionActivity::class.java)
+            intent.putExtra("image", stream.toByteArray())
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(this, "FAILED !!!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+
+
+
 }
 

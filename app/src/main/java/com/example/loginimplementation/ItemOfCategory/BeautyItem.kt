@@ -1,11 +1,11 @@
-package com.example.myapplication.ItemOfCategory
+package com.example.loginimplementation.ItemOfCategory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.R
-import com.example.myapplication.Adapter.RecyclerView_Adapter
+import com.example.loginimplementation.R
+import com.example.loginimplementation.Adapter.RecyclerView_Adapter
 import kotlinx.android.synthetic.main.fragment_history.*
 import kotlinx.android.synthetic.main.item_layout_fulllist.*
 

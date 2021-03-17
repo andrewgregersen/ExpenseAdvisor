@@ -1,5 +1,4 @@
-package com.example.loginimplenetation
-
+package com.example.loginimplementation
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
@@ -7,7 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplenetation.databinding.ForgottenActivityBinding
+import com.example.loginimplementation.R
+import com.example.loginimplementation.databinding.ForgottenActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

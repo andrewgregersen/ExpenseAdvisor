@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.loginimplementation
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -9,10 +9,10 @@ import android.text.Editable
 import android.text.TextUtils.substring
 import android.view.LayoutInflater
 import android.widget.*
-import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.R
+import com.example.loginimplementation.R
 import com.example.loginimplementation.Fragments.CategoriesFragment
-import com.example.myapplication.ItemOfCategory.*
+import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.ItemOfCategory.*
 import kotlinx.android.synthetic.main.confirm_update_item.*
 import kotlinx.android.synthetic.main.confirm_update_item.view.*
 import java.security.AccessController.getContext

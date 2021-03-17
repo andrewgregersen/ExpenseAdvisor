@@ -1,4 +1,4 @@
-package com.example.myapplication.Adapter
+package com.example.loginimplementation.Adapter
 
 import android.R.attr.name
 import android.content.Intent
@@ -11,8 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplenetation.R
-import com.example.myapplication.Confirm_Update_Item
+import com.example.loginimplementation.Confirm_Update_Item
+import com.example.loginimplementation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
