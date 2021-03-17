@@ -1,4 +1,4 @@
-package com.example.myapplication.Adapter
+package com.example.loginimplementation.Adapter
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import java.sql.Time
-import java.sql.Types.TIMESTAMP
-import javax.xml.datatype.DatatypeConstants.DATETIME
 
 class DatabaseHelper(var Context: Context):
     SQLiteOpenHelper(Context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -37,6 +34,7 @@ class DatabaseHelper(var Context: Context):
      private const val COLUMN_ITEM_ID = "ITEM_ID"
      private const val COLUMN_ITEM_NAME = "INAME"
      private const val COLUMN_PRICE = "PRICE"
+     private const val COLUMN_AMOUNT = "AMOUNT"
 
      //Table Category
      private const val CATEGORY = "CATEGORY"
@@ -87,7 +85,8 @@ class DatabaseHelper(var Context: Context):
         //2. Table Item
         val createTableItem= "CREATE TABLE " + ITEM +" (" +
                 COLUMN_ITEM_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                COLUMN_ITEM_NAME + " VARCHAR(256) NOT NULL," + COLUMN_PRICE +" INTEGER)"
+                COLUMN_ITEM_NAME + " VARCHAR(256) NOT NULL," + COLUMN_PRICE +" DOUBLE,"+
+                COLUMN_AMOUNT + " INTEGER)"
         db?.execSQL(createTableItem)
 
         //3.Table Category
@@ -98,7 +97,7 @@ class DatabaseHelper(var Context: Context):
 
         //4.Table profile
         val createTableProfile = "CREATE TABLE " + PROFILE + " (" + COLUMN_PROFILE_USER_ID + " INTEGER, "+
-                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE+ " VARCHAR(256), PRIMARY KEY (" +
+                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE + " VARCHAR(256), PRIMARY KEY (" +
                 COLUMN_PROFILE_USER_ID +
                 ", "+ COLUMN_PROFILE_TYPE + "), FOREIGN KEY("+ COLUMN_PROFILE_USER_ID +") " +
                 "REFERENCES "+ USER + "("+ COLUMN_ID +"))"
@@ -136,7 +135,7 @@ class DatabaseHelper(var Context: Context):
         db?.execSQL(createTableBelong)
 
         val createTableReceipt= "CREATE TABLE "+ RECEIPT + " (" + COLUMN_RECEIPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-               COLUMN_TOTAL + " INTEGER, "+ COLUMN_STORE + " VARCHAR(256), "+ COLUMN_DATE +
+               COLUMN_TOTAL + " DOUBLE, "+ COLUMN_STORE + " VARCHAR(256), "+ COLUMN_DATE +
                " DATETIME DEFAULT CURRENT_TIMESTAMP) "
         db?.execSQL(createTableReceipt)
 
@@ -172,12 +171,13 @@ class DatabaseHelper(var Context: Context):
     }
 
     //This function insert a item ( Places it to it's category as well )
-    fun insertItem(itemName: String, price:Int, category: String){
+    fun insertItem(itemName: String, price:Double, amount:Int, category: String){
         /* STEP 1, INSERT IN ITEM TABLE */
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_ITEM_NAME, itemName)
         cv.put(COLUMN_PRICE, price)
+        cv.put(COLUMN_AMOUNT,amount)
 
         val result = db.insert(ITEM, null, cv)
         if (result == -1.toLong()) {
@@ -278,7 +278,7 @@ class DatabaseHelper(var Context: Context):
             Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
-    fun insertReceipt(total: Int, store: String){
+    fun insertReceipt(total: Double, store: String){
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_TOTAL, total)
@@ -428,11 +428,9 @@ class DatabaseHelper(var Context: Context):
         var list: MutableList<String> = ArrayList()
 
         val db = this.readableDatabase
-        val query= "Select " + COLUMN_ITEM_NAME + ", "+ COLUMN_PRICE + " from " + ITEM +
-                " as I, "+ BELONG + " as B, "+ CATEGORY + " as C where I."+ COLUMN_ITEM_ID +
-                " = B."+ COLUMN_BELONG_ITEM_ID + " and B." + COLUMN_BELONG_CATEGORY_ID +
-                " = " + categoryFound
-
+        val query= "Select I." + COLUMN_ITEM_NAME + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+
+                COLUMN_BELONG_ITEM_ID + " = I." + COLUMN_ITEM_ID +
+                " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
 
         var cursor: Cursor? = null
@@ -445,18 +443,20 @@ class DatabaseHelper(var Context: Context):
         }
 
         var name:String
-        var price:String
+
 
         if(cursor.moveToFirst()){
             do {
 
                 name= cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_NAME))
-                price= cursor.getString(cursor.getColumnIndex(COLUMN_PRICE))
+
                 list.add(name)
                 //Toast.makeText(Context, name +" cost "+ price.toInt(), Toast.LENGTH_LONG).show()
 
 
             }while (cursor.moveToNext())
+
+            db.close()
         }
         Toast.makeText(Context, "" + list.size+ " item(s) found ", Toast.LENGTH_LONG).show()
         return list
@@ -481,15 +481,14 @@ class DatabaseHelper(var Context: Context):
     }
 
     fun getOnlyPriceOfItemOfCategory(category: String):MutableList<String>{
+
         var categoryFound = getCategoryID(category)
 
         var list: MutableList<String> = ArrayList()
 
         val db = this.readableDatabase
-        val query= "Select " + COLUMN_ITEM_NAME + ", "+ COLUMN_PRICE + " from " + ITEM +
-                " as I, "+ BELONG + " as B, "+ CATEGORY + " as C where I."+ COLUMN_ITEM_ID +
-                " = B."+ COLUMN_BELONG_ITEM_ID + " and B." + COLUMN_BELONG_CATEGORY_ID +
-                " = " + categoryFound
+        val query= "Select I." + COLUMN_PRICE + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+ COLUMN_BELONG_ITEM_ID + " = I." + COLUMN_ITEM_ID +
+                " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
         var cursor: Cursor? = null
         try {
@@ -506,6 +505,7 @@ class DatabaseHelper(var Context: Context):
                 list.add(price)
                 //Toast.makeText(Context, "The price is "+ price, Toast.LENGTH_LONG).show()
             }while (cursor.moveToNext())
+            db.close()
         }
         //Toast.makeText(Context, "The price size "+ list.size, Toast.LENGTH_LONG).show()
         return list
