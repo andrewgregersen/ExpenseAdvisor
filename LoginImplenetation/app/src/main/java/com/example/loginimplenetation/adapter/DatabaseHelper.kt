@@ -1,4 +1,4 @@
-package com.example.myapplication.Adapter
+package com.example.loginimplementation.Adapter
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import java.sql.Time
-import java.sql.Types.TIMESTAMP
-import javax.xml.datatype.DatatypeConstants.DATETIME
 
 class DatabaseHelper(var Context: Context):
     SQLiteOpenHelper(Context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -100,7 +97,7 @@ class DatabaseHelper(var Context: Context):
 
         //4.Table profile
         val createTableProfile = "CREATE TABLE " + PROFILE + " (" + COLUMN_PROFILE_USER_ID + " INTEGER, "+
-                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE+ " VARCHAR(256), PRIMARY KEY (" +
+                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE + " VARCHAR(256), PRIMARY KEY (" +
                 COLUMN_PROFILE_USER_ID +
                 ", "+ COLUMN_PROFILE_TYPE + "), FOREIGN KEY("+ COLUMN_PROFILE_USER_ID +") " +
                 "REFERENCES "+ USER + "("+ COLUMN_ID +"))"
@@ -174,7 +171,7 @@ class DatabaseHelper(var Context: Context):
     }
 
     //This function insert a item ( Places it to it's category as well )
-    fun insertItem(itemName: String, price:Double,amount:Int, category: String){
+    fun insertItem(itemName: String, price:Double, amount:Int, category: String){
         /* STEP 1, INSERT IN ITEM TABLE */
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -432,7 +429,7 @@ class DatabaseHelper(var Context: Context):
 
         val db = this.readableDatabase
         val query= "Select I." + COLUMN_ITEM_NAME + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+
-                COLUMN_BELONG_ITEM_ID+ " = I." + COLUMN_ITEM_ID +
+                COLUMN_BELONG_ITEM_ID + " = I." + COLUMN_ITEM_ID +
                 " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
 
@@ -490,7 +487,7 @@ class DatabaseHelper(var Context: Context):
         var list: MutableList<String> = ArrayList()
 
         val db = this.readableDatabase
-        val query= "Select I." + COLUMN_PRICE + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+ COLUMN_BELONG_ITEM_ID+ " = I." + COLUMN_ITEM_ID +
+        val query= "Select I." + COLUMN_PRICE + " FROM " + ITEM + " AS I, " + BELONG + " AS B WHERE B."+ COLUMN_BELONG_ITEM_ID + " = I." + COLUMN_ITEM_ID +
                 " AND B."+ COLUMN_BELONG_CATEGORY_ID + " = " + "'"+ categoryFound + "'"
 
         var cursor: Cursor? = null
