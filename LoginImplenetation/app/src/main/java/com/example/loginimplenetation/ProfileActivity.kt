@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.databinding.ProfileActivityBinding
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileActivity: AppCompatActivity(){
@@ -68,7 +68,7 @@ class ProfileActivity: AppCompatActivity(){
 
                 //
                 val DB = DatabaseHelper(this)
-                FirebaseAuth.getInstance().currentUser?.let { it1 -> DB.insertprofile(budget.toDouble(), fname, lname,housesize.toInt(), it1.uid,budgetperiod) }
+                //FirebaseAuth.getInstance().currentUser?.let { it1 -> DatabaseHelper(this).insertprofil(budget.toDouble(), fname, lname,housesize.toInt(), it1.uid,budgetperiod) }
 
 
 

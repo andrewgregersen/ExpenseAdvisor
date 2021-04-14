@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,6 +23,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import com.example.loginimplenetation.databinding.ActivityCameraBinding
 
 
 class  CameraAccessActivity : AppCompatActivity() {
@@ -31,6 +33,8 @@ class  CameraAccessActivity : AppCompatActivity() {
     val SELECT_PICTURE = 2
     private val cameraRequestId = 1222
     val MY_CAMERA_REQUEST_CODE = 100;
+    private lateinit var binding: ActivityCameraBinding
+    private lateinit var imageView: ImageView
 
 //    companion object{
 //        private const val CAMERA_PERMISSION_CODE= 1
@@ -41,6 +45,11 @@ class  CameraAccessActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        val buttonGallery = binding.buttonGallery
+        val buttonCamera = binding.buttonCamera
+        imageView = binding.imageView
+
 
         buttonGallery.setOnClickListener {
            dispatchGalleryIntent()
