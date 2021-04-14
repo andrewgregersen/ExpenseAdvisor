@@ -15,6 +15,15 @@ class RegexHelper {
         var temp = ""
          //gets timestamp
         for(x in s) { //for each line in the receipt
+
+
+            /*
+            Parse out the important details that are needed for all reciepts and are included in all of them
+            In order of apearence:
+                TimeStamp
+                Total Cost of Reciept
+                Taxes Paid
+             */
             if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x) && !found) {
                 found = true
                 ans1.add(0,storeTimeStamp(x)) //any potential timestamp that the receipt might have, runs only once if at all
@@ -22,6 +31,10 @@ class RegexHelper {
             }
             if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)){
                 ans1.add(1,x) //let the user deal with extra garbage words
+                continue
+            }
+            if(Regex(pattern = "(tax.|Tax.|TAX.)").containsMatchIn(x)){
+                ans1.add(2,x) //let the user deal with extra garbage words
                 continue
             }
             val y = x.trim().split(" ")
@@ -43,7 +56,7 @@ class RegexHelper {
 
 
 
-    fun storeTimeStamp(s: String):String{
+    private fun storeTimeStamp(s: String):String{
         var ans: String = ""
         val y = s.split(" ")
         for(x in y){
@@ -70,9 +83,9 @@ class RegexHelper {
             price = 0.0
             for(x in a){
                 when{
-                    Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x"
+                    Regex(pattern = "([a-zA-Z]+)").matches(x) -> name = "$name $x" //retrieves items name
                     Regex(pattern = "(\\d{1,3})").matches(x) -> amount = x.toInt() //gets the amount of items requested
-                    Regex(pattern = "([^a-zA-z]+)").matches(x)->{
+                    Regex(pattern = "([^a-zA-z]+)").matches(x)->{ //gets the items price
                         val y = x.split(regex = Regex(pattern="([$])"))
                         if(y.isEmpty())
                             price = x.trim().toDouble()

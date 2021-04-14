@@ -37,7 +37,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
 
-        mSelectedImage = getBitmapFromAsset(this, "TestHM2.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
         //mSelectedImage = getIntent().getParcelableExtra("data")
 
         manager = LinearLayoutManager(this)
@@ -143,6 +143,9 @@ class TextRecognitionActivity: AppCompatActivity() {
         //println(values)
         values = RegexHelper().runParserForUserDisplay(values)
 
+        for(x in values)
+            println(x)
+
         myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             layoutManager = manager
@@ -177,6 +180,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
+    //function that creates receipts and provides them to the DB
     private fun pushToDB(tc: Array<String>){
         var tp = ArrayList<String>()
         for(x in tc){
@@ -185,9 +189,16 @@ class TextRecognitionActivity: AppCompatActivity() {
         var timeStamp = ""
         var bool1 = false
         var bool2 = false
+        var bool3 = false
         var index1 = -1
         var index2 = -1
+        var index3 = -1
         var total = ""
+        var tax = ""
+
+        /*
+            Finds, stores and removes the timestamp, total and tax from the list
+         */
         for(x in tp){
             if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
                 timeStamp = x
@@ -204,24 +215,33 @@ class TextRecognitionActivity: AppCompatActivity() {
                 bool2=!bool2
                 continue
             }
-            if(bool1 && bool2)
+            else if(Regex(pattern = "(tax.|Tax.|TAX.)").containsMatchIn(x)&&!bool3){ //look for the total (should be the third run, but in case its not)
+                val e = x.split(regex = Regex(pattern = "(tax.|Tax.|TAX.)"))
+                tax = e[1].trim()
+                tax = total.removePrefix("$")
+                index3  = tp.indexOf(x) //remove it from the List
+                bool2=!bool2
+                continue
+            }
+            if(bool1 && bool2 &&bool3)
                 break
         }
         //remove them from the list
         tp.removeAt(index1)
         tp.removeAt(index2)
+        tp.removeAt(index3)
 
         val items = RegexHelper().parseforDB(tp)
 
         //finally push to the database
 
         //create a new receipt
-        val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location
+        val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location, will need to be updated either dynamically or from user input
 
+
+        //insert the items into the DB in a new testing category will need to be dynamically updated based upon the items name
         for(x in items.keys){
-            DatabaseHelper(this).insertItem(x,
-                items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0),"Test")//insert the items into the DB in a new testing category
-
+            DatabaseHelper(this).insertItem(x,items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0),"Test")
         }
 
     }
@@ -272,31 +292,6 @@ class TextRecognitionActivity: AppCompatActivity() {
         Toast.makeText(this, "Successfully loaded data", Toast.LENGTH_SHORT).show()
         return tree
     }
-
-    private fun loadKeyTree():RBT<String>?{
-        //loads a dictionary of key terms to help catagorize the individual items
-        val tree = RBT<String>()
-        try{
-            val `is` = this.assets.open("regexDict.txt")
-            `is`.bufferedReader().forEachLine {
-                tree.insert(it)
-            }
-        }catch (e: IOException){
-            Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
-            return null
-        }
-        return tree
-    }
-
-
-       //parses and submits final list of items to DB
-    //will want to convert all strings and items to all upper case or all lower case for ease of DB management
-    private fun submitItems(){
-
-    }
-
-
-   }
 
 
 
