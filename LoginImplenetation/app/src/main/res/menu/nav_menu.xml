@@ -23,11 +23,6 @@
             android:icon="@drawable/ic_faq"
             android:title="FAQ"/>
 
-        <item
-            android:id="@+id/nav_darkmode"
-            android:icon ="@drawable/ic_faq"
-            android:title="Viewing Mode"/>
-
     </group>
 
     <item android:title="Account setting">
@@ -40,7 +35,7 @@
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_signout"
-            android:title="Sign Out"/>
+            android:title="Sing Out"/>
 
     </item>
 </menu>

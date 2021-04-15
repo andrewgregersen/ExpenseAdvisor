@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_CameraGallery"
+        android:title="From Camera"
+        android:icon="@drawable/ic_cameraadd_24px"/>
+
+    <item
+        android:id="@+id/menu_Manual"
+        android:title="Manual Entry"
+        android:icon="@drawable/ic_manualadd_24px"/>
+</menu>

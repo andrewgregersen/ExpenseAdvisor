@@ -2,12 +2,12 @@
     <string name="app_name">LoginImplenetation</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
-    <string name = "password">Password</string>
-    <string name = "confirm">Confirm New Password</string>
+    <string name="password">Password</string>
+    <string name="confirm">Confirm New Password</string>
     <string name="security_question">Security Question</string>
     <string name="repeat_password">Repeat Password</string>
     <string name="signed_out">You have signed out</string>
-    <string name = "email">Email</string>
+    <string name="email">Email</string>
     <string name="sign_out">Sign Out</string>
     <string name="photos">Photos</string>
     <string name="database">database</string>
@@ -29,4 +29,6 @@
     <!-- Add this for the drawer navigation bar -->
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Closed</string>
+    <string name="submit">Submit</string>
+    <string name="back">Back</string>
 </resources>
