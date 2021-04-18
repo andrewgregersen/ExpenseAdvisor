@@ -1,4 +1,4 @@
-package com.example.mainpage.Adapter
+package com.example.loginimplementation.Adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

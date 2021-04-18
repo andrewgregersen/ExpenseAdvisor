@@ -12,7 +12,7 @@
         android:layout_height="52dp"
         android:layout_marginBottom="532dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textAutoCorrect|textPersonName|textAutoComplete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
@@ -47,7 +47,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.294"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,53 +74,6 @@
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cat_choice" />
-
-    <TextView
-        android:id="@+id/tvStoreName"
-        android:layout_width="126dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="8dp"
-        android:text="Enter Store Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_description" />
-
-    <EditText
-        android:id="@+id/idStoreName"
-        android:layout_width="361dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.32"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStoreName" />
-
-    <Button
-        android:id="@+id/btCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.238"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idStoreName"
-        app:layout_constraintVertical_bias="0.431" />
-
-    <Button
-        android:id="@+id/btSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.292"
-        app:layout_constraintStart_toEndOf="@+id/btCancel"
-        app:layout_constraintTop_toBottomOf="@+id/idStoreName"
-        app:layout_constraintVertical_bias="0.431" />
 
     <Button
         android:id="@+id/idCategorie"
@@ -150,7 +103,7 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"

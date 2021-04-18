@@ -1,4 +1,4 @@
-package com.example.loginimplenetation.adapter
+package com.example.loginimplementation.Adapter
 
 import android.content.ContentValues
 import android.content.Context
@@ -171,7 +171,7 @@ class DatabaseHelper(var Context: Context):
     }
 
     //This function insert a item ( Places it to it's category as well )
-    fun insertItem(itemName: String, price:Double,amount:Int, category: String){
+    fun insertItem(itemName: String, price:Double, amount:Int, category: String){
         /* STEP 1, INSERT IN ITEM TABLE */
         val db = this.writableDatabase
         val cv = ContentValues()
