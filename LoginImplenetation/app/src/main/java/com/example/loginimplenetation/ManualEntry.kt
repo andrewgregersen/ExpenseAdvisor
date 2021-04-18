@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import kotlinx.android.synthetic.main.activity_manual_entry.*
+import kotlinx.android.synthetic.main.activity_manual_entry_format.*
 
 class ManualEntry : AppCompatActivity() {
 
@@ -24,11 +24,11 @@ class ManualEntry : AppCompatActivity() {
 
 
         //Declare all entry point
-        itemName = findViewById(R.id.idItemName) as EditText
-        itemCategory= findViewById(R.id.cat_choice) as TextView
-        itemPrice = findViewById(R.id.idPrice) as EditText
-        itemStore = findViewById(R.id.idStoreName) as EditText
-        itemQuantity = findViewById(R.id.text_description) as EditText
+        itemName = findViewById(R.id.idItemName)
+        itemCategory= findViewById(R.id.cat_choice)
+        itemPrice = findViewById(R.id.idPrice)
+        itemStore = findViewById(R.id.idStoreName)
+        itemQuantity = findViewById(R.id.text_description)
 
         //Show popup for categories
         idCategorie.setOnClickListener {
