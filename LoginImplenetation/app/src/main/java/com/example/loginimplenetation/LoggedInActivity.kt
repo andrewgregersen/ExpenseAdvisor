@@ -2,11 +2,12 @@ package com.example.loginimplenetation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplenetation.databinding.LoggedActivityBinding
+import com.example.loginimplenetation.adapter.ViewPageAdapter
 import com.example.loginimplenetation.fragments.CategoriesFragment
 import com.example.loginimplenetation.fragments.HistoryFragments
 import com.example.loginimplenetation.fragments.HomeFragment
-import com.example.mainpage.Adapter.ViewPageAdapter
+import com.example.loginimplentation.R
+import com.example.loginimplentation.databinding.LoggedActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 

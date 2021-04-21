@@ -12,8 +12,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplenetation.adapter.RegexHelper
 import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.adapter.RegexHelper
+import com.example.loginimplentation.R
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -24,7 +25,8 @@ import java.io.InputStream
 //AdapterView.OnItemSelectedListener for spinner
 class TextRecognitionActivity: AppCompatActivity() {
     private final val TAG = "TextRecognitionActivity"
-    private var mSelectedImage: Bitmap? = null //will be initalized with the image passed to the activity from camera
+    private var mSelectedImage: Bitmap? =
+        null //will be initalized with the image passed to the activity from camera
     private lateinit var doTheThing: Button
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var recyclerView: RecyclerView
@@ -33,7 +35,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     //need to implement a recycler view to display the data
 
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.text_recognition_activity)
 
@@ -46,9 +48,8 @@ class TextRecognitionActivity: AppCompatActivity() {
         val leave = findViewById<Button>(R.id.button3)
 
 
-
         //for testing
-        doTheThing.setOnClickListener{
+        doTheThing.setOnClickListener {
             runTextRecognition()
         }
         //cancel upload of receipt
@@ -58,29 +59,27 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
-    private fun runTextRecognition(){
+    private fun runTextRecognition() {
         val image = InputImage.fromBitmap(mSelectedImage, 0)
         val recognizer = TextRecognition.getClient()
 
 
         doTheThing.isEnabled = false //removed for final release
         recognizer.process(image)
-            .addOnSuccessListener{ texts ->
+            .addOnSuccessListener { texts ->
                 doTheThing.isEnabled = true
                 processTextRecognition(texts)
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 doTheThing.isEnabled = true
                 Toast.makeText(this, "Failed to read text", Toast.LENGTH_SHORT).show()
             }
     }
 
 
-
-
-    private fun processTextRecognition(texts: Text){
+    private fun processTextRecognition(texts: Text) {
         var blocks = texts.textBlocks
-        if(blocks.size == 0) {
+        if (blocks.size == 0) {
             Toast.makeText(this, "No text found", Toast.LENGTH_LONG).show()
             return
         }
@@ -88,20 +87,21 @@ class TextRecognitionActivity: AppCompatActivity() {
         var values: ArrayList<String> = arrayListOf()
 
 
-
         var str = ""
         var prev: Rect? = null
-        for(i in blocks){
+        for (i in blocks) {
             //println(i.boundingBox)
 
-            if(prev == null){
+            if (prev == null) {
                 prev = i.boundingBox
-                for(j in i.lines)
-                    for(k in j.elements){
-                        str="$str ${k.text.trim()}"
+                for (j in i.lines)
+                    for (k in j.elements) {
+                        str = "$str ${k.text.trim()}"
                     }
-            }
-            else if((-4<i.boundingBox?.top?.minus(prev.top)!!) && (10>i.boundingBox?.top?.minus(prev.top)!!)) {
+            } else if ((-4 < i.boundingBox?.top?.minus(prev.top)!!) && (10 > i.boundingBox?.top?.minus(
+                    prev.top
+                )!!)
+            ) {
                 for (j in i.lines) {//the blocks are on the same line within a small margin of error
                     if (prev != null) {
                         if (i.boundingBox?.left!! < prev.left!!) { //if current bounding box's left most border is at a x-loc smaller than the previous ones
@@ -122,14 +122,12 @@ class TextRecognitionActivity: AppCompatActivity() {
                     }
                     prev = i.boundingBox //save the previous bounding box
                 }
-            }
-
-            else{//blocks are not on the same line
+            } else {//blocks are not on the same line
 
                 prev = i.boundingBox
-                for(j in i.lines){
+                for (j in i.lines) {
                     values.add(str)
-                    str=""
+                    str = ""
                     for (k in j.elements) {
                         if (!tree.contains(k.text.toLowerCase().trim()))
                             str = "$str ${k.text.trim()}"
@@ -143,11 +141,11 @@ class TextRecognitionActivity: AppCompatActivity() {
         //println(values)
         values = RegexHelper().runParserForUserDisplay(values)
 
-        for(x in values)
+        for (x in values)
             println(x)
 
         myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = manager
             adapter = myAdapter
         }
@@ -158,7 +156,6 @@ class TextRecognitionActivity: AppCompatActivity() {
         submit.setOnClickListener {
 
             pushToDB((myAdapter as MyAdapter).getDataSet())
-
 
 
             /*
@@ -174,16 +171,13 @@ class TextRecognitionActivity: AppCompatActivity() {
         }
 
 
-
-
-
     }
 
 
     //function that creates receipts and provides them to the DB
-    private fun pushToDB(tc: Array<String>){
+    private fun pushToDB(tc: Array<String>) {
         var tp = ArrayList<String>()
-        for(x in tc){
+        for (x in tc) {
             tp.add(x)
         }
         var timeStamp = ""
@@ -199,31 +193,28 @@ class TextRecognitionActivity: AppCompatActivity() {
         /*
             Finds, stores and removes the timestamp, total and tax from the list
          */
-        for(x in tp){
-            if(Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x)&&!bool1){//look for the timestamp (should be in the first run, but in case its not)
+        for (x in tp) {
+            if (Regex(pattern = "([^a-zA-Z#]+\\d+[:\\-\\/]\\d+)").containsMatchIn(x) && !bool1) {//look for the timestamp (should be in the first run, but in case its not)
                 timeStamp = x
                 index1 = tp.indexOf(x)//remove it from the list
-                bool1=!bool1
+                bool1 = !bool1
                 continue
-            }
-
-            else if(Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x)&&!bool2){ //look for the total (should be the second run, but in case its not)
+            } else if (Regex(pattern = "(total.|Total.|TOTAL.)").containsMatchIn(x) && !bool2) { //look for the total (should be the second run, but in case its not)
                 val e = x.split(regex = Regex(pattern = "(total.|Total.|TOTAL.)"))
                 total = e[1].trim()
                 total = total.removePrefix("$")
-                index2  = tp.indexOf(x) //remove it from the List
-                bool2=!bool2
+                index2 = tp.indexOf(x) //remove it from the List
+                bool2 = !bool2
                 continue
-            }
-            else if(Regex(pattern = "(tax.|Tax.|TAX.)").containsMatchIn(x)&&!bool3){ //look for the total (should be the third run, but in case its not)
+            } else if (Regex(pattern = "(tax.|Tax.|TAX.)").containsMatchIn(x) && !bool3) { //look for the total (should be the third run, but in case its not)
                 val e = x.split(regex = Regex(pattern = "(tax.|Tax.|TAX.)"))
                 tax = e[1].trim()
                 tax = total.removePrefix("$")
-                index3  = tp.indexOf(x) //remove it from the List
-                bool2=!bool2
+                index3 = tp.indexOf(x) //remove it from the List
+                bool2 = !bool2
                 continue
             }
-            if(bool1 && bool2 &&bool3)
+            if (bool1 && bool2 && bool3)
                 break
         }
         //remove them from the list
@@ -236,16 +227,25 @@ class TextRecognitionActivity: AppCompatActivity() {
         //finally push to the database
 
         //create a new receipt
-        val RID = DatabaseHelper(this).insertReceipt(total.toDouble(),"Test") //create a new receipt at a Testing location, will need to be updated either dynamically or from user input
+        val RID = DatabaseHelper(this).insertReceipt(
+            total.toDouble(),
+            "Test"
+        ) //create a new receipt at a Testing location, will need to be updated either dynamically or from user input
 
 
         //insert the items into the DB in a new testing category will need to be dynamically updated based upon the items name
-        for(x in items.keys){
-            DatabaseHelper(this).insertItem(x,items[x]?.keys!!.elementAt(0), items[x]?.values!!.elementAt(0),"Test")
+        for (x in items.keys) {
+            DatabaseHelper(this).insertItem(
+                x,
+                items[x]?.keys!!.elementAt(0),
+                items[x]?.values!!.elementAt(0),
+                "Test"
+            )
         }
 
     }
-/*
+
+    /*
 
     override fun onItemSelected(parent: AdapterView<*>?, v: View, position: Int, id: Long){
         when(position){
@@ -255,10 +255,10 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 */
-    private fun getBitmapFromAsset(context: Context, filePath: String?) : Bitmap{
+    private fun getBitmapFromAsset(context: Context, filePath: String?): Bitmap {
         val assetManager = context.assets
         val `is`: InputStream
-        var bitmap : Bitmap? = null
+        var bitmap: Bitmap? = null
         try {
             `is` = assetManager.open(filePath!!)
             bitmap = BitmapFactory.decodeStream(`is`)
@@ -269,7 +269,7 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
- /*
+    /*
     override fun onNothingSelected(parent: AdapterView<*>){
         //do nothing
     }
@@ -278,15 +278,16 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
     //creates the dictionary of terms to remove
-    private fun loadTree(): RBT<String>{
+    private fun loadTree(): RBT<String> {
         //load the dictionary of terms to skip
         val tree = RBT<String>()
-        try{
-            val `is` = this.assets.open("dictionary.txt")//create a file input stream and create a red black tree for O(log[2](N)) search functionality
+        try {
+            val `is` =
+                this.assets.open("dictionary.txt")//create a file input stream and create a red black tree for O(log[2](N)) search functionality
             `is`.bufferedReader().forEachLine {
                 tree.insert(it) //each line of dictionary.txt is its own entry
             }
-        }catch (e: IOException){
+        } catch (e: IOException) {
             Toast.makeText(this, "Failed to loaded data", Toast.LENGTH_SHORT).show()
         }
         Toast.makeText(this, "Successfully loaded data", Toast.LENGTH_SHORT).show()
@@ -294,30 +295,34 @@ class TextRecognitionActivity: AppCompatActivity() {
     }
 
 
+    class MyAdapter(private val myDataSet: Array<String>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+        private lateinit var mydatadet: Array<String>
 
+        class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+            fun bind(text: String) {
+                val tv = view.findViewById<TextView>(R.id.textView)
+                tv.text = text
 
-
-class MyAdapter(private val myDataSet: Array<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>(){
-    private lateinit var mydatadet: Array<String>
-    class ViewHolder(private val view: View):RecyclerView.ViewHolder(view){
-    fun bind(text: String){
-        val tv = view.findViewById<TextView>(R.id.textView)
-        tv.text = text
-
+            }
         }
-    }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
-        mydatadet = myDataSet
-        val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ViewHolder(vh)
-    }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int){
-        holder.bind(myDataSet[position])
-    }
-    override fun getItemCount(): Int{
-        return myDataSet.size
-    }
-    fun getDataSet(): Array<String>{
-        return myDataSet
+
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            mydatadet = myDataSet
+            val vh = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+            return ViewHolder(vh)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(myDataSet[position])
+        }
+
+        override fun getItemCount(): Int {
+            return myDataSet.size
+        }
+
+        fun getDataSet(): Array<String> {
+            return myDataSet
+        }
     }
 }

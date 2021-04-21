@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.loginimplementation"
+        applicationId "com.example.loginimplentation"
         minSdkVersion 16
         targetSdkVersion 30
         multiDexEnabled true

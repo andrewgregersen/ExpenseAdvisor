@@ -1,6 +1,5 @@
 package com.example.loginimplementation.Adapter
 
-import android.R.attr.name
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplementation.Confirm_Update_Item
+import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.Confirm_Update_Item
 import com.example.loginimplementation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 

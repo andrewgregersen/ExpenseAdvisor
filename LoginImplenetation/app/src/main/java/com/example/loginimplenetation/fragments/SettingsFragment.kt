@@ -1,18 +1,18 @@
-package com.example.loginimplementation.Fragments
+package com.example.loginimplenetation.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplementation.databinding.SettingsActivityBinding
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.loginimplementation.R
-import com.example.loginimplementation.ProfileActivity
-import com.example.loginimplementation.databinding.ContentMainBinding
+import com.example.loginimplenetation.ProfileActivity
+import com.example.loginimplentation.R
+import com.example.loginimplentation.databinding.ContentMainBinding
+import com.example.loginimplentation.databinding.SettingsActivityBinding
 import com.google.android.material.navigation.NavigationView
 
 

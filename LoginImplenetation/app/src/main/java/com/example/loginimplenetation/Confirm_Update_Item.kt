@@ -1,21 +1,17 @@
-package com.example.loginimplementation
+package com.example.loginimplenetation
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils.substring
-import android.view.LayoutInflater
 import android.widget.*
-import com.example.loginimplementation.R
-import com.example.loginimplementation.Fragments.CategoriesFragment
-import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplementation.ItemOfCategory.*
+import com.example.loginimplementation.R
+import com.example.loginimplenetation.itemOfCategory.*
+import com.example.loginimplentation.R
 import kotlinx.android.synthetic.main.confirm_update_item.*
 import kotlinx.android.synthetic.main.confirm_update_item.view.*
-import java.security.AccessController.getContext
 
 class Confirm_Update_Item : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

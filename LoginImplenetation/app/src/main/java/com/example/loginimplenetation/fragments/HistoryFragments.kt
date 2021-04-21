@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Fragments
+package com.example.loginimplenetation.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplementation.Adapter.ReceiptAdapter
-import com.example.loginimplementation.MainActivity
-import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplementation.R
-import kotlinx.android.synthetic.main.activity_manual_entry.*
-import kotlinx.android.synthetic.main.fragment_history.*
+import com.example.loginimplenetation.adapter.ReceiptAdapter
+import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplentation.R
 
 class HistoryFragments : Fragment() {
 

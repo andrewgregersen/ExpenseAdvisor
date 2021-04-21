@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Adapter
+package com.example.loginimplenetation.adapter
 
 import android.content.ContentValues
 import android.content.Context

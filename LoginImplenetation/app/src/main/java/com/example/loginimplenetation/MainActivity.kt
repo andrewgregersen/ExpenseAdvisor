@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplenetation.databinding.ActivityMainBinding
+import com.example.loginimplentation.databinding.ActivityMainBinding
 import com.facebook.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

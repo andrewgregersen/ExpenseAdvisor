@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Fragments
+package com.example.loginimplenetation.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
-import com.example.loginimplementation.ItemOfCategory.*
-import com.example.loginimplementation.R
-import com.example.loginimplementation.list_view_model_file
+import com.example.loginimplenetation.itemOfCategory.*
+import com.example.loginimplenetation.list_view_model_file
+import com.example.loginimplentation.R
 
 
 class CategoriesFragment : Fragment() {

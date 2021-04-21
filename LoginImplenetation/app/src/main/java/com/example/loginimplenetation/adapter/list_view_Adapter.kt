@@ -1,4 +1,4 @@
-package com.example.myapplication.Adapter
+package com.example.loginimplenetation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,11 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-import com.example.loginimplenetation.R
-import com.example.loginimplementation.Fragments.CategoriesFragment
-import com.example.myapplication.list_view_model_file
-import java.security.AccessController.getContext
+import com.example.loginimplenetation.list_view_model_file
+import com.example.loginimplentation.R
 
 class list_view_Adapter(private val context: Context,
                         private val ListViewArrayList: ArrayList<list_view_model_file>): BaseAdapter(){

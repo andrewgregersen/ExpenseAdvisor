@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Adapter
+package com.example.loginimplenetation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplementation.R
-import com.example.loginimplementation.Receipt
+import com.example.loginimplentation.R
 
 
 class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayList<String>, prices: ArrayList<String>) : RecyclerView.Adapter<ReceiptAdapter.ViewHolderClass>() {

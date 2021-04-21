@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Adapter
+package com.example.loginimplenetation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManualEntry">
+    >
 
     <EditText
         android:id="@+id/idItemName"
@@ -54,11 +54,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 
     <TextView
-        android:id="@+id/tvCategorie"
+        android:id="@+id/tvCategory"
         android:layout_width="128dp"
         android:layout_height="19dp"
         android:layout_marginTop="24dp"
-        android:text="Select Categorie"
+        android:text="Select Category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,14 +76,14 @@
         app:layout_constraintTop_toBottomOf="@+id/cat_choice" />
 
     <Button
-        android:id="@+id/idCategorie"
+        android:id="@+id/idCategory"
         android:layout_width="106dp"
         android:layout_height="43dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCategorie"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategory"
         tools:text="Select" />
 
     <TextView
@@ -94,10 +94,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.311"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idCategorie" />
+        app:layout_constraintTop_toBottomOf="@+id/idCategory" />
 
     <EditText
-        android:id="@+id/text_description"
+        android:id="@+id/itemQuantity"
         android:layout_width="323dp"
         android:layout_height="34dp"
         android:layout_marginTop="4dp"
@@ -108,5 +108,13 @@
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        tools:layout_editor_absoluteX="337dp"
+        tools:layout_editor_absoluteY="17dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

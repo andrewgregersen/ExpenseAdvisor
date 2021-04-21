@@ -120,7 +120,7 @@ Dont need to implement delete, as I only need to read from this tree. If I need 
         var key: T?,
         var left: Node<T>?,
         var right: Node<T>?,
-        var red: Boolean = false,
+        var red: Boolean = false
         //var parent: Node<T>?
     )
 }

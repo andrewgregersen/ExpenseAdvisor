@@ -10,7 +10,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplenetation.databinding.NewAccountActivityBinding
+import com.example.loginimplentation.R
+import com.example.loginimplentation.databinding.NewAccountActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class NewAccount: AppCompatActivity(){
