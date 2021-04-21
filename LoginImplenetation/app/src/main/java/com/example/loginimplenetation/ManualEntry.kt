@@ -14,15 +14,10 @@ import com.example.loginimplenetation.TextRecognitionActivity
 import com.example.loginimplentation.R
 import com.example.loginimplentation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplentation.databinding.ActivityManualEntryRecyclerViewBinding
+import kotlinx.android.synthetic.main.activity_manual_entry_format.view.*
 
 class ManualEntry : AppCompatActivity() {
 
-    private var itemName: EditText? = null
-    private var itemCategory: TextView? = null
-    private var itemPrice: EditText? = null
-    private var itemStore: EditText? = null
-    private var choice: String = ""
-    private var itemQuantity: EditText? = null
     private lateinit var rcbinding: ActivityManualEntryRecyclerViewBinding
     private lateinit var fmbinding: ActivityManualEntryFormatBinding
     //private var cancel: Button? = null
@@ -40,28 +35,32 @@ class ManualEntry : AppCompatActivity() {
         val addMore = rcbinding.addMore
 
 
+        //Init recycler view
+        var manager = LinearLayoutManager(this)
+        var mAdapter = MyAdapter(listOf(Item()))
+        val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply{
+            layoutManager = manager
+            adapter = mAdapter
+        }
+
+
         //Init Set on Click Listeners
 
         cancel.setOnClickListener {
             finish() //exit the activity
         }
 
+
+        addMore.setOnClickListener {
+            mAdapter.addItem()
+        }
+
         submit.setOnClickListener {
             TODO("NOT YET IMPLEMENTED")
         }
 
-        addMore.setOnClickListener {
-            TODO("UPDATE RECYCLER VIEW TO ADD NEW CELL")
-        }
 
 
-        //Init recycler view
-        var manager = LinearLayoutManager(this)
-        var mAdapter = mAdapter(arrayOfNulls<String>(0))
-        val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply{
-            layoutManager = manager
-                adapter = mAdapter
-        }
 
 
 
@@ -136,21 +135,51 @@ class ManualEntry : AppCompatActivity() {
 
     }
 
-    class mAdapter(private val mData: List<>) : RecyclerView.Adapter<mAdapter.ViewHolder>(){
+    /**
+     * @author Andrew Gregersen
+     * Adapter class for the recycler view.
+     * Implements methods to update, delete, and add more elements, starting with a single one.
+     * @param mData: A list of "Items" that would appear on a receipt
+     */
 
-        private lateinit var itemName: EditText
-        private lateinit var itemPrice: EditText
-        lateinit var itemAmount: EditText
-        lateinit var itemCategoryChoice: String
-        lateinit var removeItem: ImageButton
+    class MyAdapter(private val mData: List<Item>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+
+        private var mDataList: MutableList<Item> = mData as MutableList<Item>
 
 
             inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
-                fun bind(text:String){
-                    itemName= view.findViewById<EditText>(R.id.idItemName)
-                    itemPrice = view.findViewById<EditText>(R.id.idPrice)
-                    itemAmount = view.findViewById<EditText>(R.id.itemQuantity)
-                    itemCategory = view.findViewById<Button>(R.id.idCategory)
+                fun bind(item: Item, index: Int){
+
+                    //init textviews and other things
+                    val itemName= view.findViewById<EditText>(R.id.idItemName)
+                    val itemPrice = view.findViewById<EditText>(R.id.idPrice)
+                    val itemAmount = view.findViewById<EditText>(R.id.itemQuantity)
+                    val itemCategorySelector = view.findViewById<Button>(R.id.idCategory)
+                    val removebtn = view.findViewById<ImageButton>(R.id.imageButtonMERF)
+                    val itemCategory = view.findViewById<TextView>(R.id.idCategory)
+
+
+                    //init removebtn onClickListener
+                    removebtn.setOnClickListener{
+                        deleteItem(index)
+                    }
+                    //init itemCategory
+                    itemCategorySelector.setOnClickListener {
+                        var popup = PopupMenu(view.context, itemCategorySelector)
+                        popup.inflate(R.menu.menu_categorie_manual)
+                        popup.setOnMenuItemClickListener {
+                            //get the choice from categories and display it on the text view
+                            itemCategory.text = it.title.toString();true
+                            // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
+                        }
+                        //Display the list of categories
+                        popup.show()
+                    }
+
+                    //init everything else
+                    itemName.onFocusChangeListener{
+
+                    }
 
                 }
             }
@@ -183,7 +212,7 @@ class ManualEntry : AppCompatActivity() {
          * @param position The position of the item within the adapter's data set.
          */
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            mData[position]?.let { holder.bind(it) }
+            mData[position]?.let { holder.bind(it,position) }
         }
 
         /**
@@ -192,13 +221,34 @@ class ManualEntry : AppCompatActivity() {
          * @return The total number of items in this adapter.
          */
         override fun getItemCount(): Int {
-            return mData.size
+            return mDataList.size
         }
 
         /**
-         *Informs the recycler view to remove
+         *Removes an item from the recycler view
          */
+
+        fun deleteItem(index: Int ){
+            mDataList.removeAt(index)
+            notifyDataSetChanged()
+        }
+        /**
+         * Adds an Item to the data list, and informs the Recycler View that a new item has been updated
+         */
+        fun addItem(){
+            mDataList.add(Item())
+            notifyItemInserted(itemCount)
+        }
 
 
     }
+
+    /**
+     * Small class with basic constructor to represent a single item in a list of many
+     * @param itemName Holds the items name
+     * @param itemPrice Holds the items cost
+     * @param itemAmount Holds how many of said item there is
+     * @param itemCategory Holds the value for the items category
+     */
+    class Item(var itemName: String = "", var itemPrice: Double = 0.0,var itemAmount: Int = 0, var itemCategory: String = "")
 }

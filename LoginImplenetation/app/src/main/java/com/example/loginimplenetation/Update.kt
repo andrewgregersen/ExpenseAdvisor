@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.TextView
-import com.example.loginimplementation.R
-import kotlinx.android.synthetic.main.activity_manual_entry.*
 
 class Update : AppCompatActivity() {
 

@@ -39,10 +39,10 @@ class RegexHelper {
             }
             val y = x.trim().split(" ")
             temp = ""
-            for (z in y) { //go word by word
+            loop@ for (z in y) { //go word by word
                 when{
-                    Regex(pattern = "(\\d{4,})").matches(z) -> continue //skips elements that are numbers and have more than four digits
-                    Regex(pattern = "(\\d{1,}\\W\\s{0,}[^\\d])").matches(z)->continue
+                    Regex(pattern = "(\\d{4,})").matches(z) -> continue@loop //skips elements that are numbers and have more than four digits
+                    Regex(pattern = "(\\d{1,}\\W\\s{0,}[^\\d])").matches(z)->continue@loop
                     Regex(pattern = "([a-zA-Z]+)").matches(z) -> temp = "$temp $z" //gets all strings
                     Regex(pattern = "([^a-zA-z]+)").matches(z)-> temp = "$temp $z"//gets all prices
                 }

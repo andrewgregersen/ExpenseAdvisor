@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.text.TextUtils.substring
 import android.widget.*
 import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplementation.ItemOfCategory.*
-import com.example.loginimplementation.R
 import com.example.loginimplenetation.itemOfCategory.*
 import com.example.loginimplentation.R
 import kotlinx.android.synthetic.main.confirm_update_item.*
-import kotlinx.android.synthetic.main.confirm_update_item.view.*
 
 class Confirm_Update_Item : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
