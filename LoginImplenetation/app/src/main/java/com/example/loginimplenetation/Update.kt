@@ -1,28 +1,23 @@
-package com.example.loginimplentation
+package com.example.loginimplenetation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import com.example.loginimplentation.databinding.ActivityUpdateBinding
 
 class Update : AppCompatActivity() {
 
-    private var itemName: EditText? = null
-    private var itemCategory: TextView? = null
-    private var itemPrice: EditText? = null
-    private var itemStore: EditText? = null
+    private lateinit var binding: ActivityUpdateBinding
     private var choice: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_update)
 
-        itemName = findViewById(R.id.idItemName)
-        itemCategory= findViewById(R.id.cat_choice) as TextView
-        itemPrice = findViewById(R.id.idPrice) as EditText
-        itemStore = findViewById(R.id.idStoreName) as EditText
 
 
         // Get the previous value in each tuple:
@@ -35,13 +30,13 @@ class Update : AppCompatActivity() {
 
 
 
-        idCategorie.setOnClickListener {
-            var popup = PopupMenu(this, idCategorie)
+        binding.idCategoryUP.setOnClickListener {
+            var popup = PopupMenu(this, binding.idCategoryUP)
             popup.inflate(R.menu.menu_categorie_manual)
             popup.setOnMenuItemClickListener {
                 //get the choice from categories and display it on the text view
                 choice = (it.title).toString()
-                itemCategory!!.text = choice
+                binding.tvCategoryUP!!.text = choice
                 // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
 
                 true

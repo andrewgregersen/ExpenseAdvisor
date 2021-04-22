@@ -9,7 +9,7 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.itemOfCategory.*
 import com.example.loginimplenetation.list_view_model_file
-import com.example.loginimplentation.R
+import com.example.loginimplenetation.R
 
 
 class CategoriesFragment : Fragment() {
