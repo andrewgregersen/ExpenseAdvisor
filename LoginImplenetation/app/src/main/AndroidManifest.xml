@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.loginimplentation">
+    package="com.example.loginimplenetation">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,12 +18,12 @@
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="loginimplentation"
+        android:label="loginimplenetation"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name="com.example.loginimplenetation.Confirm_Update_Item" />
-        <activity android:name=".Update" />
+        <activity android:name="com.example.loginimplenetation.Update" />
         <activity android:name=".ItemOfCategory.OtherItem" />
         <activity android:name=".ItemOfCategory.BeautyItem" />
         <activity android:name=".ItemOfCategory.AdvertisementItem" />
