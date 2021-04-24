@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplenetation.adapter.RecyclerView_Adapter
-import com.example.loginimplenetation.R
+import com.example.loginimplementation.Adapter.RecyclerView_Adapter
+import com.example.loginimplentation.R
 
 class ElectronicsItem : AppCompatActivity() {
     private var titlesList= mutableListOf<String>()

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.loginimplentation.R
 import com.example.loginimplentation.databinding.ActivityCameraBinding
 import java.io.File
 import java.io.IOException

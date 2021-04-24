@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.loginimplenetation">
+    package="com.example.loginimplentation">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,20 +18,20 @@
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="loginimplenetation"
+        android:label="loginimplentation"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name="com.example.loginimplenetation.Confirm_Update_Item" />
         <activity android:name=".Update" />
-        <activity android:name=".itemOfCategory.OtherItem" />
-        <activity android:name=".itemOfCategory.BeautyItem" />
-        <activity android:name=".itemOfCategory.AdvertisementItem" />
-        <activity android:name=".itemOfCategory.LaundryItem" />
-        <activity android:name=".itemOfCategory.HealthItem" />
-        <activity android:name=".itemOfCategory.EducationItem" />
-        <activity android:name=".itemOfCategory.ElectronicsItem" />
-        <activity android:name=".itemOfCategory.FoodItems" />
+        <activity android:name=".ItemOfCategory.OtherItem" />
+        <activity android:name=".ItemOfCategory.BeautyItem" />
+        <activity android:name=".ItemOfCategory.AdvertisementItem" />
+        <activity android:name=".ItemOfCategory.LaundryItem" />
+        <activity android:name=".ItemOfCategory.HealthItem" />
+        <activity android:name=".ItemOfCategory.EducationItem" />
+        <activity android:name=".ItemOfCategory.ElectronicsItem" />
+        <activity android:name=".ItemOfCategory.FoodItems" />
         <activity android:name=".ManualEntry" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -42,22 +42,22 @@
         </activity>
         <activity
             android:name=".LoggedInActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".NewAccount"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".ForgottenActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".CameraAccessActivity"
-            android:parentActivityName=".LoggedInActivity" />
+            android:parentActivityName=".LoggedInActivity"></activity>
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".SettingsActivity" />
+            android:parentActivityName=".SettingsActivity"></activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".LoggedInActivity" />
+            android:parentActivityName=".LoggedInActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -65,16 +65,16 @@
 
         <activity
             android:name=".TextRecognitionActivity"
-            android:parentActivityName=".CameraAccessActivity" />
+            android:parentActivityName=".CameraAccessActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.loginimplenetation.fileprovider"
+            android:authorities="com.example.loginimplementation.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
 

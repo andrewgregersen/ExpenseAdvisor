@@ -1,6 +1,8 @@
-package com.example.loginimplenetation
+package com.example.loginimplementation
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Property
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +10,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loginimplenetation.TextRecognitionActivity
+import com.example.loginimplentation.R
 import com.example.loginimplentation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplentation.databinding.ActivityManualEntryRecyclerViewBinding
+import kotlinx.android.synthetic.main.activity_manual_entry_format.view.*
 
 class ManualEntry : AppCompatActivity() {
 
@@ -143,11 +148,6 @@ class ManualEntry : AppCompatActivity() {
 
 
             inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view){
-
-                init{
-
-                }
-
                 fun bind(item: Item, index: Int){
 
                     //init textviews and other things
@@ -177,6 +177,9 @@ class ManualEntry : AppCompatActivity() {
                     }
 
                     //init everything else
+                    itemName.onFocusChangeListener{
+
+                    }
 
                 }
             }

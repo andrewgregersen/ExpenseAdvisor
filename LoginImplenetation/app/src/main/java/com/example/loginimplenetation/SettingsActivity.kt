@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.loginimplentation.R
 import com.example.loginimplentation.databinding.ContentMainBinding
 import com.example.loginimplentation.databinding.SettingsActivityBinding
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.new_account_activity.view.*
 
 
 class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
@@ -36,7 +36,7 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
 
 
         //initalized the back button
-        val backBTN = cMBinding.toolbar.goBack
+        val backBTN = findViewById<Button>(R.id.goBack2)
         backBTN.setOnClickListener {
             finish()
         }
@@ -75,7 +75,6 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             R.id.nav_faq -> {
                 Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
             }
-            /*
             R.id.nav_darkmode -> {
                 if(theme.equals(R.style.Light)){
                     setTheme(R.style.Dark)
@@ -83,8 +82,6 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
                     setTheme(R.style.Light)
                 recreate()
             }
-
-             */
             R.id.nav_update -> {
                 intent = Intent(this,ProfileActivity::class.java)
                 startActivity(intent)

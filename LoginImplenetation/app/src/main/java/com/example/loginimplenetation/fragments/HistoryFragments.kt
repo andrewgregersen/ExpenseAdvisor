@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.ReceiptAdapter
 import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplenetation.R
+import com.example.loginimplentation.R
 
 class HistoryFragments : Fragment() {
 
