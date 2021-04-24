@@ -7,7 +7,6 @@ import android.text.TextUtils.substring
 import android.widget.*
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.itemOfCategory.*
-import com.example.loginimplentation.R
 import kotlinx.android.synthetic.main.confirm_update_item.*
 
 class Confirm_Update_Item : AppCompatActivity() {

@@ -31,4 +31,7 @@
     <string name="navigation_drawer_close">Drawer Closed</string>
     <string name="submit">Submit</string>
     <string name="back">Back</string>
+    <string name="add_more">Add More</string>
+    <string name="store_name">Store Name</string>
+    <string name="type_store_name_here">Type store name here</string>
 </resources>

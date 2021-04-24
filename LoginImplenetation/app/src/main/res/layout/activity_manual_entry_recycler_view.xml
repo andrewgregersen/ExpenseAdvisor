@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/add_more"
-        app:layout_constraintTop_toBottomOf="storeName">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -25,62 +25,57 @@
 
     </LinearLayout>
 
-
     <Button
         android:id="@+id/Return"
         android:layout_width="197dp"
         android:layout_height="47dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="4dp"
-        android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="7dp"
+        android:text="@string/back"
         app:layout_constraintEnd_toStartOf="@+id/Submit_Man"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_more" />
 
     <Button
         android:id="@+id/Submit_Man"
         android:layout_width="197dp"
         android:layout_height="47dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="4dp"
-        android:text="Submit"
-        app:layout_ConstraintRight_toRightof="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/Return" />
+        android:text="@string/submit"
+        app:layout_constraintStart_toEndOf="@+id/Return"
+        app:layout_constraintTop_toTopOf="@+id/Return" />
 
     <Button
         android:id="@+id/add_more"
         android:layout_width="152dp"
         android:layout_height="47dp"
-        android:layout_marginLeft="136dp"
-        android:layout_marginBottom="8dp"
-        android:text="Add More"
-        app:layout_constraintBottom_toTopOf="@+id/Submit_Man"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:text="@string/add_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/storeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Store Name"
+        android:layout_marginTop="16dp"
 
-        app:layout_constraintBottom_toTopOf="@id/storeName"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        android:text="@string/store_name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/storeName"
         android:layout_width="240dp"
         android:layout_height="40dp"
-        android:layout_constraintTop_toBottomOf="@+id/storeText"
+        android:autofillHints=""
+        android:hint="@string/type_store_name_here"
+        android:inputType="textAutoCorrect|text|textAutoComplete"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintleft_toLeftOf="parent"
-        tools:layout_editor_absoluteX="85dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/storeText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

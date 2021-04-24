@@ -22,16 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
-        <activity android:name="com.example.loginimplenetation.Confirm_Update_Item" />
-        <activity android:name="com.example.loginimplenetation.Update" />
-        <activity android:name=".ItemOfCategory.OtherItem" />
-        <activity android:name=".ItemOfCategory.BeautyItem" />
-        <activity android:name=".ItemOfCategory.AdvertisementItem" />
-        <activity android:name=".ItemOfCategory.LaundryItem" />
-        <activity android:name=".ItemOfCategory.HealthItem" />
-        <activity android:name=".ItemOfCategory.EducationItem" />
-        <activity android:name=".ItemOfCategory.ElectronicsItem" />
-        <activity android:name=".ItemOfCategory.FoodItems" />
+        <activity android:name=".Confirm_Update_Item" />
+        <activity android:name=".Update" />
+        <activity android:name=".itemOfCategory.OtherItem" />
+        <activity android:name=".itemOfCategory.BeautyItem" />
+        <activity android:name=".itemOfCategory.AdvertisementItem" />
+        <activity android:name=".itemOfCategory.LaundryItem" />
+        <activity android:name=".itemOfCategory.HealthItem" />
+        <activity android:name=".itemOfCategory.EducationItem" />
+        <activity android:name=".itemOfCategory.ElectronicsItem" />
+        <activity android:name=".itemOfCategory.FoodItems" />
         <activity android:name=".ManualEntry" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -42,22 +42,22 @@
         </activity>
         <activity
             android:name=".LoggedInActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NewAccount"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ForgottenActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CameraAccessActivity"
-            android:parentActivityName=".LoggedInActivity"></activity>
+            android:parentActivityName=".LoggedInActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".SettingsActivity"></activity>
+            android:parentActivityName=".SettingsActivity" />
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".LoggedInActivity"></activity>
+            android:parentActivityName=".LoggedInActivity" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -65,11 +65,11 @@
 
         <activity
             android:name=".TextRecognitionActivity"
-            android:parentActivityName=".CameraAccessActivity"></activity>
+            android:parentActivityName=".CameraAccessActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.loginimplementation.fileprovider"
+            android:authorities="com.example.loginimplenetation.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

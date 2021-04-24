@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.TextView
-import com.example.loginimplentation.R
+import kotlinx.android.synthetic.main.activity_update.*
 
 class Update : AppCompatActivity() {
 
@@ -36,8 +36,8 @@ class Update : AppCompatActivity() {
 
 
 
-        idCategorie.setOnClickListener {
-            var popup = PopupMenu(this, idCategorie)
+        idCategoryUP.setOnClickListener {
+            var popup = PopupMenu(this, idCategoryUP)
             popup.inflate(R.menu.menu_categorie_manual)
             popup.setOnMenuItemClickListener {
                 //get the choice from categories and display it on the text view
