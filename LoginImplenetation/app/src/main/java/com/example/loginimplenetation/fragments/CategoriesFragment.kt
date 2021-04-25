@@ -9,7 +9,7 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.itemOfCategory.*
 import com.example.loginimplenetation.list_view_model_file
-import com.example.loginimplentation.R
+import com.example.loginimplenetation.R
 
 
 class CategoriesFragment : Fragment() {
@@ -38,21 +38,6 @@ class CategoriesFragment : Fragment() {
 
     }
 
-    //function that populate the categories and their image (drawable)
-    private  fun fun_PopulateList(): ArrayList<list_view_model_file>{
-        val list= java.util.ArrayList<list_view_model_file>()
-
-        for(i in 0..catImage.size){
-            val imageModel= list_view_model_file()
-            imageModel.setImage(catImage[i])
-            imageModel.setNames(categories[i])
-            list.add(imageModel)
-        }
-
-        return list
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,77 +59,61 @@ class CategoriesFragment : Fragment() {
 
        //redirect each category to its activity
 
-        food.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, FoodItems::class.java))
-                    true
-                }
+        food.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, FoodItems::class.java))
+                true
             }
-        })
+        }
 
-        electronics.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, ElectronicsItem::class.java))
-                    true
-                }
+        electronics.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, ElectronicsItem::class.java))
+                true
             }
-        })
+        }
 
-        education.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, EducationItem::class.java))
-                    true
-                }
+        education.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, EducationItem::class.java))
+                true
             }
-        })
+        }
 
-        health.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, HealthItem::class.java))
-                    true
-                }
+        health.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, HealthItem::class.java))
+                true
             }
-        })
+        }
 
-        laundry.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, LaundryItem::class.java))
-                    true
-                }
+        laundry.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, LaundryItem::class.java))
+                true
             }
-        })
+        }
 
-        advertisement.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, AdvertisementItem::class.java))
-                    true
-                }
+        advertisement.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, AdvertisementItem::class.java))
+                true
             }
-        })
+        }
 
-        beauty.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, BeautyItem::class.java))
-                    true
-                }
+        beauty.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, BeautyItem::class.java))
+                true
             }
-        })
+        }
 
-        others.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                requireActivity().run {
-                    startActivity(Intent(this, OtherItem::class.java))
-                    true
-                }
+        others.setOnClickListener {
+            requireActivity().run {
+                startActivity(Intent(this, OtherItem::class.java))
+                true
             }
-        })
+        }
 
 
         // Inflate the layout for this fragment

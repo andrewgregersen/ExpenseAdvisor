@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplentation.databinding.ProfileActivityBinding
+import com.example.loginimplenetation.databinding.ProfileActivityBinding
 
 class ProfileActivity: AppCompatActivity(){
 

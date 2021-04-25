@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.loginimplenetation.list_view_model_file
-import com.example.loginimplentation.R
+import com.example.loginimplenetation.R
 
 class list_view_Adapter(private val context: Context,
                         private val ListViewArrayList: ArrayList<list_view_model_file>): BaseAdapter(){
