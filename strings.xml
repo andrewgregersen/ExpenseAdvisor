@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">User</string>
+    <string name="submit">Submit</string>
+    <string-array name="array_data">
+        <item>Account Type</item>
+        <item>Single</item>
+        <item>Family</item>
+    </string-array>
+
+    <string-array name="array_data2">
+        <item>Category Preferences</item>
+        <item>Advertisement</item>
+        <item>Education</item>
+        <item>Electronics</item>
+        <item>Food</item>
+        <item>Health</item>
+        <item>Landry</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="array_data3">
+        <item>Notifications</item>
+        <item>Daily</item>
+        <item>weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
+
+</resources>
