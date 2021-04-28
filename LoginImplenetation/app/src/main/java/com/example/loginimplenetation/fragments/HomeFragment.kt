@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.collections.ArrayList
 
 
@@ -87,6 +88,13 @@ class HomeFragment : Fragment()  {
         val signout = view?.findViewById<Button>(R.id.signout)
         val settings= view?.findViewById<Button>(R.id.settings)
         val addReceipt= view?.findViewById<Button>(R.id.addReceipt)
+
+        //implement signoutButton
+        signout.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            activity?.finish()
+        }
 
 
         //work with settings

@@ -2,6 +2,7 @@ package com.example.loginimplenetation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.ViewPageAdapter
 import com.example.loginimplenetation.fragments.CategoriesFragment
 import com.example.loginimplenetation.fragments.HistoryFragments
@@ -27,6 +28,21 @@ class LoggedInActivity: AppCompatActivity(){
         mUser = FirebaseAuth.getInstance().currentUser
         binding = LoggedActivityBinding.inflate(layoutInflater)
         setContentView(R.layout.logged_activity)
+
+        //create Database
+        val context = this
+        val db = DatabaseHelper(context)
+
+        //we want to define initial categories when starting the project
+        val category = arrayOf(
+            "Food","Drinks", "Electronics", "Education", "Health", "Laundry", "Advertisement", "Beauty",
+            "Sport"
+        )
+        for (item in category){
+            db.insertcat(item)
+        }
+
+
 
        setUpTabs()
     }

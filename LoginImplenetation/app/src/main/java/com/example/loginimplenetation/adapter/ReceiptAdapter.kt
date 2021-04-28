@@ -10,30 +10,22 @@ import com.example.loginimplenetation.R
 
 
 class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayList<String>, prices: ArrayList<String>) : RecyclerView.Adapter<ReceiptAdapter.ViewHolderClass>() {
-    var context: Context
-    var arrayList: ArrayList<Int>
-    var dates: ArrayList<String>
-    var prices: ArrayList<String>
-
-    init {
-        this.context = context
-        this.arrayList = arrayList
-        this.dates= dates
-        this.prices= prices
-
-    }
+    var context: Context = context
+    var arrayList: ArrayList<Int> = arrayList
+    var dates: ArrayList<String> = dates
+    var prices: ArrayList<String> = prices
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
-        var view: View = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_layout,parent, false)
-        var viewHolderClass: ViewHolderClass = ViewHolderClass(view);
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.history_layout,parent, false)
+        val viewHolderClass = ViewHolderClass(view);
         return viewHolderClass;
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val viewHolderClass = holder as ViewHolderClass
-        viewHolderClass.textview.setText("Receipt id: " + arrayList[position])
-        viewHolderClass.date.setText("Date: " + dates[position]);
-        viewHolderClass.total.setText("Total prices: $" + prices[position])
+        viewHolderClass.textview.text = "Receipt id: " + arrayList[position]
+        viewHolderClass.date.text = "Date: " + dates[position];
+        viewHolderClass.total.text = "Total prices: $" + prices[position]
     }
     override fun getItemCount(): Int {
         return arrayList.size

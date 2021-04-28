@@ -86,7 +86,7 @@ class TextRecognitionActivity: AppCompatActivity() {
         var values: ArrayList<String> = arrayListOf()
 
 
-        var str = ""
+        var str = "" //consider this to be a single item/line
         var prev: Rect? = null
         for (i in blocks) {
             //println(i.boundingBox)
@@ -107,14 +107,14 @@ class TextRecognitionActivity: AppCompatActivity() {
                             var temp = ""
                             for (k in j.elements) {
                                 if (!tree.contains(k.text.toLowerCase().trim()))
-                                    temp = "$temp ${k.text.trim()}"
+                                    temp = "$temp ${k.text.trim()}" //adds elements to string place 1: A left bounding box on a line was called after the one right of it
                             }
                             str = "$temp $str" //place the items before the current string
                         } else {//continue as normal
                             for (j in i.lines) {
                                 for (k in j.elements) {
                                     if (!tree.contains(k.text.toLowerCase().trim()))
-                                        str = "$str ${k.text.trim()}"
+                                        str = "$str ${k.text.trim()}" //adds elements to the string place 2 : Adds to line in order (concatenation)
                                 }
                             }
                         }
@@ -125,7 +125,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
                 prev = i.boundingBox
                 for (j in i.lines) {
-                    values.add(str)
+                    values.add(str) //adds previous line from receipt to Arraylist *should be one item
                     str = ""
                     for (k in j.elements) {
                         if (!tree.contains(k.text.toLowerCase().trim()))
@@ -324,4 +324,6 @@ class TextRecognitionActivity: AppCompatActivity() {
             return myDataSet
         }
     }
+
+
 }

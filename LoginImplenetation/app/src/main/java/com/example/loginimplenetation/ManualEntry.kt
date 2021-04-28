@@ -37,8 +37,8 @@ class ManualEntry : AppCompatActivity() {
 
 
         //Init recycler view
-        var manager = LinearLayoutManager(this)
-        var mAdapter = MyAdapter(listOf(Item()))
+        val manager = LinearLayoutManager(this)
+        val mAdapter = MyAdapter(listOf(Item()))
         val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply {
             layoutManager = manager
             adapter = mAdapter
@@ -59,9 +59,6 @@ class ManualEntry : AppCompatActivity() {
         submit.setOnClickListener {
             alertDialog(mAdapter.getDataSet())
         }
-
-
-
 
 
         //Declare all entry point
@@ -140,13 +137,20 @@ class ManualEntry : AppCompatActivity() {
      * Other than that, gets the users permission to submit the data.
      */
 
-    private fun alertDialog(list: MutableList<Item> ){
+    private fun alertDialog(list: MutableList<Item>) {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage("Are you sure you want to submit this receipt?\n Please double check to make sure there are no mistakes!")
         dialog.setTitle("Submit Your Receipt?")
-        dialog.setPositiveButton("Yes"
+        dialog.setPositiveButton(
+            "Yes"
         ) { dialog, _ -> submitItems(list) }
-        dialog.setNegativeButton("No"){dialog,_ ->Toast.makeText(rcbinding.root.context,"Canceling submission",Toast.LENGTH_SHORT).show()}
+        dialog.setNegativeButton("No") { dialog, _ ->
+            Toast.makeText(
+                rcbinding.root.context,
+                "Canceling submission",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
         dialog.create().show()
     }
 
@@ -155,24 +159,27 @@ class ManualEntry : AppCompatActivity() {
      * Submits the receipt to the database and then returns the user to the main screen!
      */
 
-    private fun submitItems(list: MutableList<Item>){
+    private fun submitItems(list: MutableList<Item>) {
         val db = DatabaseHelper(this)
 
         //create a new receipt
-        db.insertReceipt(rcbinding.totalPrice.text.toString().toDouble(),rcbinding.storeName.text.toString())
+        db.insertReceipt(
+            rcbinding.totalPrice.text.toString().toDouble(),
+            rcbinding.storeName.text.toString()
+        )
         //store the last receipts DBID
         val receiptID = db.getLastReceiptID()
 
         //start inserting items
-        for(x in list){
-            db.insertItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory)
-            db.insertContains(receiptID,db.getLastItemID())
+        for (x in list) {
+            db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+            db.insertContains(receiptID, db.getLastItemID())
         }
 
-        Toast.makeText(applicationContext, "Receipt successfully submitted!", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, "Receipt successfully submitted!", Toast.LENGTH_LONG)
+            .show()
         finish()
     }
-
 
 
     /**
@@ -375,8 +382,10 @@ class ManualEntry : AppCompatActivity() {
          */
 
         fun deleteItem(index: Int) {
-            mDataList.removeAt(index)
-            notifyDataSetChanged()
+            if(itemCount!=1) {
+                mDataList.removeAt(index)
+                notifyDataSetChanged()
+            }
         }
 
         /**
