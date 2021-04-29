@@ -32,9 +32,13 @@ class ManualEntry : AppCompatActivity() {
 
         //Init Set on Click Listeners
 
-        binding.Return.setOnClickListener {
-            finish() //exit the activity
+        val back = findViewById<Button>(R.id.Return)
+        back.setOnClickListener {
+            finish()
         }
+//        binding.Return.setOnClickListener {
+//            finish() //exit the activity
+//        }
 
 
 
@@ -46,12 +50,14 @@ class ManualEntry : AppCompatActivity() {
             adapter = mAdapter
         }
 
-        binding.addMore.setOnClickListener {
+        val addItem = findViewById<Button>(binding.addMore.id)
+        addItem.setOnClickListener {
             println("Adding More")
             mAdapter.addItem(Item())
         }
 
-        binding.SubmitMan.setOnClickListener {
+        val submit = findViewById<Button>(binding.SubmitMan.id)
+        submit.setOnClickListener {
             println("Submitting")
             alertDialog(mAdapter.mData)
         }
