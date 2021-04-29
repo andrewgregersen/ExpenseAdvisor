@@ -1,5 +1,6 @@
 package com.example.loginimplementation
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -116,9 +117,6 @@ class TextRecognitionActivity: AppCompatActivity() {
             }
     }
 
-
-
-
     private fun processTextRecognition(texts: Text){
         var blocks = texts.textBlocks
         if(blocks.size == 0) {
@@ -150,13 +148,19 @@ class TextRecognitionActivity: AppCompatActivity() {
                             for (k in j.elements) {
                                 if (!tree.contains(k.text.toLowerCase().trim()))
                                     temp = "$temp ${k.text.trim()}"
+//                                    println("For TEMP "+ temp.toString())
+//                                    Toast.makeText(this, "For TEMP "+ temp.toString() , Toast.LENGTH_SHORT).show()
                             }
                             str = "$temp $str" //place the items before the current string
+//                            Toast.makeText(this, "STR HERE "+ str.toString() , Toast.LENGTH_SHORT).show()
                         } else {//continue as normal
                             for (j in i.lines) {
                                 for (k in j.elements) {
                                     if (!tree.contains(k.text.toLowerCase().trim()))
+//                                        Toast.makeText(this, "For K "+ k.text.trim().toString() , Toast.LENGTH_SHORT).show()
                                         str = "$str ${k.text.trim()}"
+//                                        println("For STR "+ str)
+//                                        Toast.makeText(this, "For STR "+ str.toString() , Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -177,23 +181,49 @@ class TextRecognitionActivity: AppCompatActivity() {
                     }
                     println(str)
                 }
-
             }
         }
         values.add(str)//at end of receipt
         //println(values)
+
+
+
         values = RegexHelper().runParserForUserDisplay(values)
 
-        myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
-            layoutManager = manager
-            adapter = myAdapter
+//        for(i in values){
+//            Toast.makeText(this, i.toString() , Toast.LENGTH_SHORT).show()
+//        }
+       // ####################################################################
+        var finalList: ArrayList<String> = arrayListOf()
+        var date= values.get(0)
+        var total = values.get(1)
+        var store = values.get(2)
+        Toast.makeText(this, "My Date: " + date.toString() , Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "My Total: " + total.toString() , Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "My Store: " + store.toString() , Toast.LENGTH_SHORT).show()
+
+
+        for(i in 3 until values.size){
+            finalList.add(values.get(i))
+            Toast.makeText(this, "Tobakisi: " + values.get(i).toString() , Toast.LENGTH_SHORT).show()
         }
 
 
+        //Pass data to another activity
+        val intent = Intent(this, Autofill_recyclerView::class.java)
+        intent.putExtra("date", date)
+        intent.putExtra("total", total)
+        intent.putExtra("store", store)
+        intent.putExtra("finalList", finalList)
+        startActivity(intent)
+
+        // ################################################################
+//        myAdapter = MyAdapter(RegexHelper().runParserForUserDisplay(values).toTypedArray())
+//        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
+//            layoutManager = manager
+//            adapter = myAdapter
+//        }
         //need to implement editting for each row, after editting then need to push to DB
-
-
 
     }
 
