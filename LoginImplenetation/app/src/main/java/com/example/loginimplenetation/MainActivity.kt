@@ -31,6 +31,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var callbackManager: CallbackManager
     private var noAccount = true
+    private var debug = true
 
     public override fun onStart() {
         super.onStart()
@@ -245,7 +246,13 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
 
     //updates the UI for the activity either logging a person in or out
     private fun updateUI(user: FirebaseUser?){
-        if(user != null){
+
+        if(debug==true){
+            val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
+            startActivity(intent)
+
+        }
+        else if(user != null){
             val intent = Intent(this@MainActivity, LoggedInActivity::class.java)
             startActivity(intent)
             binding.Username.text.clear()

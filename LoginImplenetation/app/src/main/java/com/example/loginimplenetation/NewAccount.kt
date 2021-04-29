@@ -33,9 +33,9 @@ class NewAccount: AppCompatActivity(){
     private fun activity(){
         val submit = findViewById<Button>(binding.submitButton.id)
         submit.setOnClickListener {
-            val username = findViewById<EditText>(binding.createUser.id).text.toString().trim()
-            val pass1 = findViewById<EditText>(binding.createPass1.id).text.toString().trim()
-            val pass2 = findViewById<EditText>(binding.createPass2.id).text.toString().trim()
+            val username = binding.createUser.text.toString()
+            val pass1 = binding.createPass1.text.toString()
+            val pass2 = binding.createPass2.text.toString()
             if(TextUtils.isEmpty(username)){
                 binding.createUser.error = "Email Required.."
                 return@setOnClickListener

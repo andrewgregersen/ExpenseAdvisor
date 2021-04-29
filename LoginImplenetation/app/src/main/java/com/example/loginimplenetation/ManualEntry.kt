@@ -4,7 +4,9 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +16,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplenetation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplenetation.databinding.ActivityManualEntryRecyclerViewBinding
 
 class ManualEntry : AppCompatActivity() {
 
-    private lateinit var rcbinding: ActivityManualEntryRecyclerViewBinding
-    private lateinit var fmbinding: ActivityManualEntryFormatBinding
+    private lateinit var binding: ActivityManualEntryRecyclerViewBinding
     //private var cancel: Button? = null
 
 
@@ -28,37 +28,36 @@ class ManualEntry : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manual_entry_recycler_view)
         //Init bindings
-        rcbinding = ActivityManualEntryRecyclerViewBinding.inflate(layoutInflater)
-        fmbinding = ActivityManualEntryFormatBinding.inflate(layoutInflater)
-        //Init buttons
-        val cancel = rcbinding.Return
-        val submit = rcbinding.SubmitMan
-        val addMore = rcbinding.addMore
+        binding = ActivityManualEntryRecyclerViewBinding.inflate(layoutInflater)
+
+        //Init Set on Click Listeners
+
+        binding.Return.setOnClickListener {
+            finish() //exit the activity
+        }
+
 
 
         //Init recycler view
         val manager = LinearLayoutManager(this)
-        val mAdapter = MyAdapter(listOf(Item()))
+        val mAdapter = MyAdapter(mutableListOf<Item>(Item(),Item()))
         val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply {
             layoutManager = manager
             adapter = mAdapter
         }
 
+        binding.addMore.setOnClickListener {
+            println("Adding More")
+            mAdapter.addItem(Item())
+        }
 
-        //Init Set on Click Listeners
-
-        cancel.setOnClickListener {
-            finish() //exit the activity
+        binding.SubmitMan.setOnClickListener {
+            println("Submitting")
+            alertDialog(mAdapter.mData)
         }
 
 
-        addMore.setOnClickListener {
-            mAdapter.addItem()
-        }
 
-        submit.setOnClickListener {
-            alertDialog(mAdapter.getDataSet())
-        }
 
 
         //Declare all entry point
@@ -146,7 +145,7 @@ class ManualEntry : AppCompatActivity() {
         ) { dialog, _ -> submitItems(list) }
         dialog.setNegativeButton("No") { dialog, _ ->
             Toast.makeText(
-                rcbinding.root.context,
+                binding.root.context,
                 "Canceling submission",
                 Toast.LENGTH_SHORT
             ).show()
@@ -162,23 +161,32 @@ class ManualEntry : AppCompatActivity() {
     private fun submitItems(list: MutableList<Item>) {
         val db = DatabaseHelper(this)
 
-        //create a new receipt
-        db.insertReceipt(
-            rcbinding.totalPrice.text.toString().toDouble(),
-            rcbinding.storeName.text.toString()
-        )
-        //store the last receipts DBID
-        val receiptID = db.getLastReceiptID()
+        if (TextUtils.isEmpty(binding.totalPrice.text))
+            binding.totalPrice.error = "Please enter a total cost for the items!"
+        if(TextUtils.isEmpty(binding.storeName.text))
+            binding.storeName.error = "Please enter a name for the store you made this purchase at!"
+        if(TextUtils.isEmpty((binding.taxPaid.text)))
+            binding.taxPaid.error = "Please enter the amount of tax you paid on this purchase!"
+        else {
 
-        //start inserting items
-        for (x in list) {
-            db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
-            db.insertContains(receiptID, db.getLastItemID())
+            //create a new receipt
+            db.insertReceipt(
+                binding.totalPrice.text.toString().toDouble(),
+                binding.storeName.text.toString()
+            )
+            //store the last receipts DBID
+            val receiptID = db.getLastReceiptID()
+
+            //start inserting items
+            for (x in list) {
+                db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+                db.insertContains(receiptID, db.getLastItemID())
+            }
+
+            Toast.makeText(applicationContext, "Receipt successfully submitted!", Toast.LENGTH_LONG)
+                .show()
+            finish()
         }
-
-        Toast.makeText(applicationContext, "Receipt successfully submitted!", Toast.LENGTH_LONG)
-            .show()
-        finish()
     }
 
 
@@ -189,9 +197,10 @@ class ManualEntry : AppCompatActivity() {
      * @param mData: A list of "Items" that would appear on a receipt
      */
 
-    class MyAdapter(private val mData: List<Item>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+    class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
-        private var mDataList: MutableList<Item> = mData as MutableList<Item>
+
+        var lastPos = 0
 
 
         inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -272,7 +281,7 @@ class ManualEntry : AppCompatActivity() {
                      * ended up.
                      */
                     override fun afterTextChanged(s: Editable?) {
-                        mDataList[adapterPosition].itemName = s.toString()
+                        mData[adapterPosition].itemName = s.toString()
                     }
 
                 })
@@ -295,7 +304,7 @@ class ManualEntry : AppCompatActivity() {
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        mDataList[adapterPosition].itemAmount = s.toString().toInt()
+                        mData[adapterPosition].itemAmount = s.toString().toInt()
                     }
 
                 })
@@ -318,7 +327,7 @@ class ManualEntry : AppCompatActivity() {
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        mDataList[adapterPosition].itemPrice = s.toString().toDouble()
+                        mData[adapterPosition].itemPrice = s.toString().toDouble()
                     }
 
                 })
@@ -355,7 +364,7 @@ class ManualEntry : AppCompatActivity() {
          * @param position The position of the item within the adapter's data set.
          */
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            mData[position]?.let { holder.bind(it, position) }
+            mData[position].let { holder.bind(it, position) }
         }
 
         /**
@@ -364,7 +373,7 @@ class ManualEntry : AppCompatActivity() {
          * @return The total number of items in this adapter.
          */
         override fun getItemCount(): Int {
-            return mDataList.size
+            return mData.size
         }
 
 
@@ -373,9 +382,6 @@ class ManualEntry : AppCompatActivity() {
          * @return The list of all items for a single receipt
          */
 
-        fun getDataSet(): MutableList<Item> {
-            return mDataList
-        }
 
         /**
          *Removes an item from the recycler view
@@ -383,17 +389,19 @@ class ManualEntry : AppCompatActivity() {
 
         fun deleteItem(index: Int) {
             if(itemCount!=1) {
-                mDataList.removeAt(index)
+                mData.removeAt(index)
                 notifyDataSetChanged()
+                lastPos--
             }
         }
 
         /**
          * Adds an Item to the data list, and informs the Recycler View that a new item has been updated
          */
-        fun addItem() {
-            mDataList.add(Item())
-            notifyItemInserted(itemCount)
+        fun addItem(item: Item) {
+            Log.d("addItem","$mData.size")
+            mData.add(item)
+            notifyItemInserted(mData.size)
         }
 
 
