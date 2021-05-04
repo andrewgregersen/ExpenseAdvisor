@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -53,55 +56,55 @@
         android:id="@+id/tvCategory"
         android:layout_width="128dp"
         android:layout_height="19dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="Select Category"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/itemQuantity" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="126dp"
         android:layout_height="19dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="44dp"
         android:text="Quantity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cat_choice" />
-
-    <Button
-        android:id="@+id/idCategory"
-        android:layout_width="106dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.062"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCategory"
-        tools:text="Select" />
-
-    <TextView
-        android:id="@+id/cat_choice"
-        android:layout_width="350dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="@+id/itemQuantity"
-        app:layout_constraintTop_toBottomOf="@+id/idCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/idPrice" />
 
     <EditText
         android:id="@+id/itemQuantity"
         android:layout_width="323dp"
         android:layout_height="34dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toStartOf="@+id/tvDescription"
         app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+    <TextView
+        android:id="@+id/cat_choice"
+        android:layout_width="350dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/itemQuantity"
+        app:layout_constraintTop_toBottomOf="@+id/CategoryBtn" />
+
+    <Button
+        android:id="@+id/CategoryBtn"
+        android:layout_width="106dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemQuantity"
+        tools:text="Select" />
 
     <ImageButton
         android:id="@+id/imageButtonMERF"
@@ -115,3 +118,4 @@
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

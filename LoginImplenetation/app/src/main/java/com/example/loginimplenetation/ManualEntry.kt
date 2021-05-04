@@ -13,10 +13,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplenetation.databinding.ActivityManualEntryRecyclerViewBinding
+import com.example.loginimplenetation.databinding.ItemLayoutBinding
 
 class ManualEntry : AppCompatActivity() {
 
@@ -44,7 +49,7 @@ class ManualEntry : AppCompatActivity() {
 
         //Init recycler view
         val manager = LinearLayoutManager(this)
-        val mAdapter = MyAdapter(mutableListOf<Item>(Item(),Item()))
+        val mAdapter = MyAdapter(mutableListOf<Item>(Item()))
         val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply {
             layoutManager = manager
             adapter = mAdapter
@@ -59,79 +64,35 @@ class ManualEntry : AppCompatActivity() {
         val submit = findViewById<Button>(binding.SubmitMan.id)
         submit.setOnClickListener {
             println("Submitting")
-            alertDialog(mAdapter.mData)
-        }
-
-
-
-
-
-        //Declare all entry point
-        /*itemName = findViewById(R.id.idItemName)
-        itemCategory= findViewById(R.id.cat_choice)
-        itemPrice = findViewById(R.id.idPrice)
-        itemStore = findViewById(R.id.idStoreName)
-        itemQuantity = findViewById(R.id.text_description)
-
-        //Show popup for categories
-        idCategory.setOnClickListener {
-            var popup = PopupMenu(this, idCategorie)
-            popup.inflate(R.menu.menu_categorie_manual)
-            popup.setOnMenuItemClickListener {
-                //get the choice from categories and display it on the text view
-                choice = (it.title).toString()
-                itemCategory!!.text = choice
-               // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
-
-                true
-            }
-            //Display the list of categories
-            popup.show()
-        }
-
-
-        btCancel.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java);
-            startActivity(intent)
-            Toast.makeText(applicationContext, "Cancel", Toast.LENGTH_LONG).show()
-        }
-
-        btSubmit.setOnClickListener{
-            val db = DatabaseHelper(this)
-
-            val name: String = itemName!!.text.toString()
-            val category: String = choice
-            val price: String = itemPrice!!.text.toString().trim()
-            val store: String = itemStore!!.text.toString().trim()
-            val quantity: String = itemQuantity!!.text.toString().trim()
-            var finalPrice: Double = 0.0
-
-            try{
-                finalPrice = (Integer.parseInt(price)).toDouble();
-            } catch(e: NumberFormatException){ // handle your exception
-                e.message
+            when{
+                binding.taxPaid.text.isEmpty() -> {binding.taxPaid.error = "You didn't include a tax amount!"; binding.taxPaid.requestFocus()}
+                binding.storeName.text.isEmpty() -> {binding.storeName.error = "You didn't include the name of the store!"; binding.storeName.requestFocus()}
+                binding.totalPrice.text.isEmpty() -> {binding.totalPrice.error = "You didn't include the total price!"; binding.totalPrice.requestFocus()}
+                else ->{
+                    val bindings = mAdapter.getBindings()
+                    var err = false
+                    for(x in bindings){
+                        when{
+                            x.itemQuantity.text.isEmpty() -> {x.itemQuantity.error = "Please enter the amount of said item!";x.itemQuantity.requestFocus();err=true}
+                            x.idPrice.text.isEmpty() -> {x.idPrice.error = "Please enter a price!";x.idPrice.requestFocus();err=true}
+                            x.idItemName.text.isEmpty() -> {x.idItemName.error = "Please enter a name!";x.idItemName.requestFocus();err=true}
+                            x.catChoice.text.isEmpty() -> {x.CategoryBtn.error = "Please select a category!";x.CategoryBtn.requestFocus();err=true}
+                        }
+                        if(err)
+                            break
+                    }
+                    if(!err)
+                        alertDialog(mAdapter.mData) //items in recycler view are not empty
+                }
             }
 
-            db.insertItem(name, finalPrice, quantity.toInt(), category)
-            //Toast.makeText(applicationContext, name + " "+ finalPrice+ " "+ category, Toast.LENGTH_LONG).show()
-
-            //create the receipt
-            db.insertReceipt(finalPrice, store)
-
-            //Link receipt and item
-            var itemID= db.getLastItemID()
-            var receiptID= db.getLastReceiptID()
-
-            db.insertContains(receiptID, itemID)
-
-
-            val intent = Intent(this, MainActivity::class.java);
-            startActivity(intent)
-            Toast.makeText(applicationContext, "Submit", Toast.LENGTH_LONG).show()
-
         }
 
-         */
+
+
+
+
+
 
 
     }
@@ -174,24 +135,36 @@ class ManualEntry : AppCompatActivity() {
         if(TextUtils.isEmpty((binding.taxPaid.text)))
             binding.taxPaid.error = "Please enter the amount of tax you paid on this purchase!"
         else {
+            if(list.isNotEmpty()) {
+                //create a new receipt
+                db.insertReceipt(
+                    binding.totalPrice.text.toString().toDouble(),
+                    binding.storeName.text.toString()
+                )
+                //store the last receipts DBID
+                val receiptID = db.getLastReceiptID()
 
-            //create a new receipt
-            db.insertReceipt(
-                binding.totalPrice.text.toString().toDouble(),
-                binding.storeName.text.toString()
-            )
-            //store the last receipts DBID
-            val receiptID = db.getLastReceiptID()
+                //start inserting items
+                for (x in list) {
+                    db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+                    db.insertContains(receiptID, db.getLastItemID())
+                }
 
-            //start inserting items
-            for (x in list) {
-                db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
-                db.insertContains(receiptID, db.getLastItemID())
+                Toast.makeText(
+                    applicationContext,
+                    "Receipt successfully submitted!",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+                finish()
+            }else{
+                Toast.makeText(
+                    applicationContext,
+                    "Your receipt is empty!",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
             }
-
-            Toast.makeText(applicationContext, "Receipt successfully submitted!", Toast.LENGTH_LONG)
-                .show()
-            finish()
         }
     }
 
@@ -203,43 +176,74 @@ class ManualEntry : AppCompatActivity() {
      * @param mData: A list of "Items" that would appear on a receipt
      */
 
-    class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-
-
+    class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
+        private lateinit var bindingList: ArrayList<ActivityManualEntryFormatBinding>
+        companion object: DiffUtil.ItemCallback<Item>(){
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+                return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
+            }
+        }
 
 
-        inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-            fun bind(item: Item, index: Int) {
-
-                //init textviews and other things
-                val itemName = view.findViewById<EditText>(R.id.idItemName)
-                val itemPrice = view.findViewById<EditText>(R.id.idPrice)
-                val itemAmount = view.findViewById<EditText>(R.id.itemQuantity)
-                val itemCategorySelector = view.findViewById<Button>(R.id.idCategory)
-                val removebtn = view.findViewById<ImageButton>(R.id.imageButtonMERF)
-                val itemCategory = view.findViewById<TextView>(R.id.idCategory)
 
 
-                //init removebtn onClickListener
-                removebtn.setOnClickListener {
-                    deleteItem(index)
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+            val vh = LayoutInflater.from(parent.context)
+            val binding = ActivityManualEntryFormatBinding.inflate(vh,parent,false)
+            return CustomViewHolder(binding)
+        }
+
+        /**
+         * Called by RecyclerView to display the data at the specified position. This method should
+         * update the contents of the [ViewHolder.itemView] to reflect the item at the given
+         * position.
+         *
+         *
+         * Note that unlike [android.widget.ListView], RecyclerView will not call this method
+         * again if the position of the item changes in the data set unless the item itself is
+         * invalidated or the new position cannot be determined. For this reason, you should only
+         * use the `position` parameter while acquiring the related data item inside
+         * this method and should not keep a copy of it. If you need the position of an item later
+         * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
+         * have the updated adapter position.
+         *
+         * Override [.onBindViewHolder] instead if Adapter can
+         * handle efficient partial bind.
+         *
+         * @param holder The ViewHolder which should be updated to represent the contents of the
+         * item at the given position in the data set.
+         * @param position The position of the item within the adapter's data set.
+         */
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+            //mData[position].let { holder.bind(it, position)}
+            val currentItem = mData[position]
+            val binding = holder.binding as ActivityManualEntryFormatBinding
+            bindingList.add(position,binding)//add the binding to the current position, doesn't allow for duplicates
+            //init remove button
+            binding.imageButtonMERF.setOnClickListener {
+                    deleteItem(position)
                 }
-                //init itemCategory
-                itemCategorySelector.setOnClickListener {
-                    var popup = PopupMenu(view.context, itemCategorySelector)
+
+            //init cat_selector
+            binding.CategoryBtn.setOnClickListener {
+                    val popup = PopupMenu(binding.root.context, binding.CategoryBtn)
                     popup.inflate(R.menu.menu_categorie_manual)
                     popup.setOnMenuItemClickListener {
                         //get the choice from categories and display it on the text view
-                        itemCategory.text = it.title.toString();true
+                        binding.catChoice.text = it.title.toString();true
                         // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
                     }
                     //Display the list of categories
                     popup.show()
                 }
 
-                //init everything else
-                itemName.addTextChangedListener(object : TextWatcher {
+            binding.idItemName.addTextChangedListener(object : TextWatcher {
                     /**
                      * This method is called to notify you that, within `s`,
                      * the `count` characters beginning at `start`
@@ -287,12 +291,12 @@ class ManualEntry : AppCompatActivity() {
                      * ended up.
                      */
                     override fun afterTextChanged(s: Editable?) {
-                        mData[adapterPosition].itemName = s.toString()
+                        mData[position].itemName = s.toString()
                     }
 
                 })
 
-                itemAmount.addTextChangedListener(object : TextWatcher {
+                binding.itemQuantity.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
                         s: CharSequence?,
                         start: Int,
@@ -310,12 +314,12 @@ class ManualEntry : AppCompatActivity() {
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        mData[adapterPosition].itemAmount = s.toString().toInt()
+                        mData[position].itemAmount = s.toString().toInt()
                     }
 
                 })
 
-                itemPrice.addTextChangedListener(object : TextWatcher {
+                binding.idPrice.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
                         s: CharSequence?,
                         start: Int,
@@ -333,44 +337,13 @@ class ManualEntry : AppCompatActivity() {
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        mData[adapterPosition].itemPrice = s.toString().toDouble()
+                        mData[position].itemPrice = s.toString().toDouble()
                     }
 
                 })
 
-            }
-        }
 
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val vh = LayoutInflater.from(parent.context)
-                .inflate(R.layout.activity_manual_entry_format, parent, false)
-            return ViewHolder(vh)
-        }
-
-        /**
-         * Called by RecyclerView to display the data at the specified position. This method should
-         * update the contents of the [ViewHolder.itemView] to reflect the item at the given
-         * position.
-         *
-         *
-         * Note that unlike [android.widget.ListView], RecyclerView will not call this method
-         * again if the position of the item changes in the data set unless the item itself is
-         * invalidated or the new position cannot be determined. For this reason, you should only
-         * use the `position` parameter while acquiring the related data item inside
-         * this method and should not keep a copy of it. If you need the position of an item later
-         * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
-         * have the updated adapter position.
-         *
-         * Override [.onBindViewHolder] instead if Adapter can
-         * handle efficient partial bind.
-         *
-         * @param holder The ViewHolder which should be updated to represent the contents of the
-         * item at the given position in the data set.
-         * @param position The position of the item within the adapter's data set.
-         */
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            mData[position].let { holder.bind(it, position) }
         }
 
         /**
@@ -410,6 +383,10 @@ class ManualEntry : AppCompatActivity() {
             notifyItemInserted(mData.size)
         }
 
+        fun getBindings():ArrayList<ActivityManualEntryFormatBinding>{
+            return bindingList
+        }
+
 
     }
 
@@ -420,10 +397,14 @@ class ManualEntry : AppCompatActivity() {
      * @param itemAmount Holds how many of said item there is
      * @param itemCategory Holds the value for the items category
      */
+
+
     class Item(
         var itemName: String = "",
         var itemPrice: Double = 0.0,
         var itemAmount: Int = 0,
         var itemCategory: String = ""
     )
+
+    open class CustomViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)
 }
