@@ -31,14 +31,10 @@ class ManualEntry : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_manual_entry_recycler_view)
-        //Init bindings
-        binding = ActivityManualEntryRecyclerViewBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_manual_entry_recycler_view)
 
-        //Init Set on Click Listeners
 
-        val back = findViewById<Button>(R.id.Return)
-        back.setOnClickListener {
+        binding.Return.setOnClickListener {
             finish()
         }
 //        binding.Return.setOnClickListener {
@@ -55,22 +51,25 @@ class ManualEntry : AppCompatActivity() {
             adapter = mAdapter
         }
 
-        val addItem = findViewById<Button>(binding.addMore.id)
-        addItem.setOnClickListener {
+        binding.addMore.setOnClickListener {
             println("Adding More")
             mAdapter.addItem(Item())
         }
 
-        val submit = findViewById<Button>(binding.SubmitMan.id)
-        submit.setOnClickListener {
+        binding.SubmitMan.setOnClickListener {
             println("Submitting")
             when{
-                binding.taxPaid.text.isEmpty() -> {binding.taxPaid.error = "You didn't include a tax amount!"; binding.taxPaid.requestFocus()}
-                binding.storeName.text.isEmpty() -> {binding.storeName.error = "You didn't include the name of the store!"; binding.storeName.requestFocus()}
-                binding.totalPrice.text.isEmpty() -> {binding.totalPrice.error = "You didn't include the total price!"; binding.totalPrice.requestFocus()}
+//                binding.taxPaid.text.isEmpty() -> {binding.taxPaid.error = "You didn't include a tax amount!"; binding.taxPaid.requestFocus()}
+//                binding.storeName.text.isEmpty() -> {binding.storeName.error = "You didn't include the name of the store!"; binding.storeName.requestFocus()}
+//                binding.totalPrice.text.isEmpty() -> {binding.totalPrice.error = "You didn't include the total price!"; binding.totalPrice.requestFocus()}
                 else ->{
                     val bindings = mAdapter.getBindings()
                     var err = false
+                    when{
+                        TextUtils.isEmpty(binding.totalPrice.text)-> {binding.totalPrice.error = "Please enter a total cost for the items!";binding.totalPrice.requestFocus()}
+                        TextUtils.isEmpty(binding.storeName.text)-> {binding.storeName.error = "Please enter a name for the store you made this purchase at!";binding.storeName.requestFocus()}
+                        TextUtils.isEmpty(binding.taxPaid.text) -> {binding.taxPaid.error = "Please enter the amount of tax you paid on this purchase!";binding.taxPaid.requestFocus()}
+                        }
                     for(x in bindings){
                         when{
                             x.itemQuantity.text.isEmpty() -> {x.itemQuantity.error = "Please enter the amount of said item!";x.itemQuantity.requestFocus();err=true}
@@ -82,7 +81,7 @@ class ManualEntry : AppCompatActivity() {
                             break
                     }
                     if(!err)
-                        alertDialog(mAdapter.mData) //items in recycler view are not empty
+                        alertDialog(mAdapter.getBindings()) //items in recycler view are not empty
                 }
             }
 
@@ -103,7 +102,7 @@ class ManualEntry : AppCompatActivity() {
      * Other than that, gets the users permission to submit the data.
      */
 
-    private fun alertDialog(list: MutableList<Item>) {
+    private fun alertDialog(list: ArrayList<ActivityManualEntryFormatBinding>) {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage("Are you sure you want to submit this receipt?\n Please double check to make sure there are no mistakes!")
         dialog.setTitle("Submit Your Receipt?")
@@ -125,16 +124,9 @@ class ManualEntry : AppCompatActivity() {
      * Submits the receipt to the database and then returns the user to the main screen!
      */
 
-    private fun submitItems(list: MutableList<Item>) {
+    private fun submitItems(list: ArrayList<ActivityManualEntryFormatBinding>) {
         val db = DatabaseHelper(this)
-
-        if (TextUtils.isEmpty(binding.totalPrice.text))
-            binding.totalPrice.error = "Please enter a total cost for the items!"
-        if(TextUtils.isEmpty(binding.storeName.text))
-            binding.storeName.error = "Please enter a name for the store you made this purchase at!"
-        if(TextUtils.isEmpty((binding.taxPaid.text)))
-            binding.taxPaid.error = "Please enter the amount of tax you paid on this purchase!"
-        else {
+        println("SubmittingItems")
             if(list.isNotEmpty()) {
                 //create a new receipt
                 db.insertReceipt(
@@ -145,27 +137,28 @@ class ManualEntry : AppCompatActivity() {
                 val receiptID = db.getLastReceiptID()
 
                 //start inserting items
+
                 for (x in list) {
-                    db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+                    db.insertItem(x.idItemName.text.toString(), x.idPrice.text.toString().toDouble(), x.itemQuantity.text.toString().toInt(), x.catChoice.text.toString())
                     db.insertContains(receiptID, db.getLastItemID())
                 }
 
                 Toast.makeText(
                     applicationContext,
                     "Receipt successfully submitted!",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }else{
                 Toast.makeText(
                     applicationContext,
-                    "Your receipt is empty!",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                    "Failed to Submit!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        }
+
+
+
     }
 
 
@@ -178,7 +171,7 @@ class ManualEntry : AppCompatActivity() {
 
     class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
-        private lateinit var bindingList: ArrayList<ActivityManualEntryFormatBinding>
+        private var bindingList: ArrayList<ActivityManualEntryFormatBinding> = ArrayList()
         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
@@ -243,104 +236,104 @@ class ManualEntry : AppCompatActivity() {
                     popup.show()
                 }
 
-            binding.idItemName.addTextChangedListener(object : TextWatcher {
-                    /**
-                     * This method is called to notify you that, within `s`,
-                     * the `count` characters beginning at `start`
-                     * are about to be replaced by new text with length `after`.
-                     * It is an error to attempt to make changes to `s` from
-                     * this callback.
-                     */
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                        //Nothing to implement here, I dont have anything to do to the text in the box
-                        //before the user updates it
-                    }
-
-                    /**
-                     * This method is called to notify you that, within `s`,
-                     * the `count` characters beginning at `start`
-                     * have just replaced old text that had length `before`.
-                     * It is an error to attempt to make changes to `s` from
-                     * this callback.
-                     */
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    /**
-                     * This method is called to notify you that, somewhere within
-                     * `s`, the text has been changed.
-                     * It is legitimate to make further changes to `s` from
-                     * this callback, but be careful not to get yourself into an infinite
-                     * loop, because any changes you make will cause this method to be
-                     * called again recursively.
-                     * (You are not told where the change took place because other
-                     * afterTextChanged() methods may already have made other changes
-                     * and invalidated the offsets.  But if you need to know here,
-                     * you can use [Spannable.setSpan] in [.onTextChanged]
-                     * to mark your place and then look up from here where the span
-                     * ended up.
-                     */
-                    override fun afterTextChanged(s: Editable?) {
-                        mData[position].itemName = s.toString()
-                    }
-
-                })
-
-                binding.itemQuantity.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        mData[position].itemAmount = s.toString().toInt()
-                    }
-
-                })
-
-                binding.idPrice.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        mData[position].itemPrice = s.toString().toDouble()
-                    }
-
-                })
+//            binding.idItemName.addTextChangedListener(object : TextWatcher {
+//                    /**
+//                     * This method is called to notify you that, within `s`,
+//                     * the `count` characters beginning at `start`
+//                     * are about to be replaced by new text with length `after`.
+//                     * It is an error to attempt to make changes to `s` from
+//                     * this callback.
+//                     */
+//                    override fun beforeTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        count: Int,
+//                        after: Int
+//                    ) {
+//                        //Nothing to implement here, I dont have anything to do to the text in the box
+//                        //before the user updates it
+//                    }
+//
+//                    /**
+//                     * This method is called to notify you that, within `s`,
+//                     * the `count` characters beginning at `start`
+//                     * have just replaced old text that had length `before`.
+//                     * It is an error to attempt to make changes to `s` from
+//                     * this callback.
+//                     */
+//                    override fun onTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        before: Int,
+//                        count: Int
+//                    ) {
+//                    }
+//
+//                    /**
+//                     * This method is called to notify you that, somewhere within
+//                     * `s`, the text has been changed.
+//                     * It is legitimate to make further changes to `s` from
+//                     * this callback, but be careful not to get yourself into an infinite
+//                     * loop, because any changes you make will cause this method to be
+//                     * called again recursively.
+//                     * (You are not told where the change took place because other
+//                     * afterTextChanged() methods may already have made other changes
+//                     * and invalidated the offsets.  But if you need to know here,
+//                     * you can use [Spannable.setSpan] in [.onTextChanged]
+//                     * to mark your place and then look up from here where the span
+//                     * ended up.
+//                     */
+//                    override fun afterTextChanged(s: Editable?) {
+//                        mData[position].itemName = s.toString()
+//                    }
+//
+//                })
+//
+//                binding.itemQuantity.addTextChangedListener(object : TextWatcher {
+//                    override fun beforeTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        count: Int,
+//                        after: Int
+//                    ) {
+//                    }
+//
+//                    override fun onTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        before: Int,
+//                        count: Int
+//                    ) {
+//                    }
+//
+//                    override fun afterTextChanged(s: Editable?) {
+//                        mData[position].itemAmount = s.toString().toInt()
+//                    }
+//
+//                })
+//
+//                binding.idPrice.addTextChangedListener(object : TextWatcher {
+//                    override fun beforeTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        count: Int,
+//                        after: Int
+//                    ) {
+//                    }
+//
+//                    override fun onTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        before: Int,
+//                        count: Int
+//                    ) {
+//                    }
+//
+//                    override fun afterTextChanged(s: Editable?) {
+//                        mData[position].itemPrice = s.toString().toDouble()
+//                    }
+//
+//                })
 
 
 

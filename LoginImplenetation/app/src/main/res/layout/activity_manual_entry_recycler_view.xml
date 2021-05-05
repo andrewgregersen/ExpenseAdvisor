@@ -10,13 +10,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="417dp"
+        android:layout_width="match_parent"
         android:layout_height="85dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/tabColor"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <EditText
             android:id="@+id/taxPaid"
@@ -62,14 +65,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="525dp"
+        android:layout_width="413dp"
+        android:layout_height="537dp"
         android:gravity="bottom"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -78,7 +81,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="-6dp" />
 
 
@@ -86,18 +88,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/Return"
-            android:layout_width="197dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Submit_Man"
@@ -107,8 +108,8 @@
 
         <Button
             android:id="@+id/Submit_Man"
-            android:layout_width="197dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/submit"
             app:layout_constraintBottom_toBottomOf="@+id/Return"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,8 +118,8 @@
 
         <Button
             android:id="@+id/add_more"
-            android:layout_width="152dp"
-            android:layout_height="47dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/add_more"
             app:layout_constraintBottom_toTopOf="@+id/Return"
             app:layout_constraintEnd_toEndOf="parent"
