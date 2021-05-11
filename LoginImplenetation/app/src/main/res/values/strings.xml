@@ -37,4 +37,5 @@
     <string name="total_cost">Total Cost</string>
     <string name="tax">Tax</string>
     <string name="name">Name</string>
+    <string name="emptyCat">NONE</string>
 </resources>
