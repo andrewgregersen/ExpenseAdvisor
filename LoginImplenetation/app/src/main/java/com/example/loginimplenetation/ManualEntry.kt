@@ -1,6 +1,7 @@
 package com.example.loginimplenetation
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -196,6 +197,7 @@ class ManualEntry : AppCompatActivity() {
     }
 
 
+
     /**
      * @author Andrew Gregersen
      * Adapter class for the recycler view.
@@ -205,6 +207,7 @@ class ManualEntry : AppCompatActivity() {
 
     class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
+        private lateinit var parent: ViewGroup
         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
@@ -221,6 +224,7 @@ class ManualEntry : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val vh = LayoutInflater.from(parent.context)
+            this.parent = parent
             val binding = ActivityManualEntryFormatBinding.inflate(vh,parent,false)
             return CustomViewHolder(binding)
         }
@@ -254,6 +258,18 @@ class ManualEntry : AppCompatActivity() {
             binding.imageButtonMERF.setOnClickListener {
                     deleteItem(position)
                 }
+
+            //init edit button
+            binding.edit.setOnClickListener {
+                deleteItem(position)
+                val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+                parBinding.itemCost.text = currentItem.itemPrice as Editable
+                parBinding.itemname.text = currentItem.itemName as Editable
+                parBinding.itemAmount.text = currentItem.itemAmount as Editable
+                parBinding.catChoice.text = currentItem.itemCategory
+            }
+
+
             binding.ItemInfo.text = "$position: ${currentItem.itemName}, ${currentItem.itemAmount} for ${currentItem.itemPrice}, ${currentItem.itemCategory} "
 
 
@@ -317,4 +333,5 @@ class ManualEntry : AppCompatActivity() {
     )
 
     open class CustomViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)
+
 }
