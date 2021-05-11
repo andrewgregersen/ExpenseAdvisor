@@ -27,7 +27,7 @@ class Confirm_Update_Item : AppCompatActivity() {
         var bundle= intent.extras
 
         var item= bundle?.getString("ItemName") as String
-        var price= bundle?.getString("ItemPrice") as String
+        var price= bundle.getString("ItemPrice") as String
 
         //delete the $ signe
         price= substring(price,1, price.length)
@@ -67,7 +67,7 @@ class Confirm_Update_Item : AppCompatActivity() {
             //first get the item id of the element we woud like to edit
             val id= db.getItemID(item)
             //call the update function
-            Toast.makeText(context, ""+ title + " " + price.toString()+ " " + category, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "$title $price $category", Toast.LENGTH_LONG).show()
 
 
              db.updateItem(title, price, category, id )
@@ -85,7 +85,7 @@ class Confirm_Update_Item : AppCompatActivity() {
 
     }
 
-    fun transfert(act: String){
+    private fun transfert(act: String){
 
         if(act == "Food"){
             startActivity(Intent(this, FoodItems::class.java))

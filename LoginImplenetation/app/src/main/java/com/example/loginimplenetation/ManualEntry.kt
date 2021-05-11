@@ -1,14 +1,9 @@
 package com.example.loginimplenetation
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -21,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplenetation.databinding.ActivityManualEntryRecyclerViewBinding
-import com.example.loginimplenetation.databinding.ItemLayoutBinding
+import kotlinx.android.synthetic.main.activity_manual_entry_recycler_view.*
 
 class ManualEntry : AppCompatActivity() {
 
@@ -46,55 +41,94 @@ class ManualEntry : AppCompatActivity() {
         //Init recycler view
         val manager = LinearLayoutManager(this)
         val mAdapter = MyAdapter(mutableListOf<Item>(Item()))
-        val RecyclerView = findViewById<RecyclerView>(R.id.man_entry_rec).apply {
+        val RecyclerView = binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
         }
 
+        //init cat_selector
+        binding.CategoryBtn.setOnClickListener {
+            val popup = PopupMenu(binding.root.context, binding.CategoryBtn)
+            popup.inflate(R.menu.menu_categorie_manual)
+            popup.setOnMenuItemClickListener {
+                //get the choice from categories and display it on the text view
+                binding.catChoice.text = it.title.toString();true
+                // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
+            }
+            //Display the list of categories
+            popup.show()
+        }
+
         binding.addMore.setOnClickListener {
             println("Adding More")
-            mAdapter.addItem(Item())
+            mAdapter.addItem(Item(binding.itemname.text.toString(),binding.itemCost.text.toString().toDouble(),binding.itemAmount.text.toString().toInt(),binding.catChoice.text.toString()))
+            binding.itemAmount.text.clear()
+            binding.itemCost.text.clear()
+            binding.itemname.text.clear()
+            binding.catChoice.text = "NONE"
+        }
+
+        binding.clear.setOnClickListener {
+            binding.itemAmount.text.clear()
+            binding.itemCost.text.clear()
+            binding.itemname.text.clear()
+            binding.catChoice.text = "NONE"
         }
 
         binding.SubmitMan.setOnClickListener {
             println("Submitting")
-            when{
-//                binding.taxPaid.text.isEmpty() -> {binding.taxPaid.error = "You didn't include a tax amount!"; binding.taxPaid.requestFocus()}
-//                binding.storeName.text.isEmpty() -> {binding.storeName.error = "You didn't include the name of the store!"; binding.storeName.requestFocus()}
-//                binding.totalPrice.text.isEmpty() -> {binding.totalPrice.error = "You didn't include the total price!"; binding.totalPrice.requestFocus()}
-                else ->{
-                    val bindings = mAdapter.getBindings()
-                    var err = false
-                    when{
-                        TextUtils.isEmpty(binding.totalPrice.text)-> {binding.totalPrice.error = "Please enter a total cost for the items!";binding.totalPrice.requestFocus()}
-                        TextUtils.isEmpty(binding.storeName.text)-> {binding.storeName.error = "Please enter a name for the store you made this purchase at!";binding.storeName.requestFocus()}
-                        TextUtils.isEmpty(binding.taxPaid.text) -> {binding.taxPaid.error = "Please enter the amount of tax you paid on this purchase!";binding.taxPaid.requestFocus()}
-                        }
-                    for(x in bindings){
-                        when{
-                            x.itemQuantity.text.isEmpty() -> {x.itemQuantity.error = "Please enter the amount of said item!";x.itemQuantity.requestFocus();err=true}
-                            x.idPrice.text.isEmpty() -> {x.idPrice.error = "Please enter a price!";x.idPrice.requestFocus();err=true}
-                            x.idItemName.text.isEmpty() -> {x.idItemName.error = "Please enter a name!";x.idItemName.requestFocus();err=true}
-                            x.catChoice.text.isEmpty() -> {x.CategoryBtn.error = "Please select a category!";x.CategoryBtn.requestFocus();err=true}
-                        }
-                        if(err)
-                            break
-                    }
-                    if(!err)
-                        alertDialog(mAdapter.getBindings()) //items in recycler view are not empty
+
+
+            when {
+                TextUtils.isEmpty(binding.totalPrice.text) -> {
+                    binding.totalPrice.error =
+                        "Please enter a total cost for the items!";binding.totalPrice.requestFocus()
                 }
+                TextUtils.isEmpty(binding.storeName.text) -> {
+                    binding.storeName.error =
+                        "Please enter a name for the store you made this purchase at!";binding.storeName.requestFocus()
+                }
+                TextUtils.isEmpty(binding.taxPaid.text) -> {
+                    binding.taxPaid.error =
+                        "Please enter the amount of tax you paid on this purchase!";binding.taxPaid.requestFocus()
+                }
+                !TextUtils.isEmpty(binding.itemname.text) ->{
+                    binding.itemname.error =
+                        "Please either finish or clear the item"
+                }
+                !TextUtils.isEmpty(binding.itemCost.text) ->{
+                    binding.itemCost.error =
+                        "Please either finish or clear the item"
+                }
+                !TextUtils.isEmpty(binding.itemAmount.text) ->{
+                    binding.itemAmount.error =
+                        "Please either finish or clear the item"
+                    binding.itemAmount.requestFocus()
+                }
+                !TextUtils.equals(binding.catChoice.text,"NONE") ->{
+                    binding.CategoryBtn.error =
+                        "Please choose a category!"
+                    binding.CategoryBtn.requestFocus()
+                }
+                else -> alertDialog(mAdapter.mData as ArrayList<Item>) //items in recycler view are not empty
+
             }
+
+
 
         }
 
 
-
-
-
-
-
-
     }
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -102,7 +136,7 @@ class ManualEntry : AppCompatActivity() {
      * Other than that, gets the users permission to submit the data.
      */
 
-    private fun alertDialog(list: ArrayList<ActivityManualEntryFormatBinding>) {
+    private fun alertDialog(list: ArrayList<Item>) {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage("Are you sure you want to submit this receipt?\n Please double check to make sure there are no mistakes!")
         dialog.setTitle("Submit Your Receipt?")
@@ -124,7 +158,7 @@ class ManualEntry : AppCompatActivity() {
      * Submits the receipt to the database and then returns the user to the main screen!
      */
 
-    private fun submitItems(list: ArrayList<ActivityManualEntryFormatBinding>) {
+    private fun submitItems(list: ArrayList<Item>) {
         val db = DatabaseHelper(this)
         println("SubmittingItems")
             if(list.isNotEmpty()) {
@@ -139,7 +173,7 @@ class ManualEntry : AppCompatActivity() {
                 //start inserting items
 
                 for (x in list) {
-                    db.insertItem(x.idItemName.text.toString(), x.idPrice.text.toString().toDouble(), x.itemQuantity.text.toString().toInt(), x.catChoice.text.toString())
+                    db.insertItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory)
                     db.insertContains(receiptID, db.getLastItemID())
                 }
 
@@ -171,7 +205,6 @@ class ManualEntry : AppCompatActivity() {
 
     class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
-        private var bindingList: ArrayList<ActivityManualEntryFormatBinding> = ArrayList()
         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
@@ -217,124 +250,11 @@ class ManualEntry : AppCompatActivity() {
             //mData[position].let { holder.bind(it, position)}
             val currentItem = mData[position]
             val binding = holder.binding as ActivityManualEntryFormatBinding
-            bindingList.add(position,binding)//add the binding to the current position, doesn't allow for duplicates
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
                     deleteItem(position)
                 }
-
-            //init cat_selector
-            binding.CategoryBtn.setOnClickListener {
-                    val popup = PopupMenu(binding.root.context, binding.CategoryBtn)
-                    popup.inflate(R.menu.menu_categorie_manual)
-                    popup.setOnMenuItemClickListener {
-                        //get the choice from categories and display it on the text view
-                        binding.catChoice.text = it.title.toString();true
-                        // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
-                    }
-                    //Display the list of categories
-                    popup.show()
-                }
-
-//            binding.idItemName.addTextChangedListener(object : TextWatcher {
-//                    /**
-//                     * This method is called to notify you that, within `s`,
-//                     * the `count` characters beginning at `start`
-//                     * are about to be replaced by new text with length `after`.
-//                     * It is an error to attempt to make changes to `s` from
-//                     * this callback.
-//                     */
-//                    override fun beforeTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        count: Int,
-//                        after: Int
-//                    ) {
-//                        //Nothing to implement here, I dont have anything to do to the text in the box
-//                        //before the user updates it
-//                    }
-//
-//                    /**
-//                     * This method is called to notify you that, within `s`,
-//                     * the `count` characters beginning at `start`
-//                     * have just replaced old text that had length `before`.
-//                     * It is an error to attempt to make changes to `s` from
-//                     * this callback.
-//                     */
-//                    override fun onTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        before: Int,
-//                        count: Int
-//                    ) {
-//                    }
-//
-//                    /**
-//                     * This method is called to notify you that, somewhere within
-//                     * `s`, the text has been changed.
-//                     * It is legitimate to make further changes to `s` from
-//                     * this callback, but be careful not to get yourself into an infinite
-//                     * loop, because any changes you make will cause this method to be
-//                     * called again recursively.
-//                     * (You are not told where the change took place because other
-//                     * afterTextChanged() methods may already have made other changes
-//                     * and invalidated the offsets.  But if you need to know here,
-//                     * you can use [Spannable.setSpan] in [.onTextChanged]
-//                     * to mark your place and then look up from here where the span
-//                     * ended up.
-//                     */
-//                    override fun afterTextChanged(s: Editable?) {
-//                        mData[position].itemName = s.toString()
-//                    }
-//
-//                })
-//
-//                binding.itemQuantity.addTextChangedListener(object : TextWatcher {
-//                    override fun beforeTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        count: Int,
-//                        after: Int
-//                    ) {
-//                    }
-//
-//                    override fun onTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        before: Int,
-//                        count: Int
-//                    ) {
-//                    }
-//
-//                    override fun afterTextChanged(s: Editable?) {
-//                        mData[position].itemAmount = s.toString().toInt()
-//                    }
-//
-//                })
-//
-//                binding.idPrice.addTextChangedListener(object : TextWatcher {
-//                    override fun beforeTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        count: Int,
-//                        after: Int
-//                    ) {
-//                    }
-//
-//                    override fun onTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        before: Int,
-//                        count: Int
-//                    ) {
-//                    }
-//
-//                    override fun afterTextChanged(s: Editable?) {
-//                        mData[position].itemPrice = s.toString().toDouble()
-//                    }
-//
-//                })
-
+            binding.ItemInfo.text = "$position: ${currentItem.itemName}, ${currentItem.itemAmount} for ${currentItem.itemPrice}, ${currentItem.itemCategory} "
 
 
         }
@@ -359,7 +279,7 @@ class ManualEntry : AppCompatActivity() {
          *Removes an item from the recycler view
          */
 
-        fun deleteItem(index: Int) {
+        private fun deleteItem(index: Int) {
             if(itemCount!=1) {
                 mData.removeAt(index)
                 notifyDataSetChanged()
@@ -376,9 +296,6 @@ class ManualEntry : AppCompatActivity() {
             notifyItemInserted(mData.size)
         }
 
-        fun getBindings():ArrayList<ActivityManualEntryFormatBinding>{
-            return bindingList
-        }
 
 
     }

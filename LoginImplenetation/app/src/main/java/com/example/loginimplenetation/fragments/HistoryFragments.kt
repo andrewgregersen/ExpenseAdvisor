@@ -34,7 +34,7 @@ class HistoryFragments : Fragment() {
         //var Myadapter = list?.let { getContext()?.let { it1 -> ReceiptAdapter(it1, it) } }
         var Myadapter= ReceiptAdapter(requireContext(), id, date, total)
         //var linearLayoutManager = LinearLayoutManager(getContext())
-        historyRecycleView.layoutManager= LinearLayoutManager(getContext())
+        historyRecycleView.layoutManager= LinearLayoutManager(context)
         historyRecycleView.adapter = Myadapter
 
         return view

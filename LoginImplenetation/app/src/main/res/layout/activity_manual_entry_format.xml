@@ -4,118 +4,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <EditText
-        android:id="@+id/idItemName"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textAutoCorrect|textPersonName|textAutoComplete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/idPrice"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.201" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Item Name"
-        app:layout_constraintBottom_toTopOf="@+id/idItemName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButtonMERF"
+            app:layout_constraintEnd_toStartOf="@+id/ItemInfo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonMERF"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonMERF"
+            app:srcCompat="@drawable/ic_update" />
 
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:text="Enter Price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/idItemName" />
+        <ImageButton
+            android:id="@+id/imageButtonMERF"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
-    <EditText
-        android:id="@+id/idPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="@+id/cat_choice"
-        app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+        <TextView
+            android:id="@+id/ItemInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageButton2"
+            app:layout_constraintTop_toTopOf="@+id/imageButton2" />
 
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="128dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="40dp"
-        android:text="Select Category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemQuantity" />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="126dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="44dp"
-        android:text="Quantity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idPrice" />
-
-    <EditText
-        android:id="@+id/itemQuantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="@+id/tvDescription"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
-
-    <TextView
-        android:id="@+id/cat_choice"
-        android:layout_width="350dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/itemQuantity"
-        app:layout_constraintTop_toBottomOf="@+id/CategoryBtn" />
-
-    <Button
-        android:id="@+id/CategoryBtn"
-        android:layout_width="106dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="76dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.078"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemQuantity"
-        tools:text="Select" />
-
-    <ImageButton
-        android:id="@+id/imageButtonMERF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
