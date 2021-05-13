@@ -755,7 +755,7 @@ class DatabaseHelper(var Context: Context):
     /****************************************/
 
     // This function is used to update an item in the database
-    fun updateItem(itemName: String, price:Int, category: String, Itemid: Int){
+    fun updateItem(itemName: String, price:Double, amount: Int, category: String, Itemid: Int){
 
         val db = this.writableDatabase
         val cv = ContentValues()
@@ -768,7 +768,7 @@ class DatabaseHelper(var Context: Context):
 
         //update the table item and close cursor
         val query= "UPDATE "+ ITEM + " SET "+ COLUMN_ITEM_NAME + " = '"+itemName+"' " +
-                ", "+ COLUMN_PRICE + " = "+ price + " WHERE " + COLUMN_ITEM_ID + " = " + Itemid
+                ", "+ COLUMN_PRICE + " = "+ price + ", " + COLUMN_AMOUNT + "=" + amount + " WHERE " + COLUMN_ITEM_ID + " = " + Itemid
 
         var cursor = db.rawQuery(query, null)
         cursor.moveToFirst();
@@ -777,7 +777,7 @@ class DatabaseHelper(var Context: Context):
         //Check if category has changed, if yes, then update
         if (!currentCategory.equals(futureCategory))
         {
-            Toast.makeText(Context, "different category to update", Toast.LENGTH_LONG).show()
+            //Toast.makeText(Context, "different category to update", Toast.LENGTH_LONG).show()
 
             val queryTemp= "UPDATE "+ BELONG + " SET "+ COLUMN_BELONG_CATEGORY_ID + " = " + futureCategory +
                     " WHERE " + COLUMN_BELONG_ITEM_ID + " = " + Itemid

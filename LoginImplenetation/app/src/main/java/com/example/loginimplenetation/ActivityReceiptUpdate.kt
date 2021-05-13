@@ -9,20 +9,22 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.adapter.DatabaseHelper.Item
 import com.example.loginimplenetation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplenetation.databinding.ActivityManualEntryRecyclerViewBinding
 import java.lang.IndexOutOfBoundsException
 
+
 class ActivityReceiptUpdate: AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
+    private var receiptID: Int = 0
     //private var cancel: Button? = null
 
 
@@ -31,9 +33,9 @@ class ActivityReceiptUpdate: AppCompatActivity() {
         Binding = DataBindingUtil.setContentView(this,R.layout.activity_manual_entry_recycler_view)
 
 
-        val data = this.intent.extras.toString().toInt()
+        receiptID = this.intent.extras.toString().toInt()
 
-        val list = DatabaseHelper(this).getItemsWithID(data)
+        val list = DatabaseHelper(this).getItemsWithID(receiptID)
 
 
 
@@ -48,7 +50,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
         //Init recycler view
         val manager = LinearLayoutManager(this)
-        val mAdapter = MyAdapter(mutableListOf(Item("This is an Example")))
+        val mAdapter = MyAdapter(list)
         val RecyclerView = Binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
@@ -91,7 +93,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
                     Binding.CategoryBtn.requestFocus()
                 }
                 else -> {
-                    mAdapter.addItem(Item(Binding.itemname.text.toString(),Binding.itemCost.text.toString().toDouble(),
+                    mAdapter.addItem(Item(-1,Binding.itemname.text.toString(),Binding.itemCost.text.toString().toDouble(),
                         Binding.itemAmount.text.toString().toInt(),Binding.catChoice.text.toString()))
                     Binding.itemAmount.text.clear()
                     Binding.itemCost.text.clear()
@@ -212,13 +214,16 @@ class ActivityReceiptUpdate: AppCompatActivity() {
                 Binding.storeName.text.toString()
             )
             //store the last receipts DBID
-            val receiptID = db.getLastReceiptID()
 
             //start inserting items
 
             for (x in list) {
-                db.insertItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory)
-                db.insertContains(receiptID, db.getLastItemID())
+                if(x.itemID==-1){ //incase the user inserts a new item to the receipt
+                    db.insertItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory)
+                    db.insertContains(receiptID,db.getLastItemID())
+                }
+                else db.updateItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory,x.itemID) //otherwise just call the update function
+
             }
 
             Toast.makeText(
@@ -249,8 +254,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
      */
 
     class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
-        var lastPos = 0
-        private lateinit var parBinding: ActivityManualEntryRecyclerViewBinding
+        private var lastPos = 0
         private lateinit var parent: ViewGroup
         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -371,22 +375,5 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
 
     }
-
-    /**
-     * Small class with basic constructor to represent a single item in a list of many
-     * @param itemName Holds the items name
-     * @param itemPrice Holds the items cost
-     * @param itemAmount Holds how many of said item there is
-     * @param itemCategory Holds the value for the items category
-     */
-
-
-    data class Item(
-        var itemName: String = "",
-        var itemPrice: Double = 0.0,
-        var itemAmount: Int = 0,
-        var itemCategory: String = ""
-    )
-
     open class CustomViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)
 }
