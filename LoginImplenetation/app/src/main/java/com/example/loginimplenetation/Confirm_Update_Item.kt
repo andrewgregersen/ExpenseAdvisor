@@ -70,7 +70,7 @@ class Confirm_Update_Item : AppCompatActivity() {
             Toast.makeText(context, "$title $price $category", Toast.LENGTH_LONG).show()
 
 
-             db.updateItem(title, price, category, id )
+             db.updateItem(title, price.toDouble(), 1,category, id )
              transfert(category)
 
 

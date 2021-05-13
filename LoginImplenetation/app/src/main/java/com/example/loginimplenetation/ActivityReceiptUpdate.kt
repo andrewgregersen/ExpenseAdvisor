@@ -256,7 +256,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
     class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
         private var lastPos = 0
         private lateinit var parent: ViewGroup
-        companion object: DiffUtil.ItemCallback<Item>(){
+         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
                 return oldItem == newItem
             }
@@ -303,7 +303,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
             //mData[position].let { holder.bind(it, position)}
             val currentItem = mData[position]
             val binding = holder.binding as ActivityManualEntryFormatBinding
-            val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
                 deleteItem(position)
@@ -311,6 +311,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
             //init edit button
             binding.edit.setOnClickListener {
+                val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
                 Log.i("RecyclerView","Edit Button clicked")
                 parBinding.itemCost.setText(currentItem.itemPrice.toString())
                 parBinding.itemname.setText(currentItem.itemName)

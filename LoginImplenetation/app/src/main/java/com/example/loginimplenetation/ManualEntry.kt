@@ -42,7 +42,7 @@ class ManualEntry : AppCompatActivity() {
 
         //Init recycler view
         val manager = LinearLayoutManager(this)
-        val mAdapter = MyAdapter(mutableListOf(Item("This is an Example")))
+        val mAdapter = MyAdapter(mutableListOf(Item("This is an Example")),Binding.itemname,Binding.itemCost,Binding.itemAmount,Binding.catChoice)
         val RecyclerView = Binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
@@ -235,6 +235,10 @@ class ManualEntry : AppCompatActivity() {
 
 
 
+    fun onItemsClickedListener(currentData:Item){
+
+    }
+
     /**
      * @author Andrew Gregersen
      * Adapter class for the recycler view.
@@ -242,7 +246,7 @@ class ManualEntry : AppCompatActivity() {
      * @param mData: A list of "Items" that would appear on a receipt
      */
 
-    class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
+    class MyAdapter(val mData: MutableList<Item>,val iName: EditText, val iPrice: EditText, val iAmount: EditText, val iCat: TextView) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
         private lateinit var parBinding: ActivityManualEntryRecyclerViewBinding
         private lateinit var parent: ViewGroup
@@ -302,10 +306,10 @@ class ManualEntry : AppCompatActivity() {
             //init edit button
             binding.edit.setOnClickListener {
                 Log.i("RecyclerView","Edit Button clicked")
-                parBinding.itemCost.setText(currentItem.itemPrice.toString())
-                parBinding.itemname.setText(currentItem.itemName)
-                parBinding.itemAmount.setText(currentItem.itemAmount)
-                parBinding.catChoice.text = currentItem.itemCategory
+                iPrice.setText(currentItem.itemPrice.toString())
+                iName.setText(currentItem.itemName)
+                iAmount.setText(currentItem.itemAmount)
+                iCat.text = currentItem.itemCategory
                 deleteItem(position)
                 notifyDataSetChanged()
             }

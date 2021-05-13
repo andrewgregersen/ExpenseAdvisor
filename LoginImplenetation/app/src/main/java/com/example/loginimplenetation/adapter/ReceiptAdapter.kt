@@ -49,11 +49,11 @@ class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayLi
             var receiptItem = itemView.findViewById(R.id.hhistory_description) as TextView
         }
 
-        override fun onClick(view: View){
-            val intent = Intent(itemView.context,ActivityReceiptUpdate::class.java)
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.putExtra("Receipt ID",arrayList[adapterPosition])
-        }
+//
+//            val intent = Intent(itemView.context,ActivityReceiptUpdate::class.java)
+//            intent.action = Intent.ACTION_GET_CONTENT
+//            intent.putExtra("Receipt ID",arrayList[adapterPosition])
+//        }
 
 
     }
