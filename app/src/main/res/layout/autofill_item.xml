@@ -16,7 +16,7 @@
         card_view:cardCornerRAdius= "5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,10 +24,21 @@
             android:padding="8dp">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@{isAutofill_List.autoImage}"
-                android:id="@+id/autofilIm"/>
+                android:id="@+id/autofilIm"
+                android:layout_width="111dp"
+                android:layout_height="151dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@{isAutofill_List.autoImage}" />
+
+            <ImageView
+                android:id="@+id/autodelete"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                app:srcCompat="@drawable/ic_delete_24"
+                android:clickable="true"
+                android:focusable="true"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,34 +47,41 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/autofillName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@{isAutofill_List.itemName}"
-                    android:gravity="center"
-                    android:textStyle="bold"
                     android:textColor="@color/purple_500"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/autofillCal"
-                    android:text="@{isAutofill_List.itemPrice}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:text="@{isAutofill_List.itemPrice}"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/autofillCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@{isAutofill_List.itemCount}"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+                <Spinner
+                    android:id="@+id/category_spinner"
+                    android:entries="@array/array_data2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
