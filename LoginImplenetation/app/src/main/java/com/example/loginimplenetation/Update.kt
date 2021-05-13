@@ -21,9 +21,9 @@ class Update : AppCompatActivity() {
         setContentView(R.layout.activity_update)
 
         itemName = findViewById(R.id.idItemName)
-        itemCategory= findViewById(R.id.cat_choice) as TextView
-        itemPrice = findViewById<EditText>(R.id.idPrice)
-        itemStore = findViewById<EditText>(R.id.idStoreName)
+        itemCategory= findViewById(R.id.cat_choice)
+        itemPrice = findViewById(R.id.idPrice)
+        itemStore = findViewById(R.id.idStoreName)
 
 
         // Get the previous value in each tuple:

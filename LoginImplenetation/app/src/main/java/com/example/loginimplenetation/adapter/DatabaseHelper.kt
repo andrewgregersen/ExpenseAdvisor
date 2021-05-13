@@ -671,6 +671,44 @@ class DatabaseHelper(var Context: Context):
     }
 
 
+    /**
+     * @author Andrew Gregersen
+     * The method returns all items that have the same receipt ID
+     * @param id: The Receipt Id that you are looking for children of
+     * @returns a list of Items for use in the application
+     */
+
+    fun getItemsWithID(id: Int): MutableList<Item>{
+        val db = this.readableDatabase
+
+        //get the Item ID's for this receipt
+        val query = "SELECT $COLUMN_CONTAINS_ITEM_ID FROM $CONTAINS WHERE $COLUMN_CONTAINS_RECEIPT_ID = $id"
+
+        val cursor = db.rawQuery(query,null)
+        val idList = mutableListOf<Int>()
+        while(cursor.moveToNext()){
+            idList.add(cursor.getInt(cursor.getColumnIndex(COLUMN_CONTAINS_ITEM_ID)))
+        }
+
+        cursor.close()
+
+        //get the items and return them to the activity
+        val itemList = mutableListOf<Item>()
+        for(x in idList){
+            val query2 = "SELECT * FROM $ITEM WHERE $COLUMN_ITEM_ID = $x"
+            val cursor2 = db.rawQuery(query2,null)
+            itemList.add(Item(itemID = x,itemName = cursor2.getString(cursor2.getColumnIndex(COLUMN_ITEM_NAME)),
+                itemPrice = cursor2.getDouble(cursor2.getColumnIndex(COLUMN_PRICE)),
+                itemAmount = cursor2.getInt(cursor2.getColumnIndex(COLUMN_AMOUNT)),
+                itemCategory = getCategoryName(getItemCategoryInBelong(x))))
+            cursor2.close()
+        }
+        return itemList
+    }
+
+    data class Item(val itemID: Int,var itemName: String,var itemPrice: Double, var itemAmount: Int, var itemCategory: String)
+
+
 
 
 
@@ -693,6 +731,8 @@ class DatabaseHelper(var Context: Context):
         cursor.close()
         return id
     }
+
+
 
 
     /*****************************************/
