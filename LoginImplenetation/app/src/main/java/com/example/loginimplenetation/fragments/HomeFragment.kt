@@ -1,6 +1,7 @@
 package com.example.loginimplenetation.fragments
 
 import android.content.Intent
+import android.database.DatabaseUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
 import androidx.annotation.Nullable
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.ManualEntry
 import com.example.loginimplenetation.CameraAccessActivity
 import com.example.loginimplenetation.SettingsActivity
 import com.example.loginimplenetation.R
+import com.example.loginimplenetation.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -26,22 +29,16 @@ import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment()  {
 
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
+    private lateinit var binding: FragmentHomeBinding
 
     // Here we can define the PieChart
     override fun onCreateView(
-            inflater: LayoutInflater,
-            @Nullable container: ViewGroup?,
-            @Nullable savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
+
+        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_home,container,false)
 
     //--------------------------------------------------------------------------------------------//
       // Work with pie chart in the Home fragment
@@ -56,7 +53,7 @@ class HomeFragment : Fragment()  {
         var quantity = arrayListOf<Float>(35.2f, 10.4f, 28.99f, 3.5f, 70.1f, 30.4f, 9.2f)
 
         //Populating a list of PieEntries
-        val pieEntries: MutableList<PieEntry> = ArrayList<PieEntry>()
+        val pieEntries: MutableList<PieEntry> = ArrayList()
         for (i in quantity.indices) {
             pieEntries.add(PieEntry(quantity[i], category[i]))
         }
@@ -70,27 +67,23 @@ class HomeFragment : Fragment()  {
         val dataSet = PieDataSet(pieEntries, "Expenses")
         val data = PieData(dataSet)
 
-        // Get the chart, Let call the pieChart from the xml file
-        val chart = view.findViewById<View>(R.id.chart) as PieChart
 
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        dataSet?.setColors(*ColorTemplate.COLORFUL_COLORS)
-        chart.setData(data)
+        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        binding.chart.setData(data)
 
         //set animation
-        chart.animateY(2000)
-        chart.invalidate()
+        binding.chart.animateY(2000)
+        binding.chart.invalidate()
 
      //-------------------------------------------------------------------------//
 
         //Declare variable for buttons
 
-        val signout = view?.findViewById<Button>(R.id.signout)
-        val settings= view?.findViewById<Button>(R.id.settings)
-        val addReceipt= view?.findViewById<Button>(R.id.addReceipt)
+
 
         //implement signoutButton
-        signout.setOnClickListener {
+        binding.signout.setOnClickListener {
             val auth = FirebaseAuth.getInstance()
             auth.signOut()
             activity?.finish()
@@ -98,13 +91,13 @@ class HomeFragment : Fragment()  {
 
 
         //work with settings
-        settings?.setOnClickListener {
+        binding.settings.setOnClickListener {
             val intent = Intent(context, SettingsActivity::class.java);
             startActivity(intent)
         }
 
         //work with adding a receipt either from camera or manually
-        addReceipt?.setOnClickListener { v ->
+        binding.addReceipt.setOnClickListener { v ->
             // create a popupMenu when cliking on add button
             val popupMenu = PopupMenu(context, v)
             popupMenu.setOnMenuItemClickListener { item ->

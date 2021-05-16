@@ -1,12 +1,13 @@
 package com.example.loginimplenetation.itemOfCategory
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplementation.Adapter.RecyclerView_Adapter
 import com.example.loginimplenetation.R
+import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.databinding.ItemLayoutFulllistBinding
 
 class AdvertisementItem : AppCompatActivity() {
     private var titlesList= mutableListOf<String>()
@@ -17,10 +18,11 @@ class AdvertisementItem : AppCompatActivity() {
     val db = DatabaseHelper(context)
 
 
+    private lateinit var binding: ItemLayoutFulllistBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.item_layout_fulllist)
+        binding = DataBindingUtil.setContentView(this,R.layout.item_layout_fulllist)
 
         //postToList()
 
@@ -28,9 +30,8 @@ class AdvertisementItem : AppCompatActivity() {
         descList= db.getOnlyPriceOfItemOfCategory("Advertisement")
         postToList(titlesList.size) //get enough drawable for all items
 
-        var rv_recycleView= findViewById<RecyclerView>(R.id.rv_recycleView)
-        rv_recycleView?.layoutManager = LinearLayoutManager(this)
-        rv_recycleView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
+        binding.rvRecycleView.layoutManager = LinearLayoutManager(this)
+        binding.rvRecycleView.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
 
     }
 

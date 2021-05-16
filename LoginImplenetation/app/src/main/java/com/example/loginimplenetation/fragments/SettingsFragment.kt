@@ -2,12 +2,12 @@ package com.example.loginimplenetation.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.loginimplenetation.ProfileActivity
 import com.example.loginimplenetation.R
@@ -21,7 +21,6 @@ class SettingsFragment: AppCompatActivity() , NavigationView.OnNavigationItemSel
     //initializes the databinding for objects to make object lookup more efficent
     private lateinit var binding: SettingsActivityBinding
     private lateinit var cMBinding: ContentMainBinding
-    private lateinit var view: View
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
@@ -29,10 +28,9 @@ class SettingsFragment: AppCompatActivity() , NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         //inflate the bindings
-        binding = SettingsActivityBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this,R.layout.settings_activity)
         cMBinding = ContentMainBinding.inflate(layoutInflater)
-        view = binding.root
-        setContentView(view)
+
 
         //initialized the other lateinit vars
         toolbar = cMBinding.toolbar

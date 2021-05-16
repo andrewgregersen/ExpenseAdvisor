@@ -5,37 +5,35 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplenetation.adapter.ReceiptAdapter
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.R
+import com.example.loginimplenetation.databinding.FragmentHistoryBinding
 
 class HistoryFragments : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentHistoryBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+
+        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_history,container,false)
+
         val db = DatabaseHelper(this.requireContext())
 
         //discribe the array to pass to the recycler view
         val id = db.getAll_Receipt_ID() as ArrayList<Int>
-        var total= db.getAll_Total_Receipt_ID() as ArrayList<String>
-        val date= db.getAll_Date_Receipt_ID() as ArrayList<String>
+        val total = db.getAll_Total_Receipt_ID() as ArrayList<String>
+        val date = db.getAll_Date_Receipt_ID() as ArrayList<String>
 
-        var view = inflater.inflate(R.layout.fragment_history, container, false)
-        var historyRecycleView = view.findViewById<RecyclerView>(R.id.historyRecycleView)
-        //var Myadapter = list?.let { getContext()?.let { it1 -> ReceiptAdapter(it1, it) } }
-        var Myadapter= ReceiptAdapter(requireContext(), id, date, total)
-        //var linearLayoutManager = LinearLayoutManager(getContext())
-        historyRecycleView.layoutManager= LinearLayoutManager(context)
-        historyRecycleView.adapter = Myadapter
+        val Myadapter = ReceiptAdapter(requireContext(), id, date, total)
+        binding.historyRecycleView.layoutManager = LinearLayoutManager(context)
+        binding.historyRecycleView.adapter = Myadapter
 
         return view
     }
