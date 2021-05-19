@@ -80,7 +80,7 @@ class CategoriesFragment : Fragment() {
 
 
         // Inflate the layout for this fragment
-        return view
+        return binding.root
     }
 
 

@@ -26,15 +26,13 @@ class HistoryFragments : Fragment() {
 
         val db = DatabaseHelper(this.requireContext())
 
-        //discribe the array to pass to the recycler view
-        val id = db.getAll_Receipt_ID() as ArrayList<Int>
-        val total = db.getAll_Total_Receipt_ID() as ArrayList<String>
-        val date = db.getAll_Date_Receipt_ID() as ArrayList<String>
 
-        val Myadapter = ReceiptAdapter(requireContext(), id, date, total)
+
+        val myAdapter = ReceiptAdapter(requireContext(), db.getAll_Receipt_ID() as ArrayList,
+            db.getAll_Date_Receipt_ID() as ArrayList, db.getAll_Total_Receipt_ID() as ArrayList)
         binding.historyRecycleView.layoutManager = LinearLayoutManager(context)
-        binding.historyRecycleView.adapter = Myadapter
+        binding.historyRecycleView.adapter = myAdapter
 
-        return view
+        return binding.root
     }
 }

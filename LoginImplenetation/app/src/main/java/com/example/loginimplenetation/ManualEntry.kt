@@ -297,7 +297,7 @@ class ManualEntry : AppCompatActivity() {
             //mData[position].let { holder.bind(it, position)}
             val currentItem = mData[position]
             val binding = holder.binding as ActivityManualEntryFormatBinding
-            val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+            //val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
                     deleteItem(position)

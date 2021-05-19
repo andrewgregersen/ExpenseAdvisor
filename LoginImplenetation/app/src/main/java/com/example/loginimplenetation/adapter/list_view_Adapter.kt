@@ -55,12 +55,12 @@ class list_view_Adapter(private val context: Context,
             holder = itemView.tag as ViewHolder
         }
 
-        holder.name!!.setText(ListViewArrayList[position].getNames())
+        holder.name!!.text = ListViewArrayList[position].getNames()
         holder.iv!!.setImageResource(ListViewArrayList[position].getImage())
 
         ///Item Clicked Action
         holder.name!!.setOnClickListener(){ v: View ->
-            Toast.makeText(v.getContext(), "Cliked on item", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.context, "Cliked on item", Toast.LENGTH_SHORT).show();
         }
 
         return itemView

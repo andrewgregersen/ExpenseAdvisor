@@ -48,14 +48,15 @@ class HomeFragment : Fragment()  {
         val db = DatabaseHelper(this.requireContext())  /* ALWAYS DECLARE IT IN THE VIEWS */
 
         /**** WE GET THE CATEGORIES FROM THE DATABASE ****/
-        var category = db.getCategories() as ArrayList<String>
+        val category = db.getCategories() as ArrayList<String>
 
-        var quantity = arrayListOf<Float>(35.2f, 10.4f, 28.99f, 3.5f, 70.1f, 30.4f, 9.2f)
+        val quantity = db.getCatTotalCost() as ArrayList
+
 
         //Populating a list of PieEntries
         val pieEntries: MutableList<PieEntry> = ArrayList()
-        for (i in quantity.indices) {
-            pieEntries.add(PieEntry(quantity[i], category[i]))
+        for (x in 0..8) {
+            pieEntries.add(PieEntry(quantity[x].toFloat(), category[x]))
         }
 
 
@@ -70,7 +71,7 @@ class HomeFragment : Fragment()  {
 
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        binding.chart.setData(data)
+        binding.chart.data = data
 
         //set animation
         binding.chart.animateY(2000)
@@ -137,7 +138,7 @@ class HomeFragment : Fragment()  {
             }
         }
 
-        return view
+        return binding.root
     }
 }
 

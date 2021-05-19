@@ -1,4 +1,4 @@
-package com.example.loginimplementation.Adapter
+package com.example.loginimplenetation.adapter
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,85 +8,75 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.Confirm_Update_Item
 import com.example.loginimplenetation.R
+import com.example.loginimplenetation.databinding.ItemLayoutBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class RecyclerView_Adapter(private var titles: List<String>, private var details: List<String>, private var images:List<Int>):
-RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
-
-
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-
-        val itemTitle: TextView= itemView.findViewById(R.id.history_title)
-        val itemDetail: TextView= itemView.findViewById(R.id.history_description)
-        val itemPicture: ImageView= itemView.findViewById(R.id.historyImage)
-        val deleteItem: ImageView= itemView.findViewById(R.id.deleteItem)
-        val editItem: ImageView= itemView.findViewById(R.id.editItem)
+RecyclerView.Adapter<CustomViewHolder>(){
 
 
 
-        init {
-            deleteItem.setOnClickListener { v: View ->
-                val position: Int= adapterPosition
-                //when click on delete, ask for confirmation
-                //showAlertDialog(v)
-
-                MaterialAlertDialogBuilder(itemView.getContext())
-                        .setTitle("Warning!")
-                        .setMessage("Do you want to delete this item from the category? ")
-                        .setNegativeButton("No"){dialog, which ->
-                            Toast.makeText(itemView.context, "Cancel ", Toast.LENGTH_SHORT).show()
-
-                        }
-                        .setPositiveButton("Yes"){dialog, which ->
-
-                            val db = DatabaseHelper(itemView.getContext())
-                            val item:String = itemTitle!!.text.toString()
-                            db.deleteItem(item)
-
-                            notifyItemRemoved(position)
-                        }
-                        .show()
-
-            }
-
-            editItem.setOnClickListener {v:View ->
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+        val v= LayoutInflater.from(parent.context)
+        val binding = ItemLayoutBinding.inflate(v,parent,false)
+        return CustomViewHolder(binding)
+    }
 
 
-                val intent = Intent(v.context, Confirm_Update_Item::class.java)
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        val binding = holder.binding as ItemLayoutBinding
+        binding.historyTitle.text = titles[position]
+        binding.historyDescription.text= details[position]
+        binding.historyImage.setImageResource(images[position])
 
-                var bundle = Bundle()
-                bundle.putString("ItemName", itemTitle!!.text.toString())
-                bundle.putString("ItemPrice", itemDetail!!.text.toString())
+        binding.deleteItem.setOnClickListener { v: View ->
+            val position: Int= position
+            //when click on delete, ask for confirmation
+            //showAlertDialog(v)
 
-                Toast.makeText(v.getContext(), ""+  itemTitle!!.text.toString() + " " + itemDetail!!.text.toString() , Toast.LENGTH_LONG).show()
+            MaterialAlertDialogBuilder(binding.historyTitle.context)
+                .setTitle("Warning!")
+                .setMessage("Do you want to delete this item from the category? ")
+                .setNegativeButton("No"){ _, _ ->
+                    Toast.makeText(binding.historyTitle.context, "Cancel ", Toast.LENGTH_SHORT).show()
+
+                }
+                .setPositiveButton("Yes"){ _, _ ->
+
+                    val db = DatabaseHelper(binding.historyTitle.context)
+                    val item:String = binding.historyTitle.text.toString()
+                    db.deleteItem(item)
+
+                    notifyItemRemoved(position)
+                }
+                .show()
+
+        }
+
+        binding.editItem.setOnClickListener {v:View ->
+
+
+            val intent = Intent(v.context, Confirm_Update_Item::class.java)
+
+            var bundle = Bundle()
+            bundle.putString("ItemName", binding.historyTitle.text.toString())
+            bundle.putString("ItemPrice", binding.historyDescription.text.toString())
+
+            Toast.makeText(v.context, ""+  binding.historyTitle.text.toString() + " " + binding.historyDescription.text.toString() , Toast.LENGTH_LONG).show()
 //
 
-                val db= DatabaseHelper(v.context)
-               // bundle.putString("ItemCategory", db.getCategoryName(db.getCategoryID(itemTitle!!.text.toString())))
+            val db= DatabaseHelper(v.context)
+            // bundle.putString("ItemCategory", db.getCategoryName(db.getCategoryID(itemTitle!!.text.toString())))
 
-                intent.putExtras(bundle)
-                v.context.startActivity(intent)
+            intent.putExtras(bundle)
+            v.context.startActivity(intent)
 
-            }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v= LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
-        //cte iemlayout before
-        return ViewHolder(v)
-    }
-
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemTitle.text = titles[position]
-        holder.itemDetail.text= details[position]
-        holder.itemPicture.setImageResource(images[position])
     }
 
 
@@ -96,22 +86,26 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
 
 
 
-    //Create a function that show an alerte when deleting an item
+    //Create a function that show an alert when deleting an item
     fun showAlertDialog(itemView: View){
 
-        MaterialAlertDialogBuilder(itemView.getContext())
+        MaterialAlertDialogBuilder(itemView.context)
             .setTitle("Warning!")
             .setMessage("Do you want to delete this item from the category? ")
-            .setNegativeButton("No"){dialog, which ->
+            .setNegativeButton("No"){ _, _ ->
                 Toast.makeText(itemView.context, "Cancel ", Toast.LENGTH_SHORT).show()
 
             }
-            .setPositiveButton("Yes"){dialog, which ->
+            .setPositiveButton("Yes"){ _, _ ->
                 val itemTitle: TextView= itemView.findViewById(R.id.history_title)
-                val db = DatabaseHelper(itemView.getContext())
-                val item:String = itemTitle!!.text.toString()
+                val db = DatabaseHelper(itemView.context)
+                val item:String = itemTitle.text.toString()
                 db.deleteItem(item)
             }
             .show()
     }
+
+
 }
+
+open class CustomViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)

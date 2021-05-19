@@ -421,6 +421,42 @@ class DatabaseHelper(var Context: Context):
         return id
     }
 
+    /**
+     * @author Andrew Gregersen
+     * Getter method to retrieve the total cost of each category.
+     */
+    fun getCatTotalCost(): MutableList<Double>{
+        val categories = getCategories()
+
+        val list = mutableListOf<Double>()
+        var total = 0.0
+        val itemID = mutableListOf<Int>()
+        var query: String
+
+        val db = this.readableDatabase
+        for(x in categories){
+            query = "SELECT $COLUMN_BELONG_ITEM_ID FROM $BELONG WHERE $COLUMN_BELONG_CATEGORY_ID = ${getCategoryID(x)}"
+            val cursor = db.rawQuery(query,null)
+            while(cursor.moveToNext()){
+                itemID.add(cursor.getInt(cursor.getColumnIndex(COLUMN_BELONG_ITEM_ID)))
+            }
+            cursor.close()
+            for(y in itemID){
+                query = "SELECT $COLUMN_PRICE FROM $ITEM WHERE $COLUMN_ITEM_ID = $y"
+                val cursor2 = db.rawQuery(query,null)
+                while(cursor2.moveToNext()){
+                    total+=cursor2.getDouble(cursor2.getColumnIndex(COLUMN_PRICE))
+                }
+                cursor2.close()
+            }
+
+            list.add(total)
+            total = 0.0
+        }
+
+        return list
+    }
+
     fun getItemsOfCategory(category: String): MutableList<String> {
 
         var categoryFound = getCategoryID(category)

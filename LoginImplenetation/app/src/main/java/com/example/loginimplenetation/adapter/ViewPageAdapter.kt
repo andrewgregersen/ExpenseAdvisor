@@ -18,7 +18,7 @@ class ViewPageAdapter(supportFragmentManager: FragmentManager): FragmentPagerAda
         return mFragmentList[position]
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {  //get the title in the arraytitle
+    override fun getPageTitle(position: Int): CharSequence {  //get the title in the arraytitle
         return mFragmentTitleList[position]
     }
 

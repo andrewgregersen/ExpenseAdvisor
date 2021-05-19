@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.loginimplementation.Adapter.RecyclerView_Adapter
+import com.example.loginimplenetation.adapter.RecyclerView_Adapter
 import com.example.loginimplenetation.R
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.databinding.ItemLayoutFulllistBinding
