@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/choise_Food"
+        android:title="Food"/>
+
+    <item
+        android:id="@+id/choise_Electronics"
+        android:title="Electronics"/>
+
+    <item
+        android:id="@+id/choise_Education"
+        android:title="Education"/>
+
+    <item
+        android:id="@+id/choise_Health"
+        android:title="Health"/>
+
+    <item
+        android:id="@+id/chois_Laundry"
+        android:title="Laundry"/>
+
+    <item
+        android:id="@+id/choise_Advertisement"
+        android:title="Advertisement"/>
+
+    <item
+        android:id="@+id/choise_Beauty"
+        android:title="Beauty"/>
+
+    <item
+        android:id="@+id/choise_Other"
+        android:title="Other"/>
+
+</menu>

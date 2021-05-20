@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    >
+<androidx.cardview.widget.CardView
+    android:id="@+id/hcv_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
+    tools:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:id="@+id/hrl_wrapper"
+        android:layout_width="388dp"
+        android:layout_height="145dp"
+        android:padding="1dp">
+
+
+        <LinearLayout
+            android:id="@+id/hcentre"
+            android:layout_width="wrap_content"
+            android:layout_height="144dp"
+            android:layout_marginBottom="-7dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hhistory_title"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"/>
+
+            <TextView
+                android:id="@+id/hhistory_price"
+                android:layout_width="387dp"
+                android:layout_height="51dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/hhistory_description"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@color/Orange"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+</layout>
