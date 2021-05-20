@@ -246,7 +246,7 @@ class ManualEntry : AppCompatActivity() {
      * @param mData: A list of "Items" that would appear on a receipt
      */
 
-    class MyAdapter(val mData: MutableList<Item>,val iName: EditText, val iPrice: EditText, val iAmount: EditText, val iCat: TextView) : RecyclerView.Adapter<CustomViewHolder>() {
+    class MyAdapter(val mData: MutableList<Item>, val iName: EditText, private val iPrice: EditText, private val iAmount: EditText, val iCat: TextView) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
         private lateinit var parBinding: ActivityManualEntryRecyclerViewBinding
         private lateinit var parent: ViewGroup

@@ -31,26 +31,23 @@ class ProfileActivity: AppCompatActivity(){
             }
             val submit = binding.submit
             submit.setOnClickListener {
-                val fname = binding.fName.text.toString().trim()
-                val lname = binding.lName.text.toString().trim()
-                val budget = binding.budget.text.toString().trim()
-                val housesize = binding.people.text.toString().trim()
-                var budgetperiod = "null as String"
+
+                var budgetperiod: String
 
 
-                if (TextUtils.isEmpty(fname)) {
+                if (TextUtils.isEmpty(binding.fName.text)) {
                     binding.fName.error = "You need to provide your name"
                     binding.fName.requestFocus()
                 }
-                if (TextUtils.isEmpty(lname)) {
+                if (TextUtils.isEmpty( binding.lName.text)) {
                     binding.lName.error = "You need to provide your last name"
                     binding.lName.requestFocus()
                 }
-                if (TextUtils.isEmpty(budget)) {
+                if (TextUtils.isEmpty(binding.budget.text)) {
                     binding.budget.error = "You need to provide a budget"
                     binding.budget.requestFocus()
                 }
-                if (TextUtils.isEmpty(housesize)) {
+                if (TextUtils.isEmpty(binding.people.text)) {
                     binding.people.error = "How many people are you shopping for?"
                     binding.people.requestFocus()
                 }

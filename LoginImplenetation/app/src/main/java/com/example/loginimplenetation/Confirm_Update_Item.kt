@@ -4,24 +4,24 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils.substring
+import android.view.LayoutInflater
 import android.widget.*
+import androidx.databinding.DataBindingUtil
 import com.example.loginimplenetation.adapter.DatabaseHelper
+import com.example.loginimplenetation.databinding.ConfirmUpdateItemBinding
 import com.example.loginimplenetation.itemOfCategory.*
 import kotlinx.android.synthetic.main.confirm_update_item.*
 
 class Confirm_Update_Item : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.confirm_update_item)
-
-        val context= applicationContext
-        val db = DatabaseHelper(context)
+        val binding = DataBindingUtil.setContentView<ConfirmUpdateItemBinding>(this,R.layout.confirm_update_item)
 
 
-        var changeItemName= findViewById<EditText>(R.id.changeItemName)
-        var changeItemPrice= findViewById<EditText>(R.id.changeItemPrice)
-        var showChangedCategory=findViewById<EditText>(R.id.showChangedCategory)
-        var changeCategory= findViewById<Button>(R.id.changeCategory)
+        val db = DatabaseHelper(binding.root.context)
+
+
+
 
         //get the previous item title and price
         var bundle= intent.extras
@@ -33,16 +33,16 @@ class Confirm_Update_Item : AppCompatActivity() {
         price= substring(price,1, price.length)
 
 
-        changeItemName.setText(item)
-        changeItemPrice.setText(price)
-        showChangedCategory.setText(db.getCategoryName(db.getItemID(item)))
+        binding.changeItemName.setText(item)
+        binding.changeItemPrice.setText(price)
+        binding.showChangedCategory.setText(db.getCategoryName(db.getItemID(item)))
 
 
         //Toast.makeText(context, ""+ changeCategory?.text.toString() + " " + changeItemName?.text.toString() + " " + showChangedCategory?.text.toString(), Toast.LENGTH_LONG).show()
 
         //Set up the selection for the choice of category
         changeCategory.setOnClickListener {
-            var popup = PopupMenu(context, changeCategory)
+            var popup = PopupMenu(binding.root.context, changeCategory)
             popup.inflate(R.menu.menu_categorie_manual)
             popup.setOnMenuItemClickListener {
                 //get the choice from categories and display it on the text view
@@ -67,7 +67,7 @@ class Confirm_Update_Item : AppCompatActivity() {
             //first get the item id of the element we woud like to edit
             val id= db.getItemID(item)
             //call the update function
-            Toast.makeText(context, "$title $price $category", Toast.LENGTH_LONG).show()
+            Toast.makeText(binding.root.context, "$title $price $category", Toast.LENGTH_LONG).show()
 
 
              db.updateItem(title, price.toDouble(), 1,category, id )

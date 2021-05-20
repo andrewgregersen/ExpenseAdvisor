@@ -5,25 +5,21 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import com.example.loginimplenetation.databinding.ActivityUpdateBinding
 import kotlinx.android.synthetic.main.activity_update.*
 
 class Update : AppCompatActivity() {
 
-    private var itemName: EditText? = null
-    private var itemCategory: TextView? = null
-    private var itemPrice: EditText? = null
-    private var itemStore: EditText? = null
-    private var choice: String = ""
 
+
+    private lateinit var binding: ActivityUpdateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_update)
 
-        itemName = findViewById(R.id.idItemName)
-        itemCategory= findViewById(R.id.cat_choice)
-        itemPrice = findViewById(R.id.idPrice)
-        itemStore = findViewById(R.id.idStoreName)
+
 
 
         // Get the previous value in each tuple:
@@ -41,8 +37,7 @@ class Update : AppCompatActivity() {
             popup.inflate(R.menu.menu_categorie_manual)
             popup.setOnMenuItemClickListener {
                 //get the choice from categories and display it on the text view
-                choice = (it.title).toString()
-                itemCategory!!.text = choice
+                binding.catChoice.text = (it.title).toString()
                 // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
 
                 true

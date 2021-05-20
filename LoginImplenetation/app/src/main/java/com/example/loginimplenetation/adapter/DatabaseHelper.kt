@@ -457,6 +457,17 @@ class DatabaseHelper(var Context: Context):
         return list
     }
 
+
+
+    fun totalSpendOverPeriod(): Double{
+        val totals = getCatTotalCost()
+        var sum = 0.0
+        for(x in totals){
+            sum += x
+        }
+        return sum
+    }
+
     fun getItemsOfCategory(category: String): MutableList<String> {
 
         var categoryFound = getCategoryID(category)
