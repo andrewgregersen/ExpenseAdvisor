@@ -42,7 +42,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //mSelectedImage = For Nesi to figure out
-        mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "download.jpg")
 
 //        val bytes: ByteArray? = intent.getByteArrayExtra("image")
 //        val bmp = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
@@ -205,7 +205,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
         for(i in 3 until values.size){
             finalList.add(values.get(i))
-            Toast.makeText(this, "Tobakisi: " + values.get(i).toString() , Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Tobakisi: " + values.get(i).toString() , Toast.LENGTH_SHORT).show()
         }
 
 

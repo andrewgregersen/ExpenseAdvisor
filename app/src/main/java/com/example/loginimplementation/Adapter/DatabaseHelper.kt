@@ -79,7 +79,7 @@ class DatabaseHelper(var Context: Context):
 
         //1. Table user
         val createTableUser= "CREATE TABLE " + USER +" (" +
-                COLUMN_ID +" VARCHAR(256) PRIMARY KEY)"
+                COLUMN_ID +" INTEGER, PRIMARY KEY(" + COLUMN_ID + "))"
         db?.execSQL(createTableUser)
 
         //2. Table Item
@@ -97,9 +97,8 @@ class DatabaseHelper(var Context: Context):
 
         //4.Table profile
         val createTableProfile = "CREATE TABLE " + PROFILE + " (" + COLUMN_PROFILE_USER_ID + " INTEGER, "+
-                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " INTEGER, " + COLUMN_FAVORITE + " VARCHAR(256), PRIMARY KEY (" +
-                COLUMN_PROFILE_USER_ID +
-                ", "+ COLUMN_PROFILE_TYPE + "), FOREIGN KEY("+ COLUMN_PROFILE_USER_ID +") " +
+                COLUMN_PROFILE_TYPE + " VARCHAR(256), " + COLUMN_BUDGET + " DOUBLE, " + COLUMN_FAVORITE + " VARCHAR(256), PRIMARY KEY (" +
+                COLUMN_PROFILE_USER_ID + "), FOREIGN KEY("+ COLUMN_PROFILE_USER_ID +") " +
                 "REFERENCES "+ USER + "("+ COLUMN_ID +"))"
         db?.execSQL(createTableProfile)
 
@@ -133,6 +132,8 @@ class DatabaseHelper(var Context: Context):
                 "REFERENCES "+ ITEM + "("+ COLUMN_ITEM_ID +"), FOREIGN KEY ("+ COLUMN_BELONG_CATEGORY_ID +") "+
                 "REFERENCES "+ CATEGORY + "("+ COLUMN_CATEGORY_ID + ") ON DELETE CASCADE)"
         db?.execSQL(createTableBelong)
+
+        //8. Table Receipt
 
         val createTableReceipt= "CREATE TABLE "+ RECEIPT + " (" + COLUMN_RECEIPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                COLUMN_TOTAL + " DOUBLE, "+ COLUMN_STORE + " VARCHAR(256), "+ COLUMN_DATE +
@@ -215,22 +216,107 @@ class DatabaseHelper(var Context: Context):
         db.close()
     }
 
+    fun createUser() {
 
-    fun insertprofil() {
         val db = this.writableDatabase
         val cv = ContentValues()
-        cv.put(COLUMN_PROFILE_TYPE, "one")
-        cv.put(COLUMN_PROFILE_USER_ID, 1)
-        cv.put(COLUMN_BUDGET, 1000)
-        cv.put(COLUMN_FAVORITE, "one")
+        cv.put(COLUMN_ID, 1.toInt())
+        val result = db.insert(USER, null, cv)
+
+        if (result == -1.toLong())
+            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
+        else
+            Toast.makeText(Context, "Success user create", Toast.LENGTH_LONG).show()
+    }
+
+    fun isUser(): Boolean {
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_ID + " FROM " + USER + " DESC LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        try {
+            var user = cursor.getString(cursor.getColumnIndex(COLUMN_ID)).toString()
+            cursor.close()
+            if (user.length == 1){
+                return true
+            }
+            return false
+        }
+        catch (e: Exception){
+            Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
+        }
+
+        return false
+    }
+
+
+    fun createProfil() {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(COLUMN_PROFILE_USER_ID, 1.toInt())
+        cv.put(COLUMN_PROFILE_TYPE, "None")
+        cv.put(COLUMN_BUDGET, "0")
+        cv.put(COLUMN_FAVORITE, "Other")
 
         val result = db.insert(PROFILE, null, cv)
 
         if (result == -1.toLong())
-            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
+            Toast.makeText(Context, "Failed DBBBB", Toast.LENGTH_LONG).show()
         else
-            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
+            Toast.makeText(Context, "Success DBBB", Toast.LENGTH_LONG).show()
     }
+
+
+
+    fun editProfil(type:String, budget:Double, favorite: String) {
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(COLUMN_PROFILE_TYPE, "one")
+        cv.put(COLUMN_PROFILE_USER_ID, 1)
+        cv.put(COLUMN_BUDGET, budget)
+        cv.put(COLUMN_FAVORITE, favorite)
+
+        val query = "UPDATE " + PROFILE + " SET " + COLUMN_PROFILE_TYPE + " = '" + type + "' " +
+                ", " + COLUMN_BUDGET + " = " + budget + ", " + COLUMN_FAVORITE + " = '" + favorite +
+                "' WHERE " + COLUMN_PROFILE_USER_ID + " = 1"
+
+        var cursor = db.rawQuery(query, null)
+        cursor.moveToFirst();
+        cursor.close();
+
+    }
+
+    fun isProfil(): Boolean {
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_PROFILE_USER_ID + " FROM " + PROFILE + " DESC LIMIT 1"
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+
+        try {
+            var user = cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_USER_ID)).toString()
+            cursor.close()
+
+            if (user.length ==1){
+                return true
+            }
+            return false
+        }
+        catch (e: Exception){
+            Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
+        }
+        return false
+    }
+
 
     fun insertnotification() {
         val db = this.writableDatabase
@@ -303,9 +389,19 @@ class DatabaseHelper(var Context: Context):
 
         val result = db.insert(CONTAINS, null, cv)
 
+    }
 
+    fun insertNotification(id: Int, description: String){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(COLUMN_DESCRIPTION, description)
+        cv.put(COLUMN_NOTIFICATION_USER_ID, id)
+
+        val result = db.insert(NOTIFICATION, null, cv)
 
     }
+
+
 
 
 
@@ -632,9 +728,6 @@ class DatabaseHelper(var Context: Context):
     }
 
 
-
-
-
     fun getReceiptDate(id: Int): String{
 
         val db = this.readableDatabase
@@ -670,13 +763,32 @@ class DatabaseHelper(var Context: Context):
         return price
     }
 
+    fun getNotification(): MutableList<String>{
+        var list: MutableList<String> = ArrayList()
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_DESCRIPTION + " FROM " + NOTIFICATION
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return ArrayList()
+        }
 
+        var price :String
 
+        if(cursor.moveToFirst()){
+            do {
 
+                price = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)).toString()
+                list.add(price)
+                //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
 
+            }while (cursor.moveToNext())
+        }
 
-
-
+        return list
+    }
 
 
     fun getLastReceiptID():Int{

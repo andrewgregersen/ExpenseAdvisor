@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.example.loginimplementation.Adapter.DatabaseHelper
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.collections.ArrayList
 
 
@@ -61,8 +63,29 @@ class HomeFragment : Fragment()  {
             pieEntries.add(PieEntry(quantity[i], category[i]))
         }
 
+        var user = db.isUser()
+        var profil =  db.isProfil()
+        if (!user){
+            db.createUser()
+            Toast.makeText( this.context, "User is getting create", Toast.LENGTH_LONG).show()
+            print("User is getting create")
+        }
+        else{
+            Toast.makeText( this.context, "User exist already", Toast.LENGTH_LONG).show()
+            print("User exist already")
+        }
 
-        //db.getCategoryID("Food")
+        if (!profil){
+            db.createProfil()
+            Toast.makeText( this.context, "Profil is getting create", Toast.LENGTH_LONG).show()
+            print("Profil is getting create")
+        }
+        else{
+            Toast.makeText( this.context, "Profil exist already", Toast.LENGTH_LONG).show()
+            print("Profil exist already")
+        }
+
+
 
 
 
@@ -89,6 +112,11 @@ class HomeFragment : Fragment()  {
         val settings= view?.findViewById<Button>(R.id.settings)
         val addReceipt= view?.findViewById<Button>(R.id.addReceipt)
 
+
+        signout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            activity!!.finish()
+        }
 
         //work with settings
         settings?.setOnClickListener(object : View.OnClickListener {

@@ -22,6 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
+        <activity android:name=".MyProfile"></activity>
+        <activity android:name=".Autofill_recyclerView" />
+        <activity android:name=".Display" />
         <activity android:name=".Confirm_Update_Item" />
         <activity android:name=".Update" />
         <activity android:name=".ItemOfCategory.OtherItem" />
@@ -42,22 +45,22 @@
         </activity>
         <activity
             android:name=".LoggedInActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NewAccount"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ForgottenActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CameraAccessActivity"
-            android:parentActivityName=".LoggedInActivity"></activity>
+            android:parentActivityName=".LoggedInActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".SettingsActivity"></activity>
+            android:parentActivityName=".SettingsActivity" />
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".LoggedInActivity"></activity>
+            android:parentActivityName=".LoggedInActivity" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -65,7 +68,7 @@
 
         <activity
             android:name=".TextRecognitionActivity"
-            android:parentActivityName=".CameraAccessActivity"></activity>
+            android:parentActivityName=".CameraAccessActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -74,7 +77,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

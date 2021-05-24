@@ -4,10 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.R
 import com.example.loginimplementation.Receipt
+import com.example.loginimplementation.databinding.AutofillItemBindingImpl
 
 
 class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayList<String>, prices: ArrayList<String>) : RecyclerView.Adapter<ReceiptAdapter.ViewHolderClass>() {
@@ -15,6 +18,7 @@ class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayLi
     var arrayList: ArrayList<Int>
     var dates: ArrayList<String>
     var prices: ArrayList<String>
+
 
     init {
         this.context = context
@@ -35,6 +39,7 @@ class ReceiptAdapter(context: Context, arrayList: ArrayList<Int>, dates: ArrayLi
         viewHolderClass.textview.setText("Receipt id: " + arrayList[position])
         viewHolderClass.date.setText("Date: " + dates[position]);
         viewHolderClass.total.setText("Total prices: $" + prices[position])
+
     }
     override fun getItemCount(): Int {
         return arrayList.size

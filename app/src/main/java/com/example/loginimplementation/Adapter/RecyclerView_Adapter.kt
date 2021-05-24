@@ -1,8 +1,9 @@
 package com.example.loginimplementation.Adapter
 
-import android.R.attr.name
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loginimplementation.Adapter.DatabaseHelper
 import com.example.loginimplementation.Confirm_Update_Item
+import com.example.loginimplementation.MainActivity
 import com.example.loginimplementation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -31,12 +32,15 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
 
 
         init {
+
+            val context: Context = ContextThemeWrapper(itemView.getContext(), R.style.LightTheme)
+            //val dialogBuilder = MaterialAlertDialogBuilder(context)
             deleteItem.setOnClickListener { v: View ->
                 val position: Int= adapterPosition
                 //when click on delete, ask for confirmation
                 //showAlertDialog(v)
 
-                MaterialAlertDialogBuilder(itemView.getContext())
+                MaterialAlertDialogBuilder(itemView.context)
                         .setTitle("Warning!")
                         .setMessage("Do you want to delete this item from the category? ")
                         .setNegativeButton("No"){dialog, which ->
@@ -46,7 +50,7 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
                         .setPositiveButton("Yes"){dialog, which ->
 
                             val db = DatabaseHelper(itemView.getContext())
-                            val item:String = itemTitle!!.text.toString()
+                            val item:String = itemTitle.text.toString()
                             db.deleteItem(item)
 
                             notifyItemRemoved(position)

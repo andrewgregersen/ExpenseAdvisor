@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.loginimplementation.R
-import com.example.loginimplementation.ProfileActivity
+import com.example.loginimplementation.*
+import com.example.loginimplementation.ItemOfCategory.FoodItems
 import com.example.loginimplementation.databinding.ContentMainBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -53,9 +53,15 @@ class SettingsFragment: AppCompatActivity() , NavigationView.OnNavigationItemSel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val i = Intent()
         when (item.itemId) {
             R.id.nav_profile -> {
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                i.setClass(this, MyProfile::class.java)
+                startActivity(i)
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return true
+
             }
             R.id.nav_addreceipt -> {
                 Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()

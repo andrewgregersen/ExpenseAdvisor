@@ -18,10 +18,10 @@
             android:gravity="center">
 
             <ImageView
-                android:src="@drawable/receipt"
                 android:layout_width="match_parent"
+                android:layout_height="122dp"
                 android:layout_marginTop="5dp"
-                android:layout_height="160dp"/>
+                android:src="@drawable/receipt" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -31,7 +31,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:id="@+id/DateText"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -44,8 +44,21 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:id="@+id/StoreText"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:padding="3dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/purple_500"
+                    android:elevation="15dp"
+                    tools:targetApi="LOLLIPOP"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:id="@+id/TotalText"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -68,7 +81,20 @@
                     android:layout_height="0dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <Button
+                    android:id="@+id/submitText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Submit"
+                    android:background="@color/Green">
+                </Button>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import com.example.loginimplementation.ItemOfCategory.*
+import com.example.loginimplementation.MyProfile
+import com.example.loginimplementation.ProfileActivity
 import com.example.loginimplementation.R
 import com.example.loginimplementation.list_view_model_file
 
@@ -86,7 +88,7 @@ class CategoriesFragment : Fragment() {
         electronics.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 requireActivity().run {
-                    startActivity(Intent(this, ElectronicsItem::class.java))
+                    startActivity(Intent(this, MyProfile::class.java))
                     true
                 }
             }
@@ -145,7 +147,6 @@ class CategoriesFragment : Fragment() {
                 }
             }
         })
-
 
         // Inflate the layout for this fragment
         return view

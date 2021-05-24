@@ -35,6 +35,12 @@ class LoggedInActivity: AppCompatActivity(){
             db.insertcat(item)
         }
 
+        val desc= "You have reach 75 % in your Food categorie"
+        val desc2 = "You have reached 90% in your food categorie"
+
+        db.insertNotification(1, desc)
+        db.insertNotification(1, desc2)
+
         setUpTabs()
     }
 

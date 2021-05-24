@@ -2,17 +2,12 @@ package com.example.loginimplementation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import com.example.loginimplementation.databinding.SettingsActivityBinding
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.loginimplementation.R
-import com.example.loginimplementation.databinding.ContentMainBinding
 import com.google.android.material.navigation.NavigationView
 
 
@@ -59,9 +54,14 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             }
             R.id.nav_faq -> {
                 Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
+
             }
             R.id.nav_update -> {
                 Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, MyProfile::class.java)
+                startActivity(newAct)
+
+
             }
             R.id.nav_logout -> {
                 Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show()
