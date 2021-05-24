@@ -424,6 +424,7 @@ class DatabaseHelper(var Context: Context):
     /**
      * @author Andrew Gregersen
      * Getter method to retrieve the total cost of each category.
+     * @return a list of sums for each item per category
      */
     fun getCatTotalCost(): MutableList<Double>{
         val categories = getCategories()
@@ -449,9 +450,9 @@ class DatabaseHelper(var Context: Context):
                 }
                 cursor2.close()
             }
-
             list.add(total)
             total = 0.0
+            itemID.clear()
         }
 
         return list
