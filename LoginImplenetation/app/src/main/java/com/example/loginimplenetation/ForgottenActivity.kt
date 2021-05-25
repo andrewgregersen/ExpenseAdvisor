@@ -30,14 +30,14 @@ class ForgottenActivity: AppCompatActivity() {
             if (TextUtils.isEmpty(email.text.toString().trim())) {
                 email.error = "Please enter an email address..."
                 email.requestFocus()
-                println("Is Empty")
+                //println("Is Empty")
                 return@setOnClickListener
 
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()) {
                 email.error = "This is not an email address..."
                 email.requestFocus()
-                println("Not an Email")
+                //println("Not an Email")
                 return@setOnClickListener
             }
             auth.sendPasswordResetEmail(email.text.toString().trim())

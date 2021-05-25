@@ -66,6 +66,9 @@
             android:name=".TextRecognitionActivity"
             android:parentActivityName=".CameraAccessActivity" />
 
+        <activity android:name=".ActivityReceiptUpdate"
+            android:parentActivityName=".LoggedInActivity"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.loginimplenetation.fileprovider"

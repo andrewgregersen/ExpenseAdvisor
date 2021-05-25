@@ -24,7 +24,7 @@ import java.lang.IndexOutOfBoundsException
 class ActivityReceiptUpdate: AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
-    private var receiptID: Int = 0
+    private var receiptID = -1
     //private var cancel: Button? = null
 
 
@@ -33,7 +33,11 @@ class ActivityReceiptUpdate: AppCompatActivity() {
         Binding = DataBindingUtil.setContentView(this,R.layout.activity_manual_entry_recycler_view)
 
 
-        receiptID = this.intent.extras.toString().toInt()
+        receiptID = this.intent.extras?.get("ReceiptID") as Int
+        if(receiptID==-1){
+            Toast.makeText(this,"Failed to get Receipt ID",Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
         val list = DatabaseHelper(this).getItemsWithID(receiptID)
 

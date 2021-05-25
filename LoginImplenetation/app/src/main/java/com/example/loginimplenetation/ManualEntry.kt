@@ -235,9 +235,6 @@ class ManualEntry : AppCompatActivity() {
 
 
 
-    fun onItemsClickedListener(currentData:Item){
-
-    }
 
     /**
      * @author Andrew Gregersen
