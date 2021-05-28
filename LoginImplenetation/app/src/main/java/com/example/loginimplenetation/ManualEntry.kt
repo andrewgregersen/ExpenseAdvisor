@@ -235,17 +235,19 @@ class ManualEntry : AppCompatActivity() {
 
 
 
-
     /**
      * @author Andrew Gregersen
      * Adapter class for the recycler view.
      * Implements methods to update, delete, and add more elements, starting with a single one.
      * @param mData: A list of "Items" that would appear on a receipt
+     * @param iAmount: Pass a pointer to EditText for Updating the item
+     * @param iPrice: Pass a pointer to EditText for Updating the item
+     * @param iName: Pass a pointer to EditText for Updating the item
+     * @param iCat: Pass a pointer to TextView for Updating the item
      */
 
     class MyAdapter(val mData: MutableList<Item>, val iName: EditText, private val iPrice: EditText, private val iAmount: EditText, val iCat: TextView) : RecyclerView.Adapter<CustomViewHolder>() {
         var lastPos = 0
-        private lateinit var parBinding: ActivityManualEntryRecyclerViewBinding
         private lateinit var parent: ViewGroup
         companion object: DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
@@ -303,9 +305,9 @@ class ManualEntry : AppCompatActivity() {
             //init edit button
             binding.edit.setOnClickListener {
                 Log.i("RecyclerView","Edit Button clicked")
-                iPrice.setText(currentItem.itemPrice.toString())
                 iName.setText(currentItem.itemName)
-                iAmount.setText(currentItem.itemAmount)
+                iAmount.setText(currentItem.itemAmount.toString())
+                iPrice.setText(currentItem.itemPrice.toString())
                 iCat.text = currentItem.itemCategory
                 deleteItem(position)
                 notifyDataSetChanged()

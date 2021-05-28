@@ -745,11 +745,21 @@ class DatabaseHelper(var Context: Context):
         for(x in idList){
             val query2 = "SELECT * FROM $ITEM WHERE $COLUMN_ITEM_ID = $x"
             val cursor2 = db.rawQuery(query2,null)
-            itemList.add(Item(itemID = x,itemName = cursor2.getString(cursor2.getColumnIndex(COLUMN_ITEM_NAME)),
-                itemPrice = cursor2.getDouble(cursor2.getColumnIndex(COLUMN_PRICE)),
-                itemAmount = cursor2.getInt(cursor2.getColumnIndex(COLUMN_AMOUNT)),
-                itemCategory = getCategoryName(getItemCategoryInBelong(x))))
-            cursor2.close()
+            if(!cursor2.moveToNext())
+                throw IllegalAccessException("Item Does not Exist")
+            val iName = cursor2.getString(1)
+            val iPrice = cursor2.getDouble(2)
+            val iAmount = cursor2.getInt(3)
+//            cursor2.close()
+            val query3 = "SELECT $COLUMN_BELONG_CATEGORY_ID FROM $BELONG WHERE $COLUMN_BELONG_ITEM_ID = $x"
+            val cursor3 = db.rawQuery(query3,null)
+            if(!cursor3.moveToNext())
+                throw IllegalAccessException("Item Does Not Exist")
+            var iCat = getCategoryName(cursor3.getInt(cursor3.getColumnIndex(
+                COLUMN_BELONG_CATEGORY_ID)))
+//            cursor3.close()
+            itemList.add(Item(x,iName,iPrice,iAmount,iCat))
+
         }
         return itemList
     }
