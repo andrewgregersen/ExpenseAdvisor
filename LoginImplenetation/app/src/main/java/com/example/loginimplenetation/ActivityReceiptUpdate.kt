@@ -41,6 +41,12 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         }
 
         val list = DatabaseHelper(this).getItemsWithID(receiptID)
+        val receipt = DatabaseHelper(this).getReceiptInfo(receiptID)
+
+        Binding.storeName.setText(receipt.storeName)
+        Binding.totalPrice.setText(receipt.price.toString())
+        Binding.taxPaid.setText(receipt.tax.toString())
+
 
 
 
@@ -132,16 +138,6 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         Binding.SubmitMan.setOnClickListener {
             println("Submitting")
 
-            try {
-                mAdapter.deleteFirst()
-            } catch (e: IndexOutOfBoundsException) {
-                Binding.SubmitMan.error = "You can't submit an empty list!"
-                Binding.SubmitMan.requestFocus()
-            }
-
-
-
-
             when {
                 TextUtils.isEmpty(Binding.totalPrice.text) -> {
                     Binding.totalPrice.error =
@@ -215,15 +211,14 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         val db = DatabaseHelper(this)
         println("SubmittingItems")
         if (list.isNotEmpty()) {
-            //create a new receipt
-            db.insertReceipt(
-                Binding.totalPrice.text.toString().toDouble(),
-                Binding.storeName.text.toString()
+            //update the receipt
+            db.updateReceipt(
+                receiptID, DatabaseHelper.Receipt(
+                    Binding.storeName.text.toString(),
+                    Binding.totalPrice.text.toString().toDouble(),
+                    Binding.taxPaid.text.toString().toDouble()
+                )
             )
-            //store the last receipts DBID
-
-            //start inserting items
-
             for (x in list) {
                 if (x.itemID == -1) { //incase the user inserts a new item to the receipt
                     db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
@@ -240,7 +235,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
             Toast.makeText(
                 applicationContext,
-                "Receipt successfully submitted!",
+                "Receipt successfully updated!",
                 Toast.LENGTH_SHORT
             ).show()
             finish()
