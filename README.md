@@ -48,7 +48,7 @@ The Project will use
 5.	The app should analysis the user expenses and provide some recommendations based on personal preferences such as budget, recommended places and times to purchase items when offers are available.
 6. Prerequisites
  
-CS 300, CS 401, CS 331, preferred but not mandatory basic Androide development
+CS 300, CS 401, CS 331, preferred but not mandatory basic Android development
 
 7. Additional information
 Team Size 3 or 4
