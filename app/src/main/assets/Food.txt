@@ -3,15 +3,20 @@ Carbonated Beverages
 Milk
 Fresh Bread & Rolls
 Salty Snacks
-Beer/Ale/Alcoholic Cider
+Beer
+Ale
+Alcoholic Cider
 Natural Cheese
 Wine
-Fz Dinners/Entrees
+Fz Dinners
+Entrees
 Cold Cereal
 Cigarettes
 Yogurt
-Rfg Juices/Drinks
-Ice Cream/Sherbet
+Rfg Juices
+Drinks
+Ice Cream
+Sherbet
 Bottled Water
 Soup
 Crackers
@@ -25,120 +30,167 @@ Toilet Tissue
 Dog Food
 Total Chocolate Candy
 Fz Pizza
-Rfg Salad/Coleslaw
+Rfg Salad
+Coleslaw
 Fz Novelties
 Laundry Detergent
 Vegetables
 Fz Seafood
-Spirits/Liquor
-Snack Bars/Granola Bars
-Baby Formula/Electrolytes
+Spirits
+Liquor
+Snack Bars
+Granola Bars
+Baby Formula
+Electrolytes
 Processed Cheese
-Shortening & Oil
-Fz/Rfg Poultry
+Shortening
+Oil
+Fz
+Rfg Poultry
 Cat Food
-Spices/Seasonings
+Spices
+Seasonings
 Dinner Sausage
 Paper Towels
 Fz Plain Vegetables
-Creams/Creamers
-Processed Fz/Rfg Poultry
+Creams
+Creamers
+Processed Fz
+Rfg Poultry
 Frankfurters
-Pastry/Doughnuts
+Pastry
+Doughnuts
 Sports Drinks
 Fz Breakfast Food
 Pasta
-Spaghetti/Italian Sauce
-Pickles/Relish/Olives
+Spaghetti
+Italian Sauce
+Pickles
+Relish
+Olives
 Mexican Foods
-Canned/Bottled Fruit
-Snack Nuts/Seeds/Corn Nuts
-Seafood – Ss
-Food & Trash Bags
-Salad Dressings – Ss
+Canned
+Bottled Fruit
+Snack Nuts
+Seeds
+Corn Nuts
+Seafood
+Food
+Trash Bags
+Salad Dressings
 Rfg Side Dishes
 Rice
-Total Non-Chocolate Candy
+Total Non Chocolate Candy
 Butter
 Dry Packaged Dinners
 Fz Meat
-Margarine/Spreads/Butter Blen
-Dough/Biscuit Dough – Rfg
-Tea/Coffee Ready-To-Drink
+Margarine
+Spreads
+Butter Blen
+Dough
+Biscuit Dough
+Tea
+Coffee ReadyToDrink
 Mayonnaise
 Baking Needs
 Sugar
 Ss Dinners
-Cups & Plates
+Cups
+Plates
 Baking Mixes
 Tomato Products
 Vitamins
-Fz Potatoes/Onions
+Fz Potatoes
+Onions
 Rfg Meat
 Soap
 Bakery Snacks
 Diapers
 Household Cleaner
-Pies & Cakes
+Pies Cakes
 Mexican Sauce
-Ss Meat & Rfg Ham
-Fz Appetizers/Snack Rolls
+Ss Meat Rfg Ham
+Fz Appetizers
+Snack Rolls
 Dish Detergent
-Cream Cheese/Cr Chs Spread
+Cream Cheese
+Cr Chs Spread
 Peanut Butter
-Jellies/Jams/Honey
+Jellies
+Jams
+Honey
 Internal Analgesics
-Gravy/Sauce Mixes
+Gravy
+Sauce Mixes
 Cottage Cheese
 Energy Drinks
 Aseptic Juices
 Gum
 Rfg Entrees
 Hot Cereal
-Lunches – Rfg
+Lunches Rfg
 Sour Cream
-Mustard & Ketchup
+Mustard Ketchup
 All Other Sauces
 Baby Food
-Cold/Allergy/Sinus Tablets
+Cold
+Allergy
+Sinus Tablets
 Toothpaste
-Tea – Bags/Loose
-Weight Con/Nutrition Liq/Pwd
-Fz Bread/Fz Dough
+Tea – Bags
+Loose
+Weight Con
+Nutrition Liq Pwd
+Fz Bread
+Fz Dough
 Pet Supplies
-Gastrointestinal – Tablets
+Gastrointestinal
+Tablets
 Facial Tissue
-Sanitary Napkins/Tampons
-Flour/Meal
-Cat/Dog Litter
+Sanitary Napkins
+Tampons
+Flour
+Meal
+Cat
+Dog Litter
 Dried Fruit
 Shampoo
-Popcorn/Popcorn Oil
-Syrup/Molasses
+Popcorn
+Popcorn Oil
+Syrup
+Molasses
 Deodorant
 Drink Mixes
 Baking Nuts
 Batteries
 Air Fresheners
-Gelatin/Pudding Prd And Mixes
-Foils & Wraps
+Gelatin
+Pudding Prd And Mixes
+Foils Wraps
 Desserts -Rfg
-Baked Beans/Canned Bread
-Fz Desserts/Topping
+Baked Beans
+Canned Bread
+Fz Desserts
+Topping
 Skin Care
 Blades
 English Muffins
-Spreads – Rfg
+Spreads Rfg
 Rfg Whipped Toppings
-Canned Juices – Ss
+Canned Juices
 Rfg Dips
 Fz Pies
-Cleaning Tools/Mops/Brooms
-Toaster Pastries/Tarts
+Cleaning Tools
+Mops
+Brooms
+Toaster Pastries
+Tarts
 Dry Fruit Snacks
-Toothbrush/Dental Accesories
+Toothbrush
+Dental Accesories
 Barbeque Sauce
-Rfg Teas/Coffee
+Rfg Teas
+Coffee
 Charcoal
 Sugar Substitutes
 Fz Fruit
@@ -146,28 +198,35 @@ Asian Food
 Paper Napkins
 Fabric Softener Liquid
 Hair Conditioner
-Seafood – Rfg
+Seafood Rfg
 Moist Towelettes
-Juices – Frozen
-Dip/Dip Mixes – Ss\Candles
-Dry Beans/Vegetables
+Juices Frozen
+Dip
+Dip Mixes
+Candles
+Dry Beans
+Vegetables
 Mouthwash
-Misc. Snacks
+Misc Snacks
 Instant Potatoes
 Coffee Creamer
 Kitchen Storage
 Vinegar
-Eye/Contact Lens Care Product
-Evaporated/Condensed Milk
-Milk Flavoring/Cocoa Mixes
+Eye
+Contact Lens Care Product
+Evaporated
+Condensed Milk
+Milk Flavoring
+Cocoa Mixes
 Frosting
 Fz Prepared Vegetables
-Hand & Body Lotion
+Hand Body Lotion
 Hair Coloring
 Bleach
-Breadcrumbs/Batters
+Breadcrumbs
+Batters
 Other Rfg Products
-Non-Fruit Drinks
+NonFruit Drinks
 Light Bulbs
 Fz Pasta
 Laundry Care
@@ -177,40 +236,57 @@ Fz Pot Pies
 Dessert Toppings
 Foil Pans
 Pest Control
-Tea – Instant Tea Mixes
-Baked Goods – Rfg
-Salad Dressing – Rfg
+Tea
+Instant Tea Mixes
+Baked Goods
+Salad Dressing –
 Misc Health Remedies
 Adult Incontinence
-Rfg Tortlla/Eggrll/Wontn Wrap
+Tortlla
+Eggrll
+Wontn Wrap
 Dried Meat Snacks
-Sponges & Scouring Pads
-Pizza – Rfg
-Steak/Worcestershire Sauce
-Rug/Upholstery/Fabric Treatmt
+Sponges Scouring Pads
+Pizza Rfg
+Steak
+Worcestershire Sauce
+Rug
+Upholstery
+Fabric Treatmt
 Pancake Mixes
-Pasta – Rfg
-Fz Side Dishes
+Pasta
+Rfg
+Side Dishes
 Stuffing Mixes
 First Aid Treatment
 First Aid Accessories
-Premixed Cocktails/Coolers
+Premixed Cocktails
+Coolers
 Fabric Softener Sheets
-Gastrointestinal – Liquid
-Hair Styling Gel/Mousse
-Cold/Allergy/Sinus Liquids
-Cosmetics – Eye
+Gastrointestinal
+Liquid
+Hair Styling Gel
+Mousse
+Cold
+Allergy
+Sinus Liquids
+Cosmetics Eye
 Suntan Products
-Firelog/Firestarter/Firewood
-Pickles/Relish – Rfg
+Firelog
+Firestarter
+Firewood
+Pickles
+Relish
 Disposable Tableware
-Rice/Popcorn Cakes
+Rice
+Popcorn Cakes
 Croutons
-Hair Spray/Spritz
+Hair Spray
+Spritz
 Household Cleaner Cloths
 Cocktail Mixes
 Cough Drops
-Cosmetics – Facial
+Cosmetics Facial
 Baby Accessories
 Nasal Products
 Baby Needs
@@ -220,7 +296,7 @@ Foot Care Products
 Office Products
 Coffee Filters
 Cigars
-Cosmetics – Nail
+Cosmetics Nail
 Cheesecakes
 Feminine Needs
 Specialty Nut Butter
@@ -228,35 +304,46 @@ Cough Syrup
 Shaving Cream
 Fz Corn On The Cob
 Denture Products
-Cotton Balls/Swabs
+Cotton Balls
+Swabs
 All Other Breakfast Food
 Pizza Products
 Socks
-Shaving Lotion/Mens Fragrance
-Ice Cream Cones/Mixes
+Shaving Lotion
+Mens Fragrance
+Ice Cream Cones
+Mixes
 Razors
 Childrens Art Supplies
-Cosmetics – Lip
+Cosmetics Lip
 Lighters
 Furniture Polish
-Water Softeners/Treatment
+Water Softeners
+Treatment
 Other Frozen Foods
 Writing Instruments
-Automobile Fluids/Antifreeze
+Automobile Fluids
+Antifreeze
 Contraceptives
 External Analgesic Rubs
 Gloves
 Charcoal Lighter Fluids
-Floor Cleaners/Wax Removers
-Anti-Smoking Products
+Floor Cleaners
+Wax Removers
+Anti
+Smoking Products
 Sleeping Remedies
-Water Filters/Devices
+Water Filters
+Devices
 All Other Tobacco Products
 Motor Oil
 Family Planning
-Pantyhose/Nylons
-Fragrances – Women’s
-Baking Cups/Paper
+Pantyhose
+Nylons
+Fragrances
+Women’s
+Baking Cups
+Paper
 Acai
 Apples
 Apple
@@ -269,8 +356,9 @@ Blueberries
 Blackberries
 Boysenberries
 Bread fruit
-Cantaloupes (cantalope)
-Chocolate-Fruit
+Cantaloupes
+Chocolate
+Fruit
 Cherimoya
 Cherries
 Cranberries
@@ -286,12 +374,13 @@ Grapes
 Grapefruit
 Guava
 Honeydew melons
-Horned melon (Kiwano)
+Horned melon
+Kiwano
 Huckleberries
 Ita Palm
 Jujubes
 Kiwis
-Durian.jpg
+Durian
 Kumquat
 Lemons
 Limes
@@ -327,7 +416,7 @@ Tangelo
 Tangerines
 Tomatoes
 Ugli fruit
-Voavanga (Spanish Tamarind)
+Voavanga
 Watermelons
 Xigua melon
 Yellow watermelon
@@ -335,43 +424,57 @@ Zucchini
 Artichoke
 Arugula
 Asparagus
-Green, Purple, White
+Green
+Purple
+White
 Avocado
 Bamboo Shoots
 Bean Sprouts
-Beans- see Bean List
+Beans
+see Bean List
 Beet
 Belgian Endive
 Bell Pepper
-Bitter Melon/Bitter Gourd
-Bok Choy/Bok Choi/Pak Choy
+Bitter Melon
+Bitter Gourd
+Bok Choy
+Bok Choi
+Pak Choy
 Broccoli
 Brussels Sprouts
-Burdock Root/Gobo
+Burdock Root
+Gobo
 Cabbage
-Green, Red, Savoy
+Green Red Savoy
 Calabash
 Capers
 Carrot
-Cassava/Yuca
+Cassava
+Yuca
 Cauliflower
 Celery
-Celery Root/Celeriac
+Celery Root
+Celeriac
 Celtuce
 Chayote
-Chinese Broccoli/Kai-lan
-Corn/Maize
-Baby Corn/Candle Corn
+Chinese Broccoli
+Kailan
+Corn
+Maize
+Baby Corn
+Candle Corn
 Cucumber
 English Cucumber
 Gherkin
 Pickling Cucumbers
 Daikon Radish
 Edamame
-Eggplant/Aubergine
+Eggplant
+Aubergine
 Elephant Garlic
 Endive
-Curly/Frisee
+Curl
+Frisee
 Escarole
 Fennel
 Fiddlehead
@@ -379,10 +482,13 @@ Galangal
 Garlic
 Ginger
 Grape Leaves
-Green Beans/String Beans/Snap Beans
+Green Beans
+String Beans
+Snap Beans
 Wax Beans
 Greens
-Amaranth Leaves/Chinese Spinach
+Amaranth Leaves
+Chinese Spinach
 Beet Greens
 Collard Greens
 Dandelion Greens
@@ -395,7 +501,8 @@ Swiss Chard
 Turnip Greens
 Hearts of Palm
 Horseradish
-Jerusalem Artichoke/Sunchokes
+Jerusalem Artichoke
+Sunchokes
 Jícama
 Kale
 Curly
@@ -405,19 +512,24 @@ Kohlrabi
 Leeks
 Lemongrass
 Lettuce
-Butterhead- Bibb, Boston
+Butterhead
+Bibb
+Boston
 Iceberg
-Leaf- Green Leaf, Red Leaf
+Leaf
+Green Leaf Red Leaf
 Romaine
 Lotus Root
 Lotus Seed
-Mushrooms- see Mushroom List
+Mushrooms
+Mushroom List
 Napa Cabbage
 Nopales
 Okra
 Olive
 Onion
-Green Onions/Scallions
+Green Onions
+Scallions
 Parsley
 Parsley Root
 Parsnip
@@ -425,7 +537,8 @@ Peas
 green peas
 snow peas
 sugar snap peas
-Peppers- see Peppers List
+Peppers
+Peppers List
 Plantain
 Potato
 Pumpkin
@@ -433,10 +546,12 @@ Purslane
 Radicchio
 Radish
 Rutabaga
-Sea Vegetables- see Sea Vegetable List
+Sea Vegetables
+see Sea Vegetable List
 Shallots
 Spinach
-Squash- see Squash List
+Squash
+Squash List
 Sweet Potato
 Swiss Chard
 Taro

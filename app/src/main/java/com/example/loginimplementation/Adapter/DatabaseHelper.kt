@@ -806,6 +806,28 @@ class DatabaseHelper(var Context: Context):
         return id
     }
 
+    fun getProfile(): MutableList<String>{
+
+        val db = this.readableDatabase
+        val query= "SELECT * FROM " + PROFILE
+
+        var cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToNext()){
+            // Toast.makeText(Context, cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_ID)), Toast.LENGTH_LONG).show()
+        }
+        var type = cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_TYPE)).toString()
+        var budget = cursor.getString(cursor.getColumnIndex(COLUMN_BUDGET)).toString()
+        var favorite = cursor.getString(cursor.getColumnIndex(COLUMN_FAVORITE)).toString()
+
+        var list: MutableList<String> = ArrayList()
+        list.add(type)
+        list.add(budget)
+        list.add(favorite)
+
+        return list
+    }
+
 
     /*****************************************/
     /* FUNCTION OF UPDATING IN THE DATABASE */

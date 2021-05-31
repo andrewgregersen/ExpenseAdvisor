@@ -33,8 +33,7 @@ class OtherItem : AppCompatActivity() {
         rv_recycleView?.layoutManager = LinearLayoutManager(this)
         rv_recycleView?.adapter = RecyclerView_Adapter(titlesList, descList, imageList)
 
-        val temp = db.getNotification()
-        Toast.makeText(context, temp.toString(), Toast.LENGTH_SHORT).show()
+
 
     }
 

@@ -62,7 +62,11 @@ class Autofill_Adapter(private val autofillList:List<Autofill_Data>):RecyclerVie
         val autolist = autofillList[position]
         holder.v.isAutofillList = autolist
         //holder.v.autofilIm.setImageResource(autolist.autoImage)
+    }
 
+    fun getPosidion(holder: AutofillViewHolder, position: Int){
+
+        val position = autofillList.get(holder.adapterPosition)
     }
 
 }
