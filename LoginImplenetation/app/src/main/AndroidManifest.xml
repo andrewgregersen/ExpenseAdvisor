@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
         <activity android:name=".Confirm_Update_Item" />
-        <activity android:name=".Update" />
         <activity android:name=".itemOfCategory.OtherItem" />
         <activity android:name=".itemOfCategory.BeautyItem" />
         <activity android:name=".itemOfCategory.AdvertisementItem" />
@@ -31,7 +30,6 @@
         <activity android:name=".itemOfCategory.EducationItem" />
         <activity android:name=".itemOfCategory.ElectronicsItem" />
         <activity android:name=".itemOfCategory.FoodItems" />
-        <activity android:name=".ManualEntry" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,13 +41,13 @@
             android:name=".LoggedInActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".NewAccount"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".ForgottenActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".CameraAccessActivity"
+            android:parentActivityName=".LoggedInActivity" />
+        <activity
+            android:name=".Update"
+            android:parentActivityName=".LoggedInActivity" />
+        <activity
+            android:name=".ManualEntry"
             android:parentActivityName=".LoggedInActivity" />
         <activity
             android:name=".ProfileActivity"
@@ -57,17 +55,12 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".LoggedInActivity" />
-
-        <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="text" />
-
         <activity
             android:name=".TextRecognitionActivity"
             android:parentActivityName=".CameraAccessActivity" />
-
-        <activity android:name=".ActivityReceiptUpdate"
-            android:parentActivityName=".LoggedInActivity"/>
+        <activity
+            android:name=".ActivityReceiptUpdate"
+            android:parentActivityName=".LoggedInActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -77,6 +70,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+            <meta-data
+                android:name="com.google.android.gms.vision.DEPENDENCIES"
+                android:value="text" />
         </provider>
     </application>
 

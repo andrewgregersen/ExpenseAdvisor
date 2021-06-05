@@ -1,97 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/apk/res-auto" >
-<androidx.cardview.widget.CardView
-    android:id="@+id/cv_cardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:selectableItemBackground"
-    tools:cardCornerRadius="10dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
-        android:id="@+id/rl_wrapper"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_cardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="1dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:selectableItemBackground"
+        tools:cardCornerRadius="10dp">
 
+        <RelativeLayout
+            android:id="@+id/rl_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp">
 
-        <ImageView
-            android:id="@+id/historyImage"
-            android:layout_width="76dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/food"/>
-
-        <LinearLayout
-            android:id="@+id/centre"
-            android:layout_width="169dp"
-            android:layout_height="63dp"
-            android:layout_alignTop="@+id/historyImage"
-            android:layout_alignBottom="@+id/historyImage"
-            android:layout_marginBottom="-3dp"
-            android:layout_toEndOf="@+id/historyImage"
-            android:layout_toRightOf="@+id/historyImage"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/history_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/history_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="This is the description"
-                android:textColor="@color/Orange"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/rest"
-            android:layout_width="78dp"
-            android:layout_height="71dp"
-            android:layout_alignLeft="@+id/centre"
-            android:layout_alignBottom="@+id/centre"
-            android:layout_alignParentLeft="@id/centre"
-            android:layout_marginLeft="181dp"
-            android:layout_marginBottom="-1dp">
 
             <ImageView
-                android:id="@+id/deleteItem"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/ic_delete_24"
-                android:clickable="true"
-                android:focusable="true" />
-
-            <ImageView
-                android:id="@+id/editItem"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/historyImage"
+                android:layout_width="76dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/ic_edit_24"
-                android:clickable="true"
-                android:focusable="true" />
-        </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/food" />
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/centre"
+                android:layout_width="169dp"
+                android:layout_height="63dp"
+                android:layout_alignTop="@+id/historyImage"
+                android:layout_alignBottom="@+id/historyImage"
+                android:layout_marginBottom="-3dp"
+                android:layout_toEndOf="@+id/historyImage"
+                android:layout_toRightOf="@+id/historyImage"
+                android:orientation="vertical">
 
-</androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/history_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/history_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="This is the description"
+                    android:textColor="@color/Orange"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rest"
+                android:layout_width="78dp"
+                android:layout_height="71dp"
+                android:layout_alignLeft="@+id/centre"
+                android:layout_alignBottom="@+id/centre"
+                android:layout_alignParentLeft="@id/centre"
+                android:layout_marginLeft="181dp"
+                android:layout_marginBottom="-1dp">
+
+                <ImageView
+                    android:id="@+id/deleteItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/ic_delete_24"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <ImageView
+                    android:id="@+id/editItem"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/ic_edit_24"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
