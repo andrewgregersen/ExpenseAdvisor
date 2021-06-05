@@ -26,6 +26,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
     private var receiptID = -1
+    var updating: Int = -1
     //private var cancel: Button? = null
 
 
@@ -111,7 +112,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
                 else -> {
                     mAdapter.addItem(
                         Item(
-                            -1,
+                            updating,
                             Binding.itemname.text.toString(),
                             Binding.itemCost.text.toString().toDouble(),
                             Binding.itemAmount.text.toString().toInt(),
@@ -122,6 +123,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
                     Binding.itemCost.text.clear()
                     Binding.itemname.text.clear()
                     Binding.catChoice.text = getString(R.string.emptyCat)
+                    updating = -1
                 }
             }
 
@@ -133,6 +135,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
             Binding.itemCost.text.clear()
             Binding.itemname.text.clear()
             Binding.catChoice.text = getString(R.string.emptyCat)
+            updating = -1
         }
 
         Binding.SubmitMan.setOnClickListener {
@@ -262,7 +265,8 @@ class ActivityReceiptUpdate : AppCompatActivity() {
      * @param iCat: Pass a pointer to TextView for Updating the item
      */
 
-    class MyAdapter(
+
+    inner class MyAdapter(
         val mData: MutableList<Item>,
         val iName: EditText,
         private val iPrice: EditText,
@@ -272,21 +276,12 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         private var lastPos = 0
         private lateinit var parent: ViewGroup
 
-        companion object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
-            }
-        }
-
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val vh = LayoutInflater.from(parent.context)
             this.parent = parent
             val binding = ActivityManualEntryFormatBinding.inflate(vh, parent, false)
+
 
             return CustomViewHolder(binding)
         }
@@ -319,22 +314,21 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
-                deleteItem(position)
+                deleteItem(position, true) //removes from the DB
             }
 
             //init edit button
             binding.edit.setOnClickListener {
-                val parBinding =
-                    ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+
                 Log.i("RecyclerView", "Edit Button clicked")
                 iName.setText(currentItem.itemName)
                 iAmount.setText(currentItem.itemAmount.toString())
                 iPrice.setText(currentItem.itemPrice.toString())
                 iCat.text = currentItem.itemCategory
+                updating = position
                 deleteItem(
                     position,
-                    true
-                ) //forceably delete an item from the list if you are updating it
+                )
             }
 
 
@@ -362,28 +356,17 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
 
         /**
-         *Removes an item from the recycler view
+         *Removes an item from the recyclerview/database
          */
 
         private fun deleteItem(index: Int, force: Boolean = false) {
-            if (itemCount != 1) {
-                mData.removeAt(index)
-                notifyDataSetChanged()
-                lastPos--
+            if (force && mData[index].itemID != -1) {
+                val db = DatabaseHelper(this.parent.context)
+                db.deleteItem((mData[index].itemID))
             }
-            if (itemCount == 1 && force) {
-                mData.removeAt(index)
-                notifyDataSetChanged()
-                lastPos--
-            }
-        }
-
-        fun deleteFirst() {
-            if (itemCount > 1) {
-                mData.removeAt(0)
-                notifyDataSetChanged()
-                lastPos--
-            } else throw IndexOutOfBoundsException()
+            mData.removeAt(index)
+            notifyDataSetChanged()
+            lastPos--
         }
 
         /**
@@ -396,6 +379,16 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         }
 
 
+    }
+
+    companion object : DiffUtil.ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
+        }
     }
 
     open class CustomViewHolder(val binding: ViewDataBinding) :

@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var binding: FragmentLoginBinding
     private var noAccount = true
-    private var debug = false
+    private var debug = true
 
     override fun onStart() {
         super.onStart()
@@ -161,8 +161,9 @@ class LoginFragment : Fragment() {
             startActivity(intent)
 
         } else if (user != null) {
-            this.findNavController()
-                .navigate(LoginFragmentDirections.actionLoginFragmentToLoggedInActivity())
+            val intent = Intent(binding.root.context, LoggedInActivity::class.java)
+            startActivity(intent)
+            requireActivity().parent.finish()
             binding.Username.text.clear()
             binding.Password.text.clear()
         } else {

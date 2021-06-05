@@ -827,21 +827,6 @@ class DatabaseHelper(var Context: Context) :
     /* FUNCTION OF UPDATING IN THE DATABASE */
     /****************************************/
 
-    fun deleteItem(itemName: String) {
-
-        val database = this.writableDatabase
-        val query = "DELETE FROM " + ITEM + " WHERE " + COLUMN_ITEM_NAME + " = '" + itemName + "' "
-
-        database.execSQL(query)
-        database.close()
-
-    }
-
-
-    /*****************************************/
-    /* FUNCTION OF DELETING IN THE DATABASE */
-    /****************************************/
-
     // This function is used to update an item in the database
     fun updateItem(itemName: String, price: Double, amount: Int, category: String, Itemid: Int) {
 
@@ -918,6 +903,34 @@ class DatabaseHelper(var Context: Context) :
             check.storeName != toCheck.storeName -> false
             else -> true
         }
+    }
+
+
+    /*****************************************/
+    /* FUNCTION OF DELETING IN THE DATABASE */
+    /****************************************/
+
+    fun deleteItem(itemName: String) {
+
+        val database = this.writableDatabase
+        val query = "DELETE FROM " + ITEM + " WHERE " + COLUMN_ITEM_NAME + " = '" + itemName + "' "
+
+        database.execSQL(query)
+        database.close()
+
+    }
+
+
+    /**
+     * @author Andrew Gregersen
+     * Method to delete an item from the DB by itemId
+     */
+
+    fun deleteItem(itemID: Int) {
+        val query = "delete from $ITEM where $COLUMN_ITEM_ID = $itemID"
+        val db = this.writableDatabase
+        db.execSQL(query)
+        db.close()
     }
 
 }
