@@ -5,7 +5,9 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,24 +20,34 @@ import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.DatabaseHelper.Item
 import com.example.loginimplenetation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplenetation.databinding.ActivityManualEntryRecyclerViewBinding
-import java.lang.IndexOutOfBoundsException
 
 
-class ActivityReceiptUpdate: AppCompatActivity() {
+class ActivityReceiptUpdate : AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
-    private var receiptID: Int = 0
+    private var receiptID = -1
+    private var update = -1
     //private var cancel: Button? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Binding = DataBindingUtil.setContentView(this,R.layout.activity_manual_entry_recycler_view)
+        Binding = DataBindingUtil.setContentView(this, R.layout.activity_manual_entry_recycler_view)
 
 
-        receiptID = this.intent.extras.toString().toInt()
+        receiptID = this.intent.extras?.get("ReceiptID") as Int
+        if (receiptID == -1) {
+            Toast.makeText(this, "Failed to get Receipt ID", Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
         val list = DatabaseHelper(this).getItemsWithID(receiptID)
+        val receipt = DatabaseHelper(this).getReceiptInfo(receiptID)
+
+        Binding.storeName.setText(receipt.storeName)
+        Binding.totalPrice.setText(receipt.price.toString())
+        Binding.taxPaid.setText(receipt.tax.toString())
+
 
 
 
@@ -47,11 +59,16 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 //        }
 
 
-
         //Init recycler view
         val manager = LinearLayoutManager(this)
-        val mAdapter = MyAdapter(list)
-        val RecyclerView = Binding.manEntryRec.apply {
+        val mAdapter = MyAdapter(
+            list,
+            Binding.itemname,
+            Binding.itemCost,
+            Binding.itemAmount,
+            Binding.catChoice
+        )
+        Binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
         }
@@ -71,34 +88,42 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
         Binding.addMore.setOnClickListener {
             println("Adding More")
-            when{
-                TextUtils.isEmpty(Binding.itemname.text) ->{
+            when {
+                TextUtils.isEmpty(Binding.itemname.text) -> {
                     Binding.itemname.error =
                         "Please enter the Items name"
                     Binding.itemname.requestFocus()
                 }
-                TextUtils.isEmpty(Binding.itemCost.text) ->{
+                TextUtils.isEmpty(Binding.itemCost.text) -> {
                     Binding.itemCost.error =
                         "Please enter the Item Cost"
                     Binding.itemCost.requestFocus()
                 }
-                TextUtils.isEmpty(Binding.itemAmount.text) ->{
+                TextUtils.isEmpty(Binding.itemAmount.text) -> {
                     Binding.itemAmount.error =
                         "Please enter an amount"
                     Binding.itemAmount.requestFocus()
                 }
-                TextUtils.equals(Binding.catChoice.text,"NONE") ->{
+                TextUtils.equals(Binding.catChoice.text, "NONE") -> {
                     Binding.CategoryBtn.error =
                         "Please choose a category!"
                     Binding.CategoryBtn.requestFocus()
                 }
                 else -> {
-                    mAdapter.addItem(Item(-1,Binding.itemname.text.toString(),Binding.itemCost.text.toString().toDouble(),
-                        Binding.itemAmount.text.toString().toInt(),Binding.catChoice.text.toString()))
+                    mAdapter.addItem(
+                        Item(
+                            update,
+                            Binding.itemname.text.toString(),
+                            Binding.itemCost.text.toString().toDouble(),
+                            Binding.itemAmount.text.toString().toInt(),
+                            Binding.catChoice.text.toString()
+                        )
+                    )
                     Binding.itemAmount.text.clear()
                     Binding.itemCost.text.clear()
                     Binding.itemname.text.clear()
                     Binding.catChoice.text = getString(R.string.emptyCat)
+                    update = -1
                 }
             }
 
@@ -110,20 +135,11 @@ class ActivityReceiptUpdate: AppCompatActivity() {
             Binding.itemCost.text.clear()
             Binding.itemname.text.clear()
             Binding.catChoice.text = getString(R.string.emptyCat)
+            update = -1
         }
 
         Binding.SubmitMan.setOnClickListener {
             println("Submitting")
-
-            try{
-                mAdapter.deleteFirst()
-            }catch(e: IndexOutOfBoundsException){
-                Binding.SubmitMan.error = "You can't submit an empty list!"
-                Binding.SubmitMan.requestFocus()
-            }
-
-
-
 
             when {
                 TextUtils.isEmpty(Binding.totalPrice.text) -> {
@@ -138,20 +154,20 @@ class ActivityReceiptUpdate: AppCompatActivity() {
                     Binding.taxPaid.error =
                         "Please enter the amount of tax you paid on this purchase!";Binding.taxPaid.requestFocus()
                 }
-                !TextUtils.isEmpty(Binding.itemname.text) ->{
+                !TextUtils.isEmpty(Binding.itemname.text) -> {
                     Binding.itemname.error =
                         "Please either finish or clear the item"
                 }
-                !TextUtils.isEmpty(Binding.itemCost.text) ->{
+                !TextUtils.isEmpty(Binding.itemCost.text) -> {
                     Binding.itemCost.error =
                         "Please either finish or clear the item"
                 }
-                !TextUtils.isEmpty(Binding.itemAmount.text) ->{
+                !TextUtils.isEmpty(Binding.itemAmount.text) -> {
                     Binding.itemAmount.error =
                         "Please either finish or clear the item"
                     Binding.itemAmount.requestFocus()
                 }
-                !TextUtils.equals(Binding.catChoice.text,"NONE") ->{
+                !TextUtils.equals(Binding.catChoice.text, "NONE") -> {
                     Binding.CategoryBtn.error =
                         "Please choose a category!"
                     Binding.CategoryBtn.requestFocus()
@@ -161,20 +177,10 @@ class ActivityReceiptUpdate: AppCompatActivity() {
             }
 
 
-
         }
 
 
     }
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -207,32 +213,36 @@ class ActivityReceiptUpdate: AppCompatActivity() {
     private fun submitItems(list: ArrayList<Item>) {
         val db = DatabaseHelper(this)
         println("SubmittingItems")
-        if(list.isNotEmpty()) {
-            //create a new receipt
-            db.insertReceipt(
-                Binding.totalPrice.text.toString().toDouble(),
-                Binding.storeName.text.toString()
+        if (list.isNotEmpty()) {
+            //update the receipt
+            db.updateReceipt(
+                receiptID, DatabaseHelper.Receipt(
+                    Binding.storeName.text.toString(),
+                    Binding.totalPrice.text.toString().toDouble(),
+                    Binding.taxPaid.text.toString().toDouble()
+                )
             )
-            //store the last receipts DBID
-
-            //start inserting items
-
             for (x in list) {
-                if(x.itemID==-1){ //incase the user inserts a new item to the receipt
-                    db.insertItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory)
-                    db.insertContains(receiptID,db.getLastItemID())
-                }
-                else db.updateItem(x.itemName,x.itemPrice,x.itemAmount,x.itemCategory,x.itemID) //otherwise just call the update function
+                if (x.itemID == -1) { //incase the user inserts a new item to the receipt
+                    db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+                    db.insertContains(receiptID, db.getLastItemID())
+                } else db.updateItem(
+                    x.itemName,
+                    x.itemPrice,
+                    x.itemAmount,
+                    x.itemCategory,
+                    x.itemID
+                ) //otherwise just call the update function
 
             }
 
             Toast.makeText(
                 applicationContext,
-                "Receipt successfully submitted!",
+                "Receipt successfully updated!",
                 Toast.LENGTH_SHORT
             ).show()
             finish()
-        }else{
+        } else {
             Toast.makeText(
                 applicationContext,
                 "Failed to Submit!",
@@ -241,9 +251,7 @@ class ActivityReceiptUpdate: AppCompatActivity() {
         }
 
 
-
     }
-
 
 
     /**
@@ -251,29 +259,29 @@ class ActivityReceiptUpdate: AppCompatActivity() {
      * Adapter class for the recycler view.
      * Implements methods to update, delete, and add more elements, starting with a single one.
      * @param mData: A list of "Items" that would appear on a receipt
+     * @param iAmount: Pass a pointer to EditText for Updating the item
+     * @param iPrice: Pass a pointer to EditText for Updating the item
+     * @param iName: Pass a pointer to EditText for Updating the item
+     * @param iCat: Pass a pointer to TextView for Updating the item
      */
 
-    class MyAdapter(val mData: MutableList<Item>) : RecyclerView.Adapter<CustomViewHolder>() {
+
+    inner class MyAdapter(
+        val mData: MutableList<Item>,
+        val iName: EditText,
+        private val iPrice: EditText,
+        private val iAmount: EditText,
+        val iCat: TextView
+    ) : RecyclerView.Adapter<CustomViewHolder>() {
         private var lastPos = 0
         private lateinit var parent: ViewGroup
-         companion object: DiffUtil.ItemCallback<Item>(){
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
-            }
-        }
-
-
-
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val vh = LayoutInflater.from(parent.context)
             this.parent = parent
-            val binding = ActivityManualEntryFormatBinding.inflate(vh,parent,false)
+            val binding = ActivityManualEntryFormatBinding.inflate(vh, parent, false)
+
 
             return CustomViewHolder(binding)
         }
@@ -306,23 +314,27 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
-                deleteItem(position)
+                deleteItem(position, true) //removes from the DB
             }
 
             //init edit button
             binding.edit.setOnClickListener {
-                val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
-                Log.i("RecyclerView","Edit Button clicked")
-                parBinding.itemCost.setText(currentItem.itemPrice.toString())
-                parBinding.itemname.setText(currentItem.itemName)
-                parBinding.itemAmount.setText(currentItem.itemAmount)
-                parBinding.catChoice.text = currentItem.itemCategory
-                deleteItem(position)
-                notifyDataSetChanged()
+
+                Log.i("RecyclerView", "Edit Button clicked")
+                iName.setText(currentItem.itemName)
+                iAmount.setText(currentItem.itemAmount.toString())
+                iPrice.setText(currentItem.itemPrice.toString())
+                iCat.text = currentItem.itemCategory
+                update = position
+                deleteItem(
+                    position,
+                )
             }
 
 
-            "$position: ${currentItem.itemName}, ${currentItem.itemAmount} for ${currentItem.itemPrice}, ${currentItem.itemCategory} ".also { binding.ItemInfo.text = it }
+            "$position: ${currentItem.itemName}, ${currentItem.itemAmount} for ${currentItem.itemPrice}, ${currentItem.itemCategory} ".also {
+                binding.ItemInfo.text = it
+            }
 
 
         }
@@ -344,37 +356,41 @@ class ActivityReceiptUpdate: AppCompatActivity() {
 
 
         /**
-         *Removes an item from the recycler view
+         *Removes an item from the recyclerview/database
          */
 
-        private fun deleteItem(index: Int) {
-            if(itemCount!=1) {
-                mData.removeAt(index)
-                notifyDataSetChanged()
-                lastPos--
+        private fun deleteItem(index: Int, force: Boolean = false) {
+            if (force && mData[index].itemID != -1) {
+                val db = DatabaseHelper(this.parent.context)
+                db.deleteItem((mData[index].itemID))
             }
-        }
-
-        fun deleteFirst(){
-            if(itemCount>1){
-                mData.removeAt(0)
-                notifyDataSetChanged()
-                lastPos--
-            }
-            else throw IndexOutOfBoundsException()
+            mData.removeAt(index)
+            notifyDataSetChanged()
+            lastPos--
         }
 
         /**
          * Adds an Item to the data list, and informs the Recycler View that a new item has been updated
          */
         fun addItem(item: Item) {
-            Log.d("addItem","$mData.size")
+            Log.d("addItem", "$mData.size")
             mData.add(item)
             notifyItemInserted(mData.size)
         }
 
 
-
     }
-    open class CustomViewHolder(val binding: ViewDataBinding): RecyclerView.ViewHolder(binding.root)
+
+    companion object : DiffUtil.ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+            return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
+        }
+    }
+
+    open class CustomViewHolder(val binding: ViewDataBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

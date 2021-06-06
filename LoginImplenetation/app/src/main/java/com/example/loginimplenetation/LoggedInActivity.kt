@@ -2,32 +2,29 @@ package com.example.loginimplenetation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.adapter.ViewPageAdapter
+import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.example.loginimplenetation.fragments.CategoriesFragment
 import com.example.loginimplenetation.fragments.HistoryFragments
 import com.example.loginimplenetation.fragments.HomeFragment
-import com.example.loginimplenetation.databinding.LoggedActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 
+class LoggedInActivity : AppCompatActivity() {
 
-
-class LoggedInActivity: AppCompatActivity(){
-
-    private var mUser : FirebaseUser? = null
-    private lateinit var auth : FirebaseAuth
-    private lateinit var binding : LoggedActivityBinding
-
+    private var mUser: FirebaseUser? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: LoggedActivityBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
         mUser = FirebaseAuth.getInstance().currentUser
-        binding = LoggedActivityBinding.inflate(layoutInflater)
-        setContentView(R.layout.logged_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.logged_activity)
 
         //create Database
         val context = this
@@ -35,19 +32,26 @@ class LoggedInActivity: AppCompatActivity(){
 
         //we want to define initial categories when starting the project
         val category = arrayOf(
-            "Food","Drinks", "Electronics", "Education", "Health", "Laundry", "Advertisement", "Beauty",
+            "Food",
+            "Drinks",
+            "Electronics",
+            "Education",
+            "Health",
+            "Laundry",
+            "Advertisement",
+            "Beauty",
             "Sport"
         )
-        for (item in category){
+        for (item in category) {
             db.insertcat(item)
         }
 
 
 
-       setUpTabs()
+        setUpTabs()
     }
 
-    private fun setUpTabs(){
+    private fun setUpTabs() {
 
         //Declare the fragments we have in the main page
         val adapter = ViewPageAdapter(supportFragmentManager)
@@ -56,7 +60,7 @@ class LoggedInActivity: AppCompatActivity(){
         adapter.addFragment(HistoryFragments(), "History")
 
         //Assign all the buttons and tools from xml page
-        val viewPager= findViewById<androidx.viewpager.widget.ViewPager>(binding.viewPager.id)
+        val viewPager = findViewById<androidx.viewpager.widget.ViewPager>(binding.viewPager.id)
         val bar2 = findViewById<com.google.android.material.tabs.TabLayout>(binding.bar2.id)
         //val bar1 = findViewById<com.google.android.material.tabs.TabLayout>(R.id.bar1)
 
@@ -69,7 +73,6 @@ class LoggedInActivity: AppCompatActivity(){
         bar2.getTabAt(1)!!.setIcon(R.drawable.ic_category_24px)
         bar2.getTabAt(2)!!.setIcon(R.drawable.ic_history_24px)
     }
-
 
 
     /*
@@ -112,15 +115,7 @@ class LoggedInActivity: AppCompatActivity(){
          */
 
 
-
     //logs the user out of the application
-
-
-
-
-
-
-
 
 
 }

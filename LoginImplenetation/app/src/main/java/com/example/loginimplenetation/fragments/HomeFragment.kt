@@ -1,33 +1,27 @@
 package com.example.loginimplenetation.fragments
 
 import android.content.Intent
-import android.database.DatabaseUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.PopupMenu
-import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.loginimplenetation.adapter.DatabaseHelper
-import com.example.loginimplenetation.ManualEntry
 import com.example.loginimplenetation.CameraAccessActivity
-import com.example.loginimplenetation.SettingsActivity
+import com.example.loginimplenetation.ManualEntry
 import com.example.loginimplenetation.R
+import com.example.loginimplenetation.adapter.DatabaseHelper
 import com.example.loginimplenetation.databinding.FragmentHomeBinding
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
-import kotlin.collections.ArrayList
 
 
-class HomeFragment : Fragment()  {
+class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -38,49 +32,13 @@ class HomeFragment : Fragment()  {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_home,container,false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
 
-    //--------------------------------------------------------------------------------------------//
-      // Work with pie chart in the Home fragment
+        updateChart()
 
-
-        //create Database and get all categories from it to assign in the PieChart
-        val db = DatabaseHelper(this.requireContext())  /* ALWAYS DECLARE IT IN THE VIEWS */
-
-        /**** WE GET THE CATEGORIES FROM THE DATABASE ****/
-        val category = db.getCategories() as ArrayList<String>
-
-        val quantity = db.getCatTotalCost() as ArrayList
-
-
-        //Populating a list of PieEntries
-        val pieEntries: MutableList<PieEntry> = ArrayList()
-        for (x in 0..8) {
-            pieEntries.add(PieEntry(quantity[x].toFloat(), category[x]))
-        }
-
-
-        //db.getCategoryID("Food")
-
-
-
-        // set a dataset and build a pie object
-        val dataSet = PieDataSet(pieEntries, "Expenses")
-        val data = PieData(dataSet)
-
-
-        //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        binding.chart.data = data
-
-        //set animation
-        binding.chart.animateY(2000)
-        binding.chart.invalidate()
-
-     //-------------------------------------------------------------------------//
+        //-------------------------------------------------------------------------//
 
         //Declare variable for buttons
-
 
 
         //implement signoutButton
@@ -90,12 +48,12 @@ class HomeFragment : Fragment()  {
             activity?.finish()
         }
 
-
+// DEPRECATED
         //work with settings
-        binding.settings.setOnClickListener {
-            val intent = Intent(context, SettingsActivity::class.java);
-            startActivity(intent)
-        }
+//        binding.settings.setOnClickListener {
+//            val intent = Intent(context, SettingsActivity::class.java);
+//            startActivity(intent)
+//        }
 
         //work with adding a receipt either from camera or manually
         binding.addReceipt.setOnClickListener { v ->
@@ -139,6 +97,63 @@ class HomeFragment : Fragment()  {
         }
 
         return binding.root
+    }
+
+
+    private fun updateChart() {
+        //--------------------------------------------------------------------------------------------//
+        // Work with pie chart in the Home fragment
+
+
+        //create Database and get all categories from it to assign in the PieChart
+        val db = DatabaseHelper(this.requireContext())  /* ALWAYS DECLARE IT IN THE VIEWS */
+
+        /**** WE GET THE CATEGORIES FROM THE DATABASE ****/
+        val category = db.getCategories() as ArrayList
+
+        val quantity = db.getCatTotalCost() as ArrayList
+
+
+        //Populating a list of PieEntries
+        val pieEntries: MutableList<PieEntry> = ArrayList()
+
+        for (x in 0..8) {
+            if (quantity[x].toFloat() != 0.0F) {
+                pieEntries.add(PieEntry(quantity[x].toFloat(), category[x]))
+            }
+        }
+        if (pieEntries.size != 0) {
+            binding.textView2.visibility = View.INVISIBLE
+        } else {
+            binding.textView2.visibility = View.VISIBLE
+        }
+
+
+        //db.getCategoryID("Food")
+
+
+        // set a dataset and build a pie object
+        val dataSet = PieDataSet(pieEntries, "Expenses")
+        val data = PieData(dataSet)
+
+
+        //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        binding.chart.data = data
+
+        //set animation
+        binding.chart.animateY(2000)
+        binding.chart.invalidate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateChart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        updateChart()
     }
 }
 
