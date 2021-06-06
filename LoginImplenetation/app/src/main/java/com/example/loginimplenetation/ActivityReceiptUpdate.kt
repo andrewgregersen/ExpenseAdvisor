@@ -26,7 +26,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
     private var receiptID = -1
-    var updating: Int = -1
+    private var update = -1
     //private var cancel: Button? = null
 
 
@@ -68,7 +68,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
             Binding.itemAmount,
             Binding.catChoice
         )
-        val RecyclerView = Binding.manEntryRec.apply {
+        Binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
         }
@@ -112,7 +112,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
                 else -> {
                     mAdapter.addItem(
                         Item(
-                            updating,
+                            update,
                             Binding.itemname.text.toString(),
                             Binding.itemCost.text.toString().toDouble(),
                             Binding.itemAmount.text.toString().toInt(),
@@ -123,7 +123,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
                     Binding.itemCost.text.clear()
                     Binding.itemname.text.clear()
                     Binding.catChoice.text = getString(R.string.emptyCat)
-                    updating = -1
+                    update = -1
                 }
             }
 
@@ -135,7 +135,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
             Binding.itemCost.text.clear()
             Binding.itemname.text.clear()
             Binding.catChoice.text = getString(R.string.emptyCat)
-            updating = -1
+            update = -1
         }
 
         Binding.SubmitMan.setOnClickListener {
@@ -325,7 +325,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
                 iAmount.setText(currentItem.itemAmount.toString())
                 iPrice.setText(currentItem.itemPrice.toString())
                 iCat.text = currentItem.itemCategory
-                updating = position
+                update = position
                 deleteItem(
                     position,
                 )

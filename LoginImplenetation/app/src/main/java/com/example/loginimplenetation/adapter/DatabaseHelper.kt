@@ -928,8 +928,12 @@ class DatabaseHelper(var Context: Context) :
 
     fun deleteItem(itemID: Int) {
         val query = "delete from $ITEM where $COLUMN_ITEM_ID = $itemID"
+        val query2 = "delete from $CONTAINS where $COLUMN_CONTAINS_ITEM_ID = $itemID"
+        val query3 = "delete from $BELONG where $COLUMN_BELONG_ITEM_ID = $itemID "
         val db = this.writableDatabase
         db.execSQL(query)
+        db.execSQL(query2)
+        db.execSQL(query3)
         db.close()
     }
 

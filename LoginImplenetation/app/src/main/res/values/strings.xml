@@ -42,4 +42,5 @@
     <string name="your_password">Your Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="email_address">Email Address</string>
+    <string name="you_have_no_expenses_to_report">You Have No Expenses to Report!</string>
 </resources>
