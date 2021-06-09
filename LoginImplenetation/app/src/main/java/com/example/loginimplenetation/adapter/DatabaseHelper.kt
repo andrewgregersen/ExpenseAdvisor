@@ -15,7 +15,8 @@ class DatabaseHelper(var Context: Context) :
     companion object {
 
         private const val DATABASE_NAME = "Receipt_Advisor_DB"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 3
+        private var Category_Is_Populated = false
 
         //Table user
         private const val USER = "USER"
@@ -29,6 +30,7 @@ class DatabaseHelper(var Context: Context) :
         private const val COLUMN_TOTAL = "TOTAL"
         private const val COLUMN_STORE = "STORE"
         private const val COLUMN_DATE = "DATE"
+        private const val COLUMN_TAX = "TAX"
 
         //Table Item
         private const val ITEM = "ITEM"
@@ -139,9 +141,10 @@ class DatabaseHelper(var Context: Context) :
                     "REFERENCES " + CATEGORY + "(" + COLUMN_CATEGORY_ID + ") ON DELETE CASCADE)"
         db?.execSQL(createTableBelong)
 
+        //9. Receipt Table
         val createTableReceipt =
             "CREATE TABLE " + RECEIPT + " (" + COLUMN_RECEIPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TOTAL + " DOUBLE, " + COLUMN_STORE + " VARCHAR(256), " + COLUMN_DATE +
+                    COLUMN_TOTAL + " DOUBLE, " + COLUMN_STORE + " VARCHAR(256), " + COLUMN_TAX + " DOUBLE, " + COLUMN_DATE +
                     " DATETIME DEFAULT CURRENT_TIMESTAMP) "
         db?.execSQL(createTableReceipt)
 
@@ -154,12 +157,77 @@ class DatabaseHelper(var Context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        if (oldVersion < newVersion) {
+            db?.execSQL("DROP TABLE IF EXISTS $RECEIPT")
+            db?.execSQL("DROP TABLE IF EXISTS $ITEM")
+            db?.execSQL("DROP TABLE IF EXISTS $BELONG")
+            db?.execSQL("DROP TABLE IF EXISTS $CONTAINS")
+            db?.execSQL("DROP TABLE IF EXISTS $NOTIFICATION")
+//            db?.execSQL("DROP TABLE IF EXISTS $PURCHASE")
+            createOnUpgrade(db)
+        }
+    }
+
+    private fun createOnUpgrade(db: SQLiteDatabase?) {
+        //SQL Queries for tables
+        val receipt =
+            "create table $RECEIPT ($COLUMN_RECEIPT_ID integer primary key autoincrement, $COLUMN_TOTAL double, " +
+                    "$COLUMN_STORE varchar(256), $COLUMN_TAX double, $COLUMN_DATE datetime default current_timestamp)"
+        val item =
+            "create table $ITEM ($COLUMN_ITEM_ID integer primary key autoincrement, $COLUMN_PRICE double, " +
+                    "$COLUMN_ITEM_NAME varchar(256), $COLUMN_AMOUNT integer)"
+
+        val belong =
+            "CREATE TABLE $BELONG ($COLUMN_BELONG_ITEM_ID INTEGER, $COLUMN_BELONG_CATEGORY_ID INTEGER, PRIMARY KEY ($COLUMN_BELONG_ITEM_ID, " +
+                    "$COLUMN_BELONG_CATEGORY_ID), FOREIGN KEY($COLUMN_BELONG_ITEM_ID) REFERENCES $ITEM($COLUMN_ITEM_ID), FOREIGN KEY ($COLUMN_BELONG_CATEGORY_ID) " +
+                    "REFERENCES $CATEGORY ($COLUMN_CATEGORY_ID) ON DELETE CASCADE)"
+
+        val contains =
+            "CREATE TABLE $CONTAINS (${COLUMN_CONTAINS_ITEM_ID} INTEGER, $COLUMN_CONTAINS_RECEIPT_ID INTEGER, PRIMARY KEY ($COLUMN_CONTAINS_ITEM_ID, " +
+                    "$COLUMN_CONTAINS_RECEIPT_ID), FOREIGN KEY($COLUMN_CONTAINS_ITEM_ID) REFERENCES $ITEM($COLUMN_ITEM_ID), FOREIGN KEY ($COLUMN_CONTAINS_RECEIPT_ID) " +
+                    "REFERENCES $RECEIPT (${COLUMN_RECEIPT_ID}) ON DELETE CASCADE)"
+
+        val notification =
+            "CREATE TABLE $NOTIFICATION ($COLUMN_NOTIFICATION_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_NOTIFICATION_USER_ID INTEGER, $COLUMN_DESCRIPTION" +
+                    " VARCHAR(256), FOREIGN KEY($COLUMN_NOTIFICATION_USER_ID) REFERENCES $USER ($COLUMN_ID))"
+
+        db?.execSQL(receipt)
+        db?.execSQL(item)
+        db?.execSQL(belong)
+        db?.execSQL(contains)
+        db?.execSQL(notification)
     }
 
     /*****************************************/
     /* FUNCTION OF INSERTION IN THE DATABASE */
     /****************************************/
+
+    /**
+     * @author Andrew Gregersen
+     * Simple method for makeing sure the category table is populated on app launch.
+     */
+
+    fun initCat(): Boolean {
+        val db = this.writableDatabase
+        if (!Category_Is_Populated) {
+            val category = arrayOf(
+                "Food",
+                "Drinks",
+                "Electronics",
+                "Education",
+                "Health",
+                "Laundry",
+                "Advertisement",
+                "Beauty",
+                "Sport"
+            )
+            for (item in category) {
+                insertcat(item)
+            }
+            Category_Is_Populated = true
+        }
+        return Category_Is_Populated //should always return true
+    }
 
     //This function create a category
     fun insertcat(category: String) {
@@ -281,11 +349,12 @@ class DatabaseHelper(var Context: Context) :
             Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
-    fun insertReceipt(total: Double, store: String) {
+    fun insertReceipt(total: Double, store: String, tax: Double = 0.0) {
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(COLUMN_TOTAL, total)
         cv.put(COLUMN_STORE, store)
+        cv.put(COLUMN_TAX, tax)
 
         val result = db.insert(RECEIPT, null, cv)
 
@@ -730,9 +799,9 @@ class DatabaseHelper(var Context: Context) :
             throw IllegalArgumentException("That Receipt Does Not Exist")
         }
         val price = cursor.getDouble(cursor.getColumnIndex(COLUMN_TOTAL))
-        //val tax = cursor.getDouble(cursor.getColumnIndex(COLUMN_TAX))
+        val tax = cursor.getDouble(cursor.getColumnIndex(COLUMN_TAX))
         val storeName = cursor.getString(cursor.getColumnIndex(COLUMN_STORE))
-        return Receipt(storeName, price)
+        return Receipt(storeName, price, tax)
     }
 
     /**
@@ -879,14 +948,16 @@ class DatabaseHelper(var Context: Context) :
         val cv = ContentValues()
         cv.put(COLUMN_STORE, receipt.storeName)
         cv.put(COLUMN_TOTAL, receipt.price)
+        cv.put(COLUMN_TAX, receipt.tax)
 
+
+        //db.update(RECEIPT, cv)
         val query =
-            "UPDATE $RECEIPT SET $COLUMN_PRICE = ${receipt.price}, $COLUMN_STORE = ${receipt.storeName} WHERE $COLUMN_RECEIPT_ID = $receiptID"
-        val cursor = db.rawQuery(query, null)
-        if (!cursor.moveToFirst()) {
-            throw IllegalArgumentException("Receipt ID Does Not Exist")
-        }
-        cursor.close()
+            "UPDATE $RECEIPT SET $COLUMN_TOTAL = ${receipt.price}, $COLUMN_STORE = \"${receipt.storeName}\", $COLUMN_TAX = ${receipt.tax} WHERE $COLUMN_RECEIPT_ID = $receiptID"
+//        val cursor = db.rawQuery(query, null)
+//        cursor.moveToFirst()
+//        cursor.close()
+        db.execSQL(query)
         return true
     }
 

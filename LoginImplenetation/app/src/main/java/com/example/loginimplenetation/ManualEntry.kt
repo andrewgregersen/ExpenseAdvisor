@@ -201,7 +201,8 @@ class ManualEntry : AppCompatActivity() {
             //create a new receipt
             db.insertReceipt(
                 Binding.totalPrice.text.toString().toDouble(),
-                Binding.storeName.text.toString()
+                Binding.storeName.text.toString(),
+                Binding.taxPaid.text.toString().toDouble()
             )
             //store the last receipts DBID
             val receiptID = db.getLastReceiptID()
