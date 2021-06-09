@@ -13,11 +13,13 @@ import com.example.loginimplementation.databinding.AutofillItemBindingImpl
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class Autofill_Adapter(private val autofillList:List<Autofill_Data>):RecyclerView.Adapter<Autofill_Adapter.AutofillViewHolder>() {
+class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):RecyclerView.Adapter<Autofill_Adapter.AutofillViewHolder>() {
     // automatic generated from autofill_item.xml
+
     inner class AutofillViewHolder(val v: AutofillItemBindingImpl):RecyclerView.ViewHolder(v.root){
         val img= v.root.findViewById<ImageView>(R.id.autofilIm)
         val deleteItem: ImageView = itemView.rootView.findViewById(R.id.autodelete)
+
 
         init {
             img.setOnClickListener {
@@ -41,7 +43,9 @@ class Autofill_Adapter(private val autofillList:List<Autofill_Data>):RecyclerVie
                         }
                         .setPositiveButton("Yes"){dialog, which ->
                             autofillList.drop(adapterPosition)
+                            autofillList.removeAt(position)
                             notifyItemRemoved(this.getLayoutPosition())
+                            notifyDataSetChanged()
                             //notifyItemRemoved(adapterPosition)
                         }.show()
             }

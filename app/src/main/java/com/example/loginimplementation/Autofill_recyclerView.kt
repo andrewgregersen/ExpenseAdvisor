@@ -1,10 +1,14 @@
 package com.example.loginimplementation
 
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.model.Autofill_Adapter
 import com.example.loginimplementation.model.Autofill_Data
 import com.google.firebase.database.FirebaseDatabase
@@ -13,8 +17,8 @@ import kotlinx.android.synthetic.main.autofill_item.*
 
 
 class Autofill_recyclerView : AppCompatActivity() {
-    private lateinit var autofillAdapter:Autofill_Adapter
-    private lateinit var autoData:ArrayList<Autofill_Data>
+    private lateinit var autofillAdapter: Autofill_Adapter
+    private lateinit var autoData: ArrayList<Autofill_Data>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,60 +31,51 @@ class Autofill_recyclerView : AppCompatActivity() {
         val total = intent.getStringExtra("total")
         val myList = getIntent().getSerializableExtra("finalList") as ArrayList<String>
 
-        var database= FirebaseDatabase.getInstance().getReference("Items")
+        var database = FirebaseDatabase.getInstance().getReference("Items")
         autoData = ArrayList<Autofill_Data>()
 
 
-        for(i in 0 until myList.size step 2){
+        for (i in 0 until myList.size step 2) {
 
+            var go = true
+            var itemTemp = myList.get(i).toString()
             try {
                 var it = myList.get(i).toString()
-                autoData.add(Autofill_Data(R.drawable.food, it, myList.get(i+1), "1", category_spinner.setSelection(0)))
-
                 //if value has space
-                var go = true
+
 
                 it.split("\\s".toRegex()).forEach { item ->
                     //use item
-                    if(go){
+                    if (go) {
                         var modify = item.trim()
                         val re = Regex("[^A-Za-z0-9]")
-                        var modify2 = re.replace(modify,"")
+                        var modify2 = re.replace(modify, "").toLowerCase()
 
                         database.child(modify2).get().addOnSuccessListener {
 
-                            if(it.exists()){
+                            if (it.exists()) {
                                 val name = it.child("name").value
                                 val category = it.child("category").value
                                 Toast.makeText(this, "categorie for " + name.toString() + " is " + category.toString(), Toast.LENGTH_LONG).show()
-                                var size= autoData.size - 1
-
-
+                                autoData.add(Autofill_Data(R.drawable.auto, item, myList.get(i + 1), "1", category.toString()))
+                                go = false
 
                             }
                         }
-
-                    }else{
-                        return@forEach
                     }
                 }
 
-            }catch (e: Exception){
+                if(!go){
+                    autoData.add(Autofill_Data(R.drawable.auto, itemTemp, myList.get(i + 1), "1", "Others"))
+                }
+
+            } catch (e: Exception) {
                 continue
             }
 
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
 //        val category = arrayOf(
@@ -119,13 +114,10 @@ class Autofill_recyclerView : AppCompatActivity() {
 //            }
 //        }
 
+
         autofillAdapter = Autofill_Adapter(autoData)
         autofillRecycler.layoutManager = LinearLayoutManager(this)
         autofillRecycler.adapter = autofillAdapter
-
-
-
-
 
 
         val storeText = findViewById<EditText>(R.id.StoreText)
@@ -136,7 +128,14 @@ class Autofill_recyclerView : AppCompatActivity() {
         dateText.setText(date)
         totalText.setText(total)
 
-    }
+        submitText.setOnClickListener {
 
+            var finalList = autofillAdapter.autofillList as ArrayList<Autofill_Data>
+            Toast.makeText(this.applicationContext, finalList.toString(), Toast.LENGTH_LONG).show()
+
+
+        }
+
+    }
 
 }

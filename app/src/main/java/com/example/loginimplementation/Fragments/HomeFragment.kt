@@ -6,22 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.PopupMenu
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import com.example.loginimplementation.*
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplementation.CameraAccessActivity
-import com.example.loginimplementation.R
-import com.example.loginimplementation.SettingsActivity
-import com.example.loginimplementation.ManualEntry
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.collections.ArrayList
 
 
@@ -169,6 +165,30 @@ class HomeFragment : Fragment()  {
                 }
             }
         })
+
+        //Notification icon
+        val notification = db.getNotificationNumber()
+        var belt: ImageView = view?.findViewById(R.id.belt)
+        var amount: TextView = view?.findViewById(R.id.number)
+        // Set the number of notification to appear next to the belt
+        amount.setText(notification.toString())
+
+        //Make the belt and the number of notification clickable
+        //They are link to the Notification activity
+        amount?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val intent = Intent(context, Notification::class.java);
+                startActivity(intent)
+            }
+        })
+
+        belt?.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val intent = Intent(context, Notification::class.java);
+                startActivity(intent)
+            }
+        })
+
 
         return view
     }

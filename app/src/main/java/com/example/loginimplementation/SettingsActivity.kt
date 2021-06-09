@@ -45,12 +45,16 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
         when (item.itemId) {
             R.id.nav_profile -> {
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, ProfileShow::class.java)
+                startActivity(newAct)
             }
             R.id.nav_addreceipt -> {
                 Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_notification -> {
                 Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, Notification::class.java)
+                startActivity(newAct)
             }
             R.id.nav_faq -> {
                 Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()

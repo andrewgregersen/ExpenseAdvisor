@@ -1,9 +1,15 @@
-Football helmet
-Jock strap
-Mouthguards
-Shin pads
-Ski suits
-Elbow pads
-Shoulder pads
-Bicycle helmet
-Sports gloves
+football
+helmet
+jock
+strap
+mouthguards
+shin
+pads
+ski
+suits
+elbow
+pad
+shoulder
+bicycle
+sports
+gloves

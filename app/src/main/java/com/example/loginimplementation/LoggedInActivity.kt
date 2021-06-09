@@ -52,16 +52,6 @@ class LoggedInActivity: AppCompatActivity(){
         }
 
 
-
-
-
-
-
-
-
-
-
-
 //        val desc= "You have reach 75 % in your Food categorie"
 //        val desc2 = "You have reached 90% in your food categorie"
 //
@@ -102,46 +92,72 @@ class LoggedInActivity: AppCompatActivity(){
     private fun fillDataBase(){
 
         var ref = FirebaseDatabase.getInstance().getReference("Items")
+        var lineList = ArrayList<String>()
 
 
         var bufferedReader = applicationContext.assets.open("Food.txt").bufferedReader()
-        var lineList = ArrayList<String>()
-
         bufferedReader.useLines {  lines -> lines.forEach { lineList.add(it) } }
 
         for(i in lineList) {
-            var item = Item(i, "Food")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-            }
-        }
 
+            var item = ItemModel(i.toString(), "Food")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+        }
         var bufferedReader2 = applicationContext.assets.open("Advertisement.txt").bufferedReader()
         lineList = ArrayList<String>()
 
         bufferedReader2.useLines {  lines -> lines.forEach { lineList.add(it) } }
 
         for(i in lineList) {
-            var item = Item(i.toString(), "Advertisement")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+
+            var item = ItemModel(i.toString(), "Advertisement")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
+
         }
-//
-//
-//        var bufferedReader3 = applicationContext.assets.open("Beauty.txt").bufferedReader()
-//        lineList = ArrayList<String>()
-//
-//        bufferedReader3.useLines {  lines -> lines.forEach { lineList.add(it) } }
-//
-//        for(i in lineList) {
-//
-//            var item = Item(i.toString(), "Beauty")
-//            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-//                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-//            }
-//        }
-//
+
+        var bufferedReader3 = applicationContext.assets.open("Beauty.txt").bufferedReader()
+        lineList = ArrayList<String>()
+
+        bufferedReader3.useLines {  lines -> lines.forEach { lineList.add(it) } }
+
+        for(i in lineList) {
+
+            var item = ItemModel(i.toString(), "Beauty")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+        }
+
         var bufferedReader4 = applicationContext.assets.open("Education.txt").bufferedReader()
         lineList = ArrayList<String>()
 
@@ -149,10 +165,19 @@ class LoggedInActivity: AppCompatActivity(){
 
         for(i in lineList) {
 
-            var item = Item(i.toString(), "Education")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+            var item = ItemModel(i.toString(), "Education")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
+
         }
 
 
@@ -163,26 +188,42 @@ class LoggedInActivity: AppCompatActivity(){
 
         for(i in lineList) {
 
-            var item = Item(i.toString(), "Health")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+            var item = ItemModel(i.toString(), "Health")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
+
         }
 
 
         var bufferedReader6 = applicationContext.assets.open("Electronics.txt").bufferedReader()
-        lineList = ArrayList<String>()
 
-        bufferedReader6.useLines {  lines -> lines.forEach { lineList.add(it) } }
+       bufferedReader6.useLines {  lines -> lines.forEach { lineList.add(it) } }
 
         for(i in lineList) {
 
-            var item = Item(i.toString(), "Electronics")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-            }
-        }
+            var item = ItemModel(i.toString(), "Electronics")
 
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+        }
 
 
         var bufferedReader7 = applicationContext.assets.open("Laundry.txt").bufferedReader()
@@ -192,15 +233,20 @@ class LoggedInActivity: AppCompatActivity(){
 
         for(i in lineList) {
 
-            var item = Item( i.toString(), "Laundry")
-            ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+            var item = ItemModel(i.toString(), "Laundry")
+
+            var database= FirebaseDatabase.getInstance().getReference("Items")
+            database.child(item.name).get().addOnSuccessListener {
+
+                if(!it.exists()) {
+
+                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
+                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
+                    }
+                }
             }
+
         }
-
-
-
-
 
     }
 

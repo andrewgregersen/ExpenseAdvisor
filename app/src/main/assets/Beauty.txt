@@ -1,4 +1,4 @@
-Face
+face
 primer
 body
 lotion
@@ -7,7 +7,7 @@ fondation
 concealer
 blush
 highlighter
-Bronzer
+bronzer
 parfum
 cologne
 spray
@@ -17,9 +17,12 @@ eyeshadow
 mascara
 eyebrow
 eyeliner
-theeth brosh
-theeth pad
-lip gloss
+theeth
+brosh
+theeth
+pad
+lip
+gloss
 lipstick
 
 

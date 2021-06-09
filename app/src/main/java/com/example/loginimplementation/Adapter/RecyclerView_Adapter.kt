@@ -17,7 +17,7 @@ import com.example.loginimplementation.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class RecyclerView_Adapter(private var titles: List<String>, private var details: List<String>, private var images:List<Int>):
+class RecyclerView_Adapter(private var titles: MutableList<String>, private var details: MutableList<String>, private var images:MutableList<Int>):
 RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
 
 
@@ -52,8 +52,12 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
                             val db = DatabaseHelper(itemView.getContext())
                             val item:String = itemTitle.text.toString()
                             db.deleteItem(item)
+                            titles.removeAt(position)
+                            details.removeAt(position)
+                            images.removeAt(position)
 
                             notifyItemRemoved(position)
+                            notifyDataSetChanged()
                         }
                         .show()
 
@@ -76,6 +80,7 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
 
                 intent.putExtras(bundle)
                 v.context.startActivity(intent)
+                notifyDataSetChanged()
 
             }
         }

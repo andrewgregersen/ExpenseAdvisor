@@ -42,7 +42,7 @@ class TextRecognitionActivity: AppCompatActivity() {
 
 
         //mSelectedImage = For Nesi to figure out
-        mSelectedImage = getBitmapFromAsset(this, "download.jpg")
+        mSelectedImage = getBitmapFromAsset(this, "testR.jpg")
 
 //        val bytes: ByteArray? = intent.getByteArrayExtra("image")
 //        val bmp = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }

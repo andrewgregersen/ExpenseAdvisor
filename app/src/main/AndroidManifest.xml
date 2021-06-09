@@ -22,7 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
-        <activity android:name=".MyProfile"></activity>
+        <activity android:name=".Notification"></activity>
+        <activity android:name=".ProfileShow" />
+        <activity android:name=".MyProfile" />
         <activity android:name=".Autofill_recyclerView" />
         <activity android:name=".Display" />
         <activity android:name=".Confirm_Update_Item" />

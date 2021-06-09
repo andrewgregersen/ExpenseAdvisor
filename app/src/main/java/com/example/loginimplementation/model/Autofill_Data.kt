@@ -5,5 +5,5 @@ data class Autofill_Data(
         val itemName: String,
         val itemPrice: String,
         val itemCount: String,
-        val spinner: Unit
+        val itemCat: String
 )

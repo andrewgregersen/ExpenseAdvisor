@@ -138,8 +138,8 @@ class MainActivity: AppCompatActivity() {
     }
 
 
-//gives the result for the google login, would update the interface
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+    //gives the result for the google login, would update the interface
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == RC_SIGN_IN){
@@ -163,7 +163,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         val credential = GoogleAuthProvider.getCredential(token,null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this){
-                task -> if(task.isSuccessful){
+                    task -> if(task.isSuccessful){
                 Log.d(TAG2,"signInWithCredential:success")
                 val user = auth.currentUser
                 updateUI(user)
@@ -184,8 +184,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
             binding.Username.text.clear()
             binding.Password.text.clear()
         }else{
-               Toast.makeText(this, "Login has failed, please sign-in", Toast.LENGTH_SHORT).show()
-               binding.googleLogin.visibility = View.VISIBLE
+            Toast.makeText(this, "Login has failed, please sign-in", Toast.LENGTH_SHORT).show()
+            binding.googleLogin.visibility = View.VISIBLE
         }
 
     }
@@ -201,5 +201,3 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
     }
 
 }
-
-

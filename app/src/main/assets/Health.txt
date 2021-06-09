@@ -1,4 +1,5 @@
-Drugs
+drugs
 bandage
 vitamines
-Discover Test
+discover
+test

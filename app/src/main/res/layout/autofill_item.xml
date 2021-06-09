@@ -25,8 +25,8 @@
 
             <ImageView
                 android:id="@+id/autofilIm"
-                android:layout_width="111dp"
-                android:layout_height="151dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@{isAutofill_List.autoImage}" />
@@ -76,12 +76,22 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <EditText
+                    android:id="@+id/autofillCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{isAutofill_List.itemCat}"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
 
                 <Spinner
                     android:id="@+id/category_spinner"
                     android:entries="@array/array_data2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

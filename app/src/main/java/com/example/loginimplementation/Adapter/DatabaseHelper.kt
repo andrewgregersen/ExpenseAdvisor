@@ -728,6 +728,7 @@ class DatabaseHelper(var Context: Context):
     }
 
 
+
     fun getReceiptDate(id: Int): String{
 
         val db = this.readableDatabase
@@ -766,7 +767,7 @@ class DatabaseHelper(var Context: Context):
     fun getNotification(): MutableList<String>{
         var list: MutableList<String> = ArrayList()
         val db = this.readableDatabase
-        val query= "SELECT " + COLUMN_DESCRIPTION + " FROM " + NOTIFICATION
+        val query= "SELECT * FROM " + NOTIFICATION
         var cursor: Cursor? = null
         try {
             cursor = db.rawQuery(query, null)
@@ -775,13 +776,12 @@ class DatabaseHelper(var Context: Context):
             return ArrayList()
         }
 
-        var price :String
-
         if(cursor.moveToFirst()){
             do {
 
-                price = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)).toString()
-                list.add(price)
+                var notify = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION)).toString()
+                var id = cursor.getString(cursor.getColumnIndex(COLUMN_NOTIFICATION_ID)).toString()
+                list.add(id + ": " + notify.toString())
                 //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
 
             }while (cursor.moveToNext())
@@ -789,6 +789,31 @@ class DatabaseHelper(var Context: Context):
 
         return list
     }
+
+    fun getNotificationNumber(): Int {
+
+        var list: MutableList<String> = ArrayList()
+
+        val db = this.readableDatabase
+        val query= "SELECT " + COLUMN_NOTIFICATION_ID + " FROM " + NOTIFICATION
+        var cursor: Cursor? = null
+
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return 0
+        }
+
+        if(cursor.moveToFirst()){
+            do {
+                var id = cursor.getString(cursor.getColumnIndex(COLUMN_NOTIFICATION_ID)).toString()
+                list.add(id)
+            }while (cursor.moveToNext())
+        }
+        return list.size
+    }
+
 
 
     fun getLastReceiptID():Int{
@@ -828,6 +853,40 @@ class DatabaseHelper(var Context: Context):
         return list
     }
 
+    fun getAllProfiles(): MutableList<String> {
+
+        var list: MutableList<String> = ArrayList()
+
+        val db = this.readableDatabase
+        val query= "SELECT * FROM " + PROFILE
+        var cursor: Cursor? = null
+
+        try {
+            cursor = db.rawQuery(query, null)
+        } catch (e: SQLiteException){
+            db.execSQL(query)
+            return ArrayList()
+        }
+
+        var name:String
+
+        if(cursor.moveToFirst()){
+            do {
+
+                var type = cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_TYPE)).toString()
+                var budget = cursor.getString(cursor.getColumnIndex(COLUMN_BUDGET)).toString()
+                var favorite = cursor.getString(cursor.getColumnIndex(COLUMN_FAVORITE)).toString()
+                var profile = "Type " + type + " in " + favorite + " Limit = $" + budget
+                list.add(profile.toString())
+                //Toast.makeText(Context, name, Toast.LENGTH_LONG).show()
+
+            }while (cursor.moveToNext())
+        }
+
+        return list
+    }
+
+
 
     /*****************************************/
     /* FUNCTION OF UPDATING IN THE DATABASE */
@@ -842,6 +901,19 @@ class DatabaseHelper(var Context: Context):
         database.close()
 
      }
+
+    fun deleteNotification (position: String){
+
+        val temp = position.split(":")
+        val item = temp[0].toInt()
+
+        val database = this.writableDatabase
+        val query = "DELETE FROM "+ NOTIFICATION + " WHERE " + COLUMN_NOTIFICATION_ID + " = '"+item+"' "
+
+        database.execSQL(query)
+        database.close()
+
+    }
 
 
     /*****************************************/
