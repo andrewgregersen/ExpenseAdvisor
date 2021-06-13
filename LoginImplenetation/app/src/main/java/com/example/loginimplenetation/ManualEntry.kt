@@ -121,10 +121,6 @@ class ManualEntry : AppCompatActivity() {
                 Binding.SubmitMan.error = "You can't submit an empty list!"
                 Binding.SubmitMan.requestFocus()
             }
-
-
-
-
             when {
                 TextUtils.isEmpty(Binding.totalPrice.text) -> {
                     Binding.totalPrice.error =

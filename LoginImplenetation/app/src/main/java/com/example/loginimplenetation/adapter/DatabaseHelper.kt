@@ -15,7 +15,7 @@ class DatabaseHelper(var Context: Context) :
     companion object {
 
         private const val DATABASE_NAME = "Receipt_Advisor_DB"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
         private var Category_Is_Populated = false
 
         //Table user
@@ -219,7 +219,8 @@ class DatabaseHelper(var Context: Context) :
                 "Laundry",
                 "Advertisement",
                 "Beauty",
-                "Sport"
+                "Sport",
+                "Other"
             )
             for (item in category) {
                 insertcat(item)
