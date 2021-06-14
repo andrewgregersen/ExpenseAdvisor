@@ -55,9 +55,9 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
                             titles.removeAt(position)
                             details.removeAt(position)
                             images.removeAt(position)
-
-                            notifyItemRemoved(position)
                             notifyDataSetChanged()
+                            notifyItemRemoved(position)
+
                         }
                         .show()
 

@@ -70,10 +70,6 @@ class ProfileActivity: AppCompatActivity(){
                 val DB = DatabaseHelper(this)
                 //FirebaseAuth.getInstance().currentUser?.let { it1 -> DB.insertprofile(budget.toDouble(), fname, lname,housesize.toInt(), it1.uid,budgetperiod) }
 
-
-
-
-
             }
 
 

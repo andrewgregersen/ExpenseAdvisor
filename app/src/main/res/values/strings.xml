@@ -23,6 +23,12 @@
     <string name="last_name">Last Name</string>
     <string name="total_budget">Total Budget</string>
 
+    <string name="emptyCat">NONE</string>
+    <string name="store_name">Store Name</string>
+    <string name="tax">Tax</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="you_have_no_expenses_to_report">You Have No Expenses to Report!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -46,7 +52,8 @@
         <item>Electronics</item>
         <item>Food</item>
         <item>Health</item>
-        <item>Landry</item>
+        <item>Laundry</item>
+        <item>Beauty</item>
         <item>Other</item>
     </string-array>
 

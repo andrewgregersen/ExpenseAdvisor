@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loginimplementation.ForgottenActivity
-import com.example.loginimplementation.LoggedInActivity
 import com.example.loginimplementation.NewAccount
 import com.example.loginimplementation.databinding.ActivityMainBinding
+import com.example.loginimplementation.LoggedInActivity
 import com.facebook.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

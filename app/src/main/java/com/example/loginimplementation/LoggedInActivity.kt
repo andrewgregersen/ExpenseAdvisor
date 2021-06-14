@@ -1,70 +1,65 @@
 package com.example.loginimplementation
 
-import android.os.Bundle
-import android.widget.Toast
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.Adapter.ViewPageAdapter
 import com.example.loginimplementation.Fragments.CategoriesFragment
 import com.example.loginimplementation.Fragments.HistoryFragments
 import com.example.loginimplementation.Fragments.HomeFragment
-import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.Fragments.NotificationFragment
+import com.example.loginimplementation.databinding.ContentMainBinding
 import com.example.loginimplementation.databinding.LoggedActivityBinding
-import com.example.loginimplementation.Adapter.ViewPageAdapter
-import com.example.loginimplementation.R
+import com.example.loginimplementation.databinding.SettingsActivityBinding
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
-import java.io.File
-import java.io.InputStream
 
-
-class LoggedInActivity: AppCompatActivity(){
+class LoggedInActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private var mUser: FirebaseUser? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: LoggedActivityBinding
+    lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    lateinit var drawerLayout: DrawerLayout
+    lateinit var navView: NavigationView
+    private lateinit var cMBinding: ContentMainBinding
+    private lateinit var binding2: LoggedActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.logged_activity)
-
+        auth = FirebaseAuth.getInstance()
+        mUser = FirebaseAuth.getInstance().currentUser
+        binding = DataBindingUtil.setContentView(this, R.layout.logged_activity)
+        binding2= LoggedActivityBinding.inflate(layoutInflater)
+        cMBinding = ContentMainBinding.inflate(layoutInflater)
 
         //create Database
         val context = this
         val db = DatabaseHelper(context)
+        db.initCat()
 
-        //we want to define initial categories when starting the project
-        val category = arrayOf(
-            "Food","Drinks", "Electronics", "Education", "Health", "Laundry", "Advertisement", "Beauty",
-            "Sport"
-        )
-        for (item in category){
-            db.insertcat(item)
-        }
-
-        //Notification area
-
-
-
-        if(db.getNotification().size != 0){
-
-            var not= db.getProfile()
-            //Toast.makeText(context, "You have set your notification to be: " + not.toString(), Toast.LENGTH_SHORT).show()
-
-            val temp = db.getNotification()
-            //Toast.makeText(context, temp.toString(), Toast.LENGTH_SHORT).show()
-
-        }
-
-
-//        val desc= "You have reach 75 % in your Food categorie"
-//        val desc2 = "You have reached 90% in your food categorie"
-//
-//        db.insertNotification(1, desc)
-//        db.insertNotification(1, desc2)
-
+       //setUp all the Fragments
         setUpTabs()
-        //fillDataBase()
+
+        //Setup the Setting DrawerLayout
+        toolbar = cMBinding.toolbar
+        drawerLayout = binding.settingsDrawer
+        navView = binding.navView
+
+        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0)
+
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        navView.setNavigationItemSelectedListener(this)
     }
 
-
-
-    // Helps to set up all the Tabs and Fragments we use
     private fun setUpTabs() {
 
         //Declare the fragments we have in the main page
@@ -72,10 +67,11 @@ class LoggedInActivity: AppCompatActivity(){
         adapter.addFragment(HomeFragment(), "Home")
         adapter.addFragment(CategoriesFragment(), "Categories")
         adapter.addFragment(HistoryFragments(), "History")
+        adapter.addFragment(NotificationFragment(), "Notification")
 
         //Assign all the buttons and tools from xml page
-        val viewPager= findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)
-        val bar2 = findViewById<com.google.android.material.tabs.TabLayout>(R.id.bar2)
+        val viewPager = findViewById<androidx.viewpager.widget.ViewPager>(binding.viewPager.id)
+        val bar2 = findViewById<com.google.android.material.tabs.TabLayout>(binding.bar2.id)
         //val bar1 = findViewById<com.google.android.material.tabs.TabLayout>(R.id.bar1)
 
         //Have an adapter for the fragment slide and assign it to one bar
@@ -86,169 +82,92 @@ class LoggedInActivity: AppCompatActivity(){
         bar2.getTabAt(0)!!.setIcon(R.drawable.ic_home_24px)
         bar2.getTabAt(1)!!.setIcon(R.drawable.ic_category_24px)
         bar2.getTabAt(2)!!.setIcon(R.drawable.ic_history_24px)
-
+        bar2.getTabAt(3)!!.setIcon(R.drawable.ic_not)
     }
 
-    private fun fillDataBase(){
-
-        var ref = FirebaseDatabase.getInstance().getReference("Items")
-        var lineList = ArrayList<String>()
-
-
-        var bufferedReader = applicationContext.assets.open("Food.txt").bufferedReader()
-        bufferedReader.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Food")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_profile -> {
+                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, ProfileShow::class.java)
+                startActivity(newAct)
             }
+            R.id.nav_addreceipt -> {
+                Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, ManualEntry::class.java)
+                startActivity(newAct)
+            }
+            R.id.nav_notification -> {
+                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, Notification::class.java)
+                startActivity(newAct)
+            }
+            R.id.nav_faq -> {
+                Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, faq::class.java)
+                startActivity(newAct)
 
+            }
+            R.id.nav_update -> {
+                Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, MyProfile::class.java)
+                startActivity(newAct)
+
+
+            }
+            R.id.nav_logout -> {
+                Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show()
+                val auth = FirebaseAuth.getInstance()
+                auth.signOut()
+                this?.finish()
+            }
         }
-        var bufferedReader2 = applicationContext.assets.open("Advertisement.txt").bufferedReader()
-        lineList = ArrayList<String>()
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
 
-        bufferedReader2.useLines {  lines -> lines.forEach { lineList.add(it) } }
 
-        for(i in lineList) {
+    /*
 
-            var item = ItemModel(i.toString(), "Advertisement")
+    //displays the vairous buttons and graphs on the screen
+    private fun displayStuff() {
 
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
 
-                if(!it.exists()) {
+        This is old depricated code, kept in for testing reasons
 
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
+        val btnsignout = findViewById<Button>(binding.signOut.id)
+        btnsignout.setOnClickListener {
+            logOut()
         }
-
-        var bufferedReader3 = applicationContext.assets.open("Beauty.txt").bufferedReader()
-        lineList = ArrayList<String>()
-
-        bufferedReader3.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Beauty")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
+        val txtnamehere = findViewById<TextView>(binding.putName.id)
+        txtnamehere.text = auth.currentUser?.email
+        val btnPhoto = findViewById<Button>(binding.Photos.id)
+        btnPhoto.setOnClickListener {
+            val intent = Intent(this@LoggedInActivity, CameraAccessActivity::class.java)
+            startActivity(intent)
         }
-
-        var bufferedReader4 = applicationContext.assets.open("Education.txt").bufferedReader()
-        lineList = ArrayList<String>()
-
-        bufferedReader4.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Education")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
+        val btnSettings =findViewById<Button>(binding.Settings.id)
+        btnSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        //access the database where the individual receipts are stored
+        val bntDatabase = findViewById<Button>(binding.database.id)
+        bntDatabase.setOnClickListener {
+           // val intent = Intent(this,DatabaseActivity::class.java)
+            //startActivity(intent)
+            val message = findViewById<TextView>(binding.message.id)
+            message.text = R.string.DBAccess.toString()
         }
 
 
-        var bufferedReader5 = applicationContext.assets.open("Health.txt").bufferedReader()
-        lineList = ArrayList<String>()
 
-        bufferedReader5.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Health")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
-        }
-
-
-        var bufferedReader6 = applicationContext.assets.open("Electronics.txt").bufferedReader()
-
-       bufferedReader6.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Electronics")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
-        }
-
-
-        var bufferedReader7 = applicationContext.assets.open("Laundry.txt").bufferedReader()
-        lineList = ArrayList<String>()
-
-        bufferedReader7.useLines {  lines -> lines.forEach { lineList.add(it) } }
-
-        for(i in lineList) {
-
-            var item = ItemModel(i.toString(), "Laundry")
-
-            var database= FirebaseDatabase.getInstance().getReference("Items")
-            database.child(item.name).get().addOnSuccessListener {
-
-                if(!it.exists()) {
-
-                    ref.child(item.name.trim()).setValue(item).addOnCompleteListener {
-                        Toast.makeText(applicationContext, it.toString() + " added in Food", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-
-        }
 
     }
+         */
+
+
+    //logs the user out of the application
+
 
 }
-

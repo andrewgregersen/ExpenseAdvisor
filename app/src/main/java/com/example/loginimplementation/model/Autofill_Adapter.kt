@@ -3,6 +3,7 @@ package com.example.loginimplementation.model
 import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -25,7 +26,6 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
             img.setOnClickListener {
                 Toast.makeText(v.root.context, " clicker image", Toast.LENGTH_SHORT).show()
             }
-
             //val context: Context = ContextThemeWrapper(v.root.getContext(), R.style.LightTheme)
             val context: Context = ContextThemeWrapper(v.root.getContext(), R.style.AppTheme2)
             val dialogBuilder = MaterialAlertDialogBuilder(context)
@@ -50,6 +50,8 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
                         }.show()
             }
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AutofillViewHolder {
@@ -65,11 +67,20 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
     override fun onBindViewHolder(holder: AutofillViewHolder, position: Int) {
         val autolist = autofillList[position]
         holder.v.isAutofillList = autolist
+        holder.itemView.setOnClickListener {
+            Toast.makeText(holder.itemView.getContext()  , "Clicker pour modifier ii", Toast.LENGTH_LONG).show()
+            notifyDataSetChanged()
+            notifyItemChanged(holder.adapterPosition)
+            holder.v.isAutofillList = autolist
+
+
+        }
+
+
         //holder.v.autofilIm.setImageResource(autolist.autoImage)
     }
 
     fun getPosidion(holder: AutofillViewHolder, position: Int){
-
         val position = autofillList.get(holder.adapterPosition)
     }
 

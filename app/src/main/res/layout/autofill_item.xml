@@ -86,13 +86,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-
-                <Spinner
-                    android:id="@+id/category_spinner"
-                    android:entries="@array/array_data2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
             </LinearLayout>
 
         </LinearLayout>

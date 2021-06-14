@@ -87,8 +87,18 @@ class MyProfile : AppCompatActivity() {
         submit.setOnClickListener {
             amount = amountText?.text.toString()
             var db = DatabaseHelper(this.applicationContext)
-            db.editProfil(selectedClass.toString(), amount.toDouble(), category.toString())
 
+           // db.editProfil(1, category.toString(),selectedClass.toString() , amount.toDouble())
+
+
+            if(!db.lookProfil(category.trim().toString())){
+
+               db.insertProfil(1, category.toString(),selectedClass.toString() , amount.toDouble())
+
+            }
+            if(db.lookProfil(category.trim().toString())){
+                db.editProfil(1, category.toString(),selectedClass.toString() , amount.toDouble())
+            }
 
             Toast.makeText( this@MyProfile, """Class: 	${selectedClass.toString()} Div: 	${category.toString()}  Notification: ${notification.toString()}  Amount: $amount""", Toast.LENGTH_LONG).show()
 

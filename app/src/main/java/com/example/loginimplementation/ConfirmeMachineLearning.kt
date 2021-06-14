@@ -1,101 +1,3 @@
-//package com.example.loginimplementation
-//
-//import android.content.Intent
-//import android.os.Bundle
-//import android.widget.*
-//import androidx.appcompat.app.AppCompatActivity
-//import com.example.loginimplementation.MainActivity
-//import com.example.loginimplementation.Adapter.DatabaseHelper
-//import com.example.loginimplementation.R
-//import kotlinx.android.synthetic.main.activity_manual_entry.*
-//
-//class ManualEntry : AppCompatActivity() {
-//
-//    private var itemName: EditText? = null
-//    private var itemCategory: TextView? = null
-//    private var itemPrice: EditText? = null
-//    private var itemStore: EditText? = null
-//    private var choice: String = ""
-//    private var itemQuantity: EditText? = null
-//    //private var cancel: Button? = null
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_manual_entry)
-//
-//
-//        //Declare all entry point
-//        itemName = findViewById(R.id.idItemName) as EditText
-//        itemCategory= findViewById(R.id.cat_choice) as TextView
-//        itemPrice = findViewById(R.id.idPrice) as EditText
-//        itemStore = findViewById(R.id.idStoreName) as EditText
-//        itemQuantity = findViewById(R.id.text_description) as EditText
-//
-//        //Show popup for categories
-//        idCategorie.setOnClickListener {
-//            var popup = PopupMenu(this, idCategorie)
-//            popup.inflate(R.menu.menu_categorie_manual)
-//            popup.setOnMenuItemClickListener {
-//                //get the choice from categories and display it on the text view
-//                choice = (it.title).toString()
-//                itemCategory!!.text = choice
-//               // Toast.makeText(this, choice, Toast.LENGTH_SHORT).show()
-//
-//                true
-//            }
-//            //Display the list of categories
-//            popup.show()
-//        }
-//
-//
-//        btCancel.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java);
-//            startActivity(intent)
-//            Toast.makeText(applicationContext, "Cancel", Toast.LENGTH_LONG).show()
-//        }
-//
-//        btSubmit.setOnClickListener{
-//            val db = DatabaseHelper(this)
-//
-//            val name: String = itemName!!.text.toString()
-//            val category: String = choice
-//            val price: String = itemPrice!!.text.toString().trim()
-//            val store: String = itemStore!!.text.toString().trim()
-//            val quantity: String = itemQuantity!!.text.toString().trim()
-//            var finalPrice: Double = 0.0
-//
-//            try{
-//                finalPrice = (Integer.parseInt(price)).toDouble();
-//            } catch(e: NumberFormatException){ // handle your exception
-//                e.message
-//            }
-//
-//            db.insertItem(name, finalPrice, quantity.toInt(), category)
-//            //Toast.makeText(applicationContext, name + " "+ finalPrice+ " "+ category, Toast.LENGTH_LONG).show()
-//
-//            //create the receipt
-//            db.insertReceipt(finalPrice, store)
-//
-//            //Link receipt and item
-//            var itemID= db.getLastItemID()
-//            var receiptID= db.getLastReceiptID()
-//
-//            db.insertContains(receiptID, itemID)
-//
-//
-//            val intent = Intent(this, MainActivity::class.java);
-//            startActivity(intent)
-//            Toast.makeText(applicationContext, "Submit", Toast.LENGTH_LONG).show()
-//
-//        }
-//
-//
-//
-//
-//    }
-//}
-
 package com.example.loginimplementation
 
 import android.os.Bundle
@@ -103,7 +5,10 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.PopupMenu
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -112,20 +17,41 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loginimplementation.Adapter.DatabaseHelper
-import com.example.loginimplementation.R
+import com.example.loginimplementation.Adapter.DatabaseHelper.Item
 import com.example.loginimplementation.databinding.ActivityManualEntryFormatBinding
 import com.example.loginimplementation.databinding.ActivityManualEntryRecyclerViewBinding
 
 
-class ManualEntry : AppCompatActivity() {
+class ConfirmeMachineLearning : AppCompatActivity() {
 
     private lateinit var Binding: ActivityManualEntryRecyclerViewBinding
+    private var receiptID = -1
+    private var update = -1
     //private var cancel: Button? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Binding = DataBindingUtil.setContentView(this, R.layout.activity_manual_entry_recycler_view)
+
+        var myList = this.intent.extras?.get("ReceiptID") as MutableList<Autofill_recyclerView.ItemPass>
+        var date= this.intent.extras?.get("Date").toString()
+        var store= this.intent.extras?.get("Store").toString()
+        var total = this.intent.extras?.get("Total").toString()
+//        receiptID = this.intent.extras?.get("ReceiptID") as Int
+//        if (receiptID == -1) {
+//            Toast.makeText(this, "Failed to get Receipt ID", Toast.LENGTH_SHORT).show()
+//            finish()
+//        }
+//
+//        val list = DatabaseHelper(this).getItemsWithID(receiptID)
+//        val receipt = DatabaseHelper(this).getReceiptInfo(receiptID)
+
+        Binding.storeName.setText(store)
+        Binding.totalPrice.setText(total)
+        Binding.taxPaid.setText("1")
+
+
 
 
         Binding.Return.setOnClickListener {
@@ -139,13 +65,13 @@ class ManualEntry : AppCompatActivity() {
         //Init recycler view
         val manager = LinearLayoutManager(this)
         val mAdapter = MyAdapter(
-                mutableListOf(Item("This is an Example")),
+                myList,
                 Binding.itemname,
                 Binding.itemCost,
                 Binding.itemAmount,
                 Binding.catChoice
         )
-        val RecyclerView = Binding.manEntryRec.apply {
+        Binding.manEntryRec.apply {
             layoutManager = manager
             adapter = mAdapter
         }
@@ -188,10 +114,10 @@ class ManualEntry : AppCompatActivity() {
                 }
                 else -> {
                     mAdapter.addItem(
-                            Item(
+                            Autofill_recyclerView.ItemPass(
                                     Binding.itemname.text.toString(),
-                                    Binding.itemCost.text.toString().toDouble(),
-                                    Binding.itemAmount.text.toString().toInt(),
+                                    Binding.itemCost.text.toString(),
+                                    Binding.itemAmount.text.toString(),
                                     Binding.catChoice.text.toString()
                             )
                     )
@@ -199,6 +125,7 @@ class ManualEntry : AppCompatActivity() {
                     Binding.itemCost.text.clear()
                     Binding.itemname.text.clear()
                     Binding.catChoice.text = getString(R.string.emptyCat)
+                    update = -1
                 }
             }
 
@@ -210,20 +137,11 @@ class ManualEntry : AppCompatActivity() {
             Binding.itemCost.text.clear()
             Binding.itemname.text.clear()
             Binding.catChoice.text = getString(R.string.emptyCat)
+            update = -1
         }
 
         Binding.SubmitMan.setOnClickListener {
             println("Submitting")
-
-            try {
-                mAdapter.deleteFirst()
-            } catch (e: IndexOutOfBoundsException) {
-                Binding.SubmitMan.error = "You can't submit an empty list!"
-                Binding.SubmitMan.requestFocus()
-            }
-
-
-
 
             when {
                 TextUtils.isEmpty(Binding.totalPrice.text) -> {
@@ -256,7 +174,7 @@ class ManualEntry : AppCompatActivity() {
                             "Please choose a category!"
                     Binding.CategoryBtn.requestFocus()
                 }
-                else -> alertDialog(mAdapter.mData as ArrayList<Item>) //items in recycler view are not empty
+                else -> alertDialog(mAdapter.mData as ArrayList<Autofill_recyclerView.ItemPass>) //items in recycler view are not empty
 
             }
 
@@ -272,7 +190,7 @@ class ManualEntry : AppCompatActivity() {
      * Other than that, gets the users permission to submit the data.
      */
 
-    private fun alertDialog(list: ArrayList<Item>) {
+    private fun alertDialog(list: ArrayList<Autofill_recyclerView.ItemPass>) {
         val dialog = AlertDialog.Builder(this)
         dialog.setMessage("Are you sure you want to submit this receipt?\n Please double check to make sure there are no mistakes!")
         dialog.setTitle("Submit Your Receipt?")
@@ -294,7 +212,7 @@ class ManualEntry : AppCompatActivity() {
      * Submits the receipt to the database and then returns the user to the main screen!
      */
 
-    private fun submitItems(list: ArrayList<Item>) {
+    private fun submitItems(list: ArrayList<Autofill_recyclerView.ItemPass>) {
         val db = DatabaseHelper(this)
         println("SubmittingItems")
         if (list.isNotEmpty()) {
@@ -309,7 +227,7 @@ class ManualEntry : AppCompatActivity() {
             //start inserting items
 
             for (x in list) {
-                db.insertItem(x.itemName, x.itemPrice, x.itemAmount, x.itemCategory)
+                db.insertItem(x.itemName.toString(), x.itemPrice.toDouble(), x.itemAmount.toInt(), x.itemCategory.toString())
                 db.insertContains(receiptID, db.getLastItemID())
             }
 
@@ -327,7 +245,6 @@ class ManualEntry : AppCompatActivity() {
             ).show()
         }
 
-
     }
 
 
@@ -342,31 +259,23 @@ class ManualEntry : AppCompatActivity() {
      * @param iCat: Pass a pointer to TextView for Updating the item
      */
 
-    class MyAdapter(
-            val mData: MutableList<Item>,
+
+    inner class MyAdapter(
+            val mData: MutableList<Autofill_recyclerView.ItemPass>,
             val iName: EditText,
             private val iPrice: EditText,
             private val iAmount: EditText,
             val iCat: TextView
     ) : RecyclerView.Adapter<CustomViewHolder>() {
-        var lastPos = 0
+        private var lastPos = 0
         private lateinit var parent: ViewGroup
-
-        companion object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
-            }
-        }
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
             val vh = LayoutInflater.from(parent.context)
             this.parent = parent
             val binding = ActivityManualEntryFormatBinding.inflate(vh, parent, false)
+
 
             return CustomViewHolder(binding)
         }
@@ -396,21 +305,24 @@ class ManualEntry : AppCompatActivity() {
             //mData[position].let { holder.bind(it, position)}
             val currentItem = mData[position]
             val binding = holder.binding as ActivityManualEntryFormatBinding
-            //val parBinding = ActivityManualEntryRecyclerViewBinding.inflate(LayoutInflater.from(parent.context))
+
             //init remove button
             binding.imageButtonMERF.setOnClickListener {
-                deleteItem(position)
+                deleteItem(position) //removes from the DB
             }
 
             //init edit button
             binding.edit.setOnClickListener {
+
                 Log.i("RecyclerView", "Edit Button clicked")
                 iName.setText(currentItem.itemName)
                 iAmount.setText(currentItem.itemAmount.toString())
                 iPrice.setText(currentItem.itemPrice.toString())
                 iCat.text = currentItem.itemCategory
-                deleteItem(position)
-                notifyDataSetChanged()
+                update = position
+                deleteItem(
+                        position
+                )
             }
 
 
@@ -438,29 +350,23 @@ class ManualEntry : AppCompatActivity() {
 
 
         /**
-         *Removes an item from the recycler view
+         *Removes an item from the recyclerview/database
          */
 
-        private fun deleteItem(index: Int) {
-            if (itemCount != 1) {
-                mData.removeAt(index)
-                notifyDataSetChanged()
-                lastPos--
-            }
+        private fun deleteItem(position: Int) {
+
+            mData.removeAt(position)
+            notifyDataSetChanged()
+            lastPos--
         }
 
-        fun deleteFirst() {
-            if (itemCount > 1) {
-                mData.removeAt(0)
-                notifyDataSetChanged()
-                lastPos--
-            } else throw IndexOutOfBoundsException()
-        }
+
 
         /**
          * Adds an Item to the data list, and informs the Recycler View that a new item has been updated
          */
-        fun addItem(item: Item) {
+        fun addItem(item: Autofill_recyclerView.ItemPass)
+        {
             Log.d("addItem", "$mData.size")
             mData.add(item)
             notifyItemInserted(mData.size)
@@ -469,23 +375,16 @@ class ManualEntry : AppCompatActivity() {
 
     }
 
-    /**
-     * Small class with basic constructor to represent a single item in a list of many
-     * @param itemName Holds the items name
-     * @param itemPrice Holds the items cost
-     * @param itemAmount Holds how many of said item there is
-     * @param itemCategory Holds the value for the items category
-     */
+    companion object : DiffUtil.ItemCallback<Autofill_recyclerView.ItemPass>() {
+        override fun areItemsTheSame(oldItem: Autofill_recyclerView.ItemPass, newItem: Autofill_recyclerView.ItemPass): Boolean {
+            return oldItem == newItem
+        }
 
-
-    class Item(
-            var itemName: String = "",
-            var itemPrice: Double = 0.0,
-            var itemAmount: Int = 0,
-            var itemCategory: String = ""
-    )
+        override fun areContentsTheSame(oldItem: Autofill_recyclerView.ItemPass, newItem: Autofill_recyclerView.ItemPass): Boolean {
+            return (oldItem.itemAmount == newItem.itemAmount) && (oldItem.itemName == newItem.itemName) && (oldItem.itemPrice == newItem.itemPrice)
+        }
+    }
 
     open class CustomViewHolder(val binding: ViewDataBinding) :
             RecyclerView.ViewHolder(binding.root)
-
 }

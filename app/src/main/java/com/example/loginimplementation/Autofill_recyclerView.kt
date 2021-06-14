@@ -1,5 +1,6 @@
 package com.example.loginimplementation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.EditText
@@ -14,6 +15,7 @@ import com.example.loginimplementation.model.Autofill_Data
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_autofill_recycler_view.*
 import kotlinx.android.synthetic.main.autofill_item.*
+import java.io.Serializable
 
 
 class Autofill_recyclerView : AppCompatActivity() {
@@ -33,6 +35,7 @@ class Autofill_recyclerView : AppCompatActivity() {
 
         var database = FirebaseDatabase.getInstance().getReference("Items")
         autoData = ArrayList<Autofill_Data>()
+        var itemList = ArrayList<ItemPass>()
 
 
         for (i in 0 until myList.size step 2) {
@@ -58,6 +61,7 @@ class Autofill_recyclerView : AppCompatActivity() {
                                 val category = it.child("category").value
                                 Toast.makeText(this, "categorie for " + name.toString() + " is " + category.toString(), Toast.LENGTH_LONG).show()
                                 autoData.add(Autofill_Data(R.drawable.auto, item, myList.get(i + 1), "1", category.toString()))
+                                itemList.add(ItemPass(item, myList.get(i + 1),"1", category.toString()))
                                 go = false
 
                             }
@@ -67,12 +71,12 @@ class Autofill_recyclerView : AppCompatActivity() {
 
                 if(!go){
                     autoData.add(Autofill_Data(R.drawable.auto, itemTemp, myList.get(i + 1), "1", "Others"))
+                    itemList.add(ItemPass(itemTemp, myList.get(i + 1),"1", "Others"))
                 }
 
             } catch (e: Exception) {
                 continue
             }
-
 
 
         }
@@ -128,14 +132,44 @@ class Autofill_recyclerView : AppCompatActivity() {
         dateText.setText(date)
         totalText.setText(total)
 
+
         submitText.setOnClickListener {
 
+            val temp = autofillAdapter.notifyDataSetChanged()
             var finalList = autofillAdapter.autofillList as ArrayList<Autofill_Data>
+
             Toast.makeText(this.applicationContext, finalList.toString(), Toast.LENGTH_LONG).show()
+
+            var context= applicationContext
+            val intent = Intent(context,ConfirmeMachineLearning::class.java)
+            intent.putExtra("ReceiptID",itemList)
+            intent.putExtra("Date", date)
+            intent.putExtra("Store", store)
+            intent.putExtra("Total", total)
+
+            context.startActivity(intent)
+
+
 
 
         }
 
     }
+
+    class ItemPass(
+            var itemName: String = "",
+            var itemPrice: String = " ",
+            var itemAmount: String = " ",
+            var itemCategory: String = ""
+
+
+    ): Serializable
+
+    class ItemCreate(
+            var itemName: String = "",
+            var itemPrice: Double = 0.0,
+            var itemAmount: Int = 0,
+            var itemCategory: String = ""
+    ): Serializable
 
 }

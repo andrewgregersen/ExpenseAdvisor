@@ -50,6 +50,8 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             }
             R.id.nav_addreceipt -> {
                 Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, ManualEntry::class.java)
+                startActivity(newAct)
             }
             R.id.nav_notification -> {
                 Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
@@ -58,6 +60,8 @@ class SettingsActivity: AppCompatActivity() , NavigationView.OnNavigationItemSel
             }
             R.id.nav_faq -> {
                 Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
+                val newAct = Intent(applicationContext, faq::class.java)
+                startActivity(newAct)
 
             }
             R.id.nav_update -> {

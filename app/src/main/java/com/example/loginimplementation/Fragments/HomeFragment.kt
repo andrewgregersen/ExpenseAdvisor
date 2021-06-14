@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.Nullable
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.loginimplementation.*
 import com.example.loginimplementation.Adapter.DatabaseHelper
+import com.example.loginimplementation.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -22,45 +24,82 @@ import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment()  {
-
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
+    private lateinit var binding: FragmentHomeBinding
 
     // Here we can define the PieChart
     override fun onCreateView(
-            inflater: LayoutInflater,
-            @Nullable container: ViewGroup?,
-            @Nullable savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
-    //--------------------------------------------------------------------------------------------//
-      // Work with pie chart in the Home fragment
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
+
+        updateChart()
+
+        //-------------------------------------------------------------------------//
+
+        //Declare variable for buttons
 
 
-        //create Database and get all categories from it to assign in the PieChart
-        val db = DatabaseHelper(this.requireContext())  /* ALWAYS DECLARE IT IN THE VIEWS */
-        var category= arrayListOf<String>()
-
-        /**** WE GET THE CATEGORIES FROM THE DATABASE ****/
-        category = db.getCategories() as ArrayList<String>
-
-        var quantity = arrayListOf<Float>(35.2f, 10.4f, 28.99f, 3.5f, 70.1f, 30.4f, 9.2f)
-
-        //Populating a list of PieEntries
-        val pieEntries: MutableList<PieEntry> = ArrayList<PieEntry>()
-        for (i in quantity.indices) {
-            pieEntries.add(PieEntry(quantity[i], category[i]))
+        //implement signoutButton
+        binding.signout.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            activity?.finish()
         }
 
+// DEPRECATED
+        //work with settings
+//        binding.settings.setOnClickListener {
+//            val intent = Intent(context, SettingsActivity::class.java);
+//            startActivity(intent)
+//        }
+
+        //work with adding a receipt either from camera or manually
+        binding.addReceipt.setOnClickListener { v ->
+            // create a popupMenu when cliking on add button
+            val popupMenu = PopupMenu(context, v)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    //when selecting Camera and Gallery
+                    R.id.menu_CameraGallery -> {
+                        val intent = Intent(context, CameraAccessActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    // When selecting manual entry
+                    R.id.menu_Manual -> {
+                        val intent = Intent(context, ManualEntry::class.java);
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+
+
+                }
+            }
+
+            popupMenu.inflate(R.menu.menu_add_choise)
+
+            // add icons in our popupMenu
+            try {
+                val fieldMPopup = popupMenu::class.java.getDeclaredField("mPopup")
+                fieldMPopup.isAccessible = true
+                val mPopup = fieldMPopup.get(popupMenu)
+                mPopup.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                    .invoke(mPopup, true)
+            } catch (e: Exception) {
+                Log.e("Main", "Error showing menu icons.", e)
+            } finally {
+                //Show the popup menu
+                popupMenu.show()
+            }
+        }
+
+        var db= DatabaseHelper(requireContext())
+        //create a user
         var user = db.isUser()
-        var profil =  db.isProfil()
         if (!user){
             db.createUser()
             Toast.makeText( this.context, "User is getting create", Toast.LENGTH_LONG).show()
@@ -71,128 +110,122 @@ class HomeFragment : Fragment()  {
             print("User exist already")
         }
 
-        if (!profil){
-            db.createProfil()
-            Toast.makeText( this.context, "Profil is getting create", Toast.LENGTH_LONG).show()
-            print("Profil is getting create")
+
+        //Matching Notifications and profiles
+        val compare = db.getDetailProfiles() as ArrayList
+        val quantity = db.getCatTotalCost() as ArrayList
+        Toast.makeText(this.requireContext(), compare.toString(), Toast.LENGTH_LONG).show()
+        if(compare.size != 0){
+            for (i in 0 until compare.size step 2){
+
+                var cat = compare.get(i).toString()
+                var limit = compare.get(i+1).toDouble()
+
+                if(cat.equals("Food")){
+                    sendNotification(1, quantity.get(0),limit,"Food")
+                }
+                else if(cat.equals("Electronics")){
+                    sendNotification(3, quantity.get(2),limit,"Electronics")
+                }
+                else if(cat.equals("Education")){
+                    sendNotification(4, quantity.get(3),limit,"Education")
+                }
+                else if(cat.equals("Health")){
+                    sendNotification(5, quantity.get(4),limit,"Health")
+                }
+                else if(cat.equals("Laundry")){
+                    sendNotification(6, quantity.get(5),limit,"Laundry")
+                }
+                else if(cat.equals("Advertisement")){
+                    sendNotification(7, quantity.get(6),limit,"Advertisement")
+                }
+                else if(cat.equals("Beauty")){
+                    sendNotification(8, quantity.get(7),limit,"Beauty")
+                }
+                else{
+                    continue
+                }
+
+            }
+
         }
-        else{
-            Toast.makeText( this.context, "Profil exist already", Toast.LENGTH_LONG).show()
-            print("Profil exist already")
+
+        return binding.root
+    }
+
+    fun sendNotification(id: Int, value: Double, limit: Double, name: String) {
+        val db = DatabaseHelper(requireContext())
+        if (value / 2 < limit && limit < (value * 3) / 4) {
+            val desc = "You have reach 50 % in your " + name + " categorie"
+            db.insertNotification(id, desc)
+        }
+
+        if ((value * 3) / 4 < limit && limit < value) {
+            val desc = "You have reach 75 % in your " + name + " categorie"
+            db.insertNotification(id, desc)
+        }
+
+        if (value < limit) {
+            val desc = "You passed the limit in your " + name + " categorie"
+            db.insertNotification(id, desc)
+        }
+    }
+
+    private fun updateChart() {
+        //--------------------------------------------------------------------------------------------//
+        // Work with pie chart in the Home fragment
+
+
+        //create Database and get all categories from it to assign in the PieChart
+        val db = DatabaseHelper(this.requireContext())  /* ALWAYS DECLARE IT IN THE VIEWS */
+
+        /**** WE GET THE CATEGORIES FROM THE DATABASE ****/
+        val category = db.getCategories() as ArrayList
+
+        val quantity = db.getCatTotalCost() as ArrayList
+
+
+        //Populating a list of PieEntries
+        val pieEntries: MutableList<PieEntry> = ArrayList()
+
+        for (x in 0..8) {
+            if (quantity[x].toFloat() != 0.0F) {
+                pieEntries.add(PieEntry(quantity[x].toFloat(), category[x]))
+            }
+        }
+        if (pieEntries.size != 0) {
+            binding.textView2.visibility = View.INVISIBLE
+        } else {
+            binding.textView2.visibility = View.VISIBLE
         }
 
 
-
+        //db.getCategoryID("Food")
 
 
         // set a dataset and build a pie object
         val dataSet = PieDataSet(pieEntries, "Expenses")
         val data = PieData(dataSet)
 
-        // Get the chart, Let call the pieChart from the xml file
-        val chart = view.findViewById<View>(R.id.chart) as PieChart
 
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
-        dataSet?.setColors(*ColorTemplate.COLORFUL_COLORS)
-        chart.setData(data)
+        dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+        binding.chart.data = data
 
         //set animation
-        chart.animateY(2000)
-        chart.invalidate()
-
-     //-------------------------------------------------------------------------//
-
-        //Declare variable for buttons
-
-        val signout = view?.findViewById<Button>(R.id.signout)
-        val settings= view?.findViewById<Button>(R.id.settings)
-        val addReceipt= view?.findViewById<Button>(R.id.addReceipt)
-
-
-        signout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            activity!!.finish()
-        }
-
-        //work with settings
-        settings?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(context, SettingsActivity::class.java);
-                startActivity(intent)
-            }
-        })
-
-        //work with adding a receipt either from camera or manually
-        addReceipt?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-
-                // create a popupMenu when cliking on add button
-                val popupMenu = PopupMenu(context, v)
-                popupMenu.setOnMenuItemClickListener { item ->
-                    when(item.itemId){
-                        //when selecting Camera and Gallery
-                        R.id.menu_CameraGallery ->{
-                            val intent = Intent(context, CameraAccessActivity::class.java);
-                            startActivity(intent)
-                            true
-                        }
-                        // When selecting manual entry
-                        R.id.menu_Manual ->{
-                            val intent = Intent(context, ManualEntry::class.java);
-                            startActivity(intent)
-                            true
-                        }
-                        else -> false
-
-
-                    }
-                }
-
-                popupMenu.inflate(R.menu.menu_add_choise)
-
-                // add icons in our popupMenu
-                try {
-                    val fieldMPopup = popupMenu::class.java.getDeclaredField("mPopup")
-                    fieldMPopup.isAccessible = true
-                    val mPopup = fieldMPopup.get(popupMenu)
-                    mPopup.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                            .invoke(mPopup, true)
-                }catch (e:Exception){
-                    Log.e("Main", "Error showing menu icons.", e)
-                } finally {
-                    //Show the popup menu
-                    popupMenu.show()
-                }
-            }
-        })
-
-        //Notification icon
-        val notification = db.getNotificationNumber()
-        var belt: ImageView = view?.findViewById(R.id.belt)
-        var amount: TextView = view?.findViewById(R.id.number)
-        // Set the number of notification to appear next to the belt
-        amount.setText(notification.toString())
-
-        //Make the belt and the number of notification clickable
-        //They are link to the Notification activity
-        amount?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(context, Notification::class.java);
-                startActivity(intent)
-            }
-        })
-
-        belt?.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(context, Notification::class.java);
-                startActivity(intent)
-            }
-        })
-
-
-        return view
+        binding.chart.animateY(2000)
+        binding.chart.invalidate()
     }
+
+    override fun onResume() {
+        super.onResume()
+        updateChart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        updateChart()
+    }
+
 }
-
-
 

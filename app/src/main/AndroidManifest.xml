@@ -22,7 +22,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
-        <activity android:name=".Notification"></activity>
+        <activity android:name=".ActivityReceiptUpdate"></activity>
+        <activity
+            android:name=".LoggedInActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".faq" />
+        <activity android:name=".Notification" />
         <activity android:name=".ProfileShow" />
         <activity android:name=".MyProfile" />
         <activity android:name=".Autofill_recyclerView" />
@@ -38,6 +43,7 @@
         <activity android:name=".ItemOfCategory.ElectronicsItem" />
         <activity android:name=".ItemOfCategory.FoodItems" />
         <activity android:name=".ManualEntry" />
+        <activity android:name=".ConfirmeMachineLearning" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,9 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LoggedInActivity"
-            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NewAccount"
             android:parentActivityName=".MainActivity" />
