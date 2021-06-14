@@ -121,10 +121,6 @@ class ManualEntry : AppCompatActivity() {
                 Binding.SubmitMan.error = "You can't submit an empty list!"
                 Binding.SubmitMan.requestFocus()
             }
-
-
-
-
             when {
                 TextUtils.isEmpty(Binding.totalPrice.text) -> {
                     Binding.totalPrice.error =
@@ -201,7 +197,8 @@ class ManualEntry : AppCompatActivity() {
             //create a new receipt
             db.insertReceipt(
                 Binding.totalPrice.text.toString().toDouble(),
-                Binding.storeName.text.toString()
+                Binding.storeName.text.toString(),
+                Binding.taxPaid.text.toString().toDouble()
             )
             //store the last receipts DBID
             val receiptID = db.getLastReceiptID()

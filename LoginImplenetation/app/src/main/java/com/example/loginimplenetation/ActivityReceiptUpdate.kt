@@ -35,6 +35,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         Binding = DataBindingUtil.setContentView(this, R.layout.activity_manual_entry_recycler_view)
 
 
+        //Get the information from the DB
         receiptID = this.intent.extras?.get("ReceiptID") as Int
         if (receiptID == -1) {
             Toast.makeText(this, "Failed to get Receipt ID", Toast.LENGTH_SHORT).show()
@@ -44,6 +45,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
         val list = DatabaseHelper(this).getItemsWithID(receiptID)
         val receipt = DatabaseHelper(this).getReceiptInfo(receiptID)
 
+        //update UI to reflect data retrieved from receipt
         Binding.storeName.setText(receipt.storeName)
         Binding.totalPrice.setText(receipt.price.toString())
         Binding.taxPaid.setText(receipt.tax.toString())

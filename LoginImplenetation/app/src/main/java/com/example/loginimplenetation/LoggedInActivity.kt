@@ -31,20 +31,7 @@ class LoggedInActivity : AppCompatActivity() {
         val db = DatabaseHelper(context)
 
         //we want to define initial categories when starting the project
-        val category = arrayOf(
-            "Food",
-            "Drinks",
-            "Electronics",
-            "Education",
-            "Health",
-            "Laundry",
-            "Advertisement",
-            "Beauty",
-            "Sport"
-        )
-        for (item in category) {
-            db.insertcat(item)
-        }
+        db.initCat()
 
 
 
