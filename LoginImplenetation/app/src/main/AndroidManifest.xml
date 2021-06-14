@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.loginimplenetation">
+    package="com.example.loginimplementation">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,24 +12,38 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="loginimplenetation"
+        android:label="loginimplementation"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/LightTheme">
+        <activity android:name=".ActivityReceiptUpdate"></activity>
+        <activity
+            android:name=".LoggedInActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".faq" />
+        <activity android:name=".Notification" />
+        <activity android:name=".ProfileShow" />
+        <activity android:name=".MyProfile" />
+        <activity android:name=".Autofill_recyclerView" />
+        <activity android:name=".Display" />
         <activity android:name=".Confirm_Update_Item" />
-        <activity android:name=".itemOfCategory.OtherItem" />
-        <activity android:name=".itemOfCategory.BeautyItem" />
-        <activity android:name=".itemOfCategory.AdvertisementItem" />
-        <activity android:name=".itemOfCategory.LaundryItem" />
-        <activity android:name=".itemOfCategory.HealthItem" />
-        <activity android:name=".itemOfCategory.EducationItem" />
-        <activity android:name=".itemOfCategory.ElectronicsItem" />
-        <activity android:name=".itemOfCategory.FoodItems" />
+        <activity android:name=".Update" />
+        <activity android:name=".ItemOfCategory.OtherItem" />
+        <activity android:name=".ItemOfCategory.BeautyItem" />
+        <activity android:name=".ItemOfCategory.AdvertisementItem" />
+        <activity android:name=".ItemOfCategory.LaundryItem" />
+        <activity android:name=".ItemOfCategory.HealthItem" />
+        <activity android:name=".ItemOfCategory.EducationItem" />
+        <activity android:name=".ItemOfCategory.ElectronicsItem" />
+        <activity android:name=".ItemOfCategory.FoodItems" />
+        <activity android:name=".ManualEntry" />
+        <activity android:name=".ConfirmeMachineLearning" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,41 +52,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoggedInActivity"
+            android:name=".NewAccount"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ForgottenActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CameraAccessActivity"
             android:parentActivityName=".LoggedInActivity" />
         <activity
-            android:name=".Update"
-            android:parentActivityName=".LoggedInActivity" />
-        <activity
-            android:name=".ManualEntry"
-            android:parentActivityName=".LoggedInActivity" />
-        <activity
             android:name=".ProfileActivity"
             android:parentActivityName=".SettingsActivity" />
-        <!--        <activity-->
-        <!--            android:name=".SettingsActivity"-->
-        <!--            android:parentActivityName=".LoggedInActivity" />-->
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".LoggedInActivity" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="text" />
+
         <activity
             android:name=".TextRecognitionActivity"
             android:parentActivityName=".CameraAccessActivity" />
-        <activity
-            android:name=".ActivityReceiptUpdate"
-            android:parentActivityName=".LoggedInActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.loginimplenetation.fileprovider"
+            android:authorities="com.example.loginimplementation.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-            <meta-data
-                android:name="com.google.android.gms.vision.DEPENDENCIES"
-                android:value="text" />
         </provider>
     </application>
 

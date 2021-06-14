@@ -1,0 +1,6 @@
+pen
+pensil
+book
+dictionary
+school
+paper

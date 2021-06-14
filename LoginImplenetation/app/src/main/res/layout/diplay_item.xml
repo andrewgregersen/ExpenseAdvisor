@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/display_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
+    tools:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_wrapper"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:padding="1dp">
+
+
+        <LinearLayout
+            android:id="@+id/centre"
+            android:layout_width="190dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/historyImage"
+            android:layout_alignBottom="@+id/historyImage"
+            android:layout_marginBottom="-3dp"
+            android:layout_toEndOf="@+id/historyImage"
+            android:layout_toRightOf="@+id/historyImage"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/d_title"
+                android:layout_width="190dp"
+                android:layout_height="match_parent"
+                android:text="Title"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rest"
+            android:layout_width="78dp"
+            android:layout_height="71dp"
+            android:layout_alignLeft="@+id/centre"
+            android:layout_alignBottom="@+id/centre"
+            android:layout_alignParentLeft="@id/centre"
+            android:layout_marginLeft="319dp"
+            android:layout_marginBottom="-4dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/display_select"
+                android:gravity="center"
+                android:text= "Select" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/viewChoice"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="-4dp">
+
+        <TextView
+            android:id="@+id/choice_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
