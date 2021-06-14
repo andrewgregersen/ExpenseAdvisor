@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">376342208913-tb03gja5k8m6b318qik6gg9i9n1as8j9.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">376342208913</string>
+    <string name="google_api_key" translatable="false">AIzaSyARipv9dZq_RBpz2yj9mI8d-O3wzGYX1tE</string>
+    <string name="google_app_id" translatable="false">1:376342208913:android:3f916305a4fb715ff93a30</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyARipv9dZq_RBpz2yj9mI8d-O3wzGYX1tE</string>
+    <string name="google_storage_bucket" translatable="false">receipt-advisor.appspot.com</string>
+    <string name="project_id" translatable="false">receipt-advisor</string>
+</resources>

@@ -196,6 +196,7 @@ class DatabaseHelper(var Context: Context) :
         db?.execSQL(belong)
         db?.execSQL(contains)
         db?.execSQL(notification)
+        
     }
 
     /*****************************************/
