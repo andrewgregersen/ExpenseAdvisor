@@ -8,9 +8,9 @@ The following is the given project description.
  
 
 
-CS 481 SENIOR CAPSTONE I (3 Cr.)
+CS 481-483 SENIOR CAPSTONE I-III
 
-Fall 2020
+Fall 2020- Spring 2021
 
 
 Supervisor: Sara Farag
