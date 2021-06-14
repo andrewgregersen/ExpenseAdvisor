@@ -32,8 +32,6 @@ class LoggedInActivity : AppCompatActivity() {
 
         //we want to define initial categories when starting the project
         db.initCat()
-        
-
 
 
 
