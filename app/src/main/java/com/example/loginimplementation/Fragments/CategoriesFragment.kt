@@ -85,7 +85,7 @@ class CategoriesFragment : Fragment() {
         electronics.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 requireActivity().run {
-                    startActivity(Intent(this, Notification::class.java))
+                    startActivity(Intent(this, ElectronicsItem::class.java))
                     true
                 }
             }

@@ -102,11 +102,11 @@ class HomeFragment : Fragment()  {
         var user = db.isUser()
         if (!user){
             db.createUser()
-            Toast.makeText( this.context, "User is getting create", Toast.LENGTH_LONG).show()
+            //Toast.makeText( this.context, "User is getting create", Toast.LENGTH_LONG).show()
             print("User is getting create")
         }
         else{
-            Toast.makeText( this.context, "User exist already", Toast.LENGTH_LONG).show()
+            //Toast.makeText( this.context, "User exist already", Toast.LENGTH_LONG).show()
             print("User exist already")
         }
 
@@ -114,11 +114,11 @@ class HomeFragment : Fragment()  {
         //Matching Notifications and profiles
         val compare = db.getDetailProfiles() as ArrayList
         val quantity = db.getCatTotalCost() as ArrayList
-        Toast.makeText(this.requireContext(), compare.toString(), Toast.LENGTH_LONG).show()
+        //Toast.makeText(this.requireContext(), quantity.toString(), Toast.LENGTH_LONG).show()
         if(compare.size != 0){
             for (i in 0 until compare.size step 2){
 
-                var cat = compare.get(i).toString()
+                var cat = compare.get(i).trim().toString()
                 var limit = compare.get(i+1).toDouble()
 
                 if(cat.equals("Food")){
@@ -142,6 +142,9 @@ class HomeFragment : Fragment()  {
                 else if(cat.equals("Beauty")){
                     sendNotification(8, quantity.get(7),limit,"Beauty")
                 }
+                else if(cat.equals("Others")){
+                    sendNotification(9, quantity.get(9),limit,"Beauty")
+                }
                 else{
                     continue
                 }
@@ -155,12 +158,12 @@ class HomeFragment : Fragment()  {
 
     fun sendNotification(id: Int, value: Double, limit: Double, name: String) {
         val db = DatabaseHelper(requireContext())
-        if (value / 2 < limit && limit < (value * 3) / 4) {
+        if (value / 2.0 < limit && limit < (value * 3.0) / 4.0) {
             val desc = "You have reach 50 % in your " + name + " categorie"
             db.insertNotification(id, desc)
         }
 
-        if ((value * 3) / 4 < limit && limit < value) {
+        if ((value * 3.0) / 4.0 < limit && limit < value) {
             val desc = "You have reach 75 % in your " + name + " categorie"
             db.insertNotification(id, desc)
         }
@@ -199,18 +202,16 @@ class HomeFragment : Fragment()  {
             binding.textView2.visibility = View.VISIBLE
         }
 
-
-        //db.getCategoryID("Food")
-
-
         // set a dataset and build a pie object
         val dataSet = PieDataSet(pieEntries, "Expenses")
         val data = PieData(dataSet)
 
-
         //change color, dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         dataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         binding.chart.data = data
+        binding.chart.setOnClickListener {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+        }
 
         //set animation
         binding.chart.animateY(2000)

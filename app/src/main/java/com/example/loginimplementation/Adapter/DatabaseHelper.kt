@@ -183,12 +183,12 @@ class DatabaseHelper(var Context: Context):
         cv.put(COLUMN_AMOUNT,amount)
 
         val result = db.insert(ITEM, null, cv)
-        if (result == -1.toLong()) {
-            Toast.makeText(Context, "Failed to insert category: STEP 1", Toast.LENGTH_LONG).show()
-            return
-        }
-        else
-            Toast.makeText(Context, "Success to insert item, Step 1", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong()) {
+//            Toast.makeText(Context, "Failed to insert category: STEP 1", Toast.LENGTH_LONG).show()
+//            return
+//        }
+//        else
+//            Toast.makeText(Context, "Success to insert item, Step 1", Toast.LENGTH_LONG).show()
 
         /* STEP 2, GET ITEM ID */
         var id= getLastItemID()
@@ -207,13 +207,13 @@ class DatabaseHelper(var Context: Context):
 
         val solution= db3.insert(BELONG, null, cv3)
 
-        if (solution == -1.toLong())
-            Toast.makeText(Context, "Failed to insert in STEP 3", Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Item insertion success", Toast.LENGTH_LONG).show()
-
-
-        Toast.makeText(Context, "TOUT VAS BIEN", Toast.LENGTH_LONG).show()
+//        if (solution == -1.toLong())
+//            Toast.makeText(Context, "Failed to insert in STEP 3", Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Item insertion success", Toast.LENGTH_LONG).show()
+//
+//
+//        Toast.makeText(Context, "TOUT VAS BIEN", Toast.LENGTH_LONG).show()
 
         db.close()
     }
@@ -259,10 +259,10 @@ class DatabaseHelper(var Context: Context):
         cv.put(COLUMN_ID, 1.toInt())
         val result = db.insert(USER, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success user create", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success user create", Toast.LENGTH_LONG).show()
     }
 
     fun isUser(): Boolean {
@@ -284,7 +284,7 @@ class DatabaseHelper(var Context: Context):
             return false
         }
         catch (e: Exception){
-            Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
         }
 
         return false
@@ -301,10 +301,10 @@ class DatabaseHelper(var Context: Context):
 
         val result = db.insert(PROFILE, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, "Failed DBBBB", Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success DBBB", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, "Failed DBBBB", Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success DBBB", Toast.LENGTH_LONG).show()
     }
 
 
@@ -347,11 +347,11 @@ class DatabaseHelper(var Context: Context):
             if (user.length != 0 ){
                 return true
             }
-            Toast.makeText(Context, "DOESN'T EXIST ", Toast.LENGTH_LONG).show()
+            //Toast.makeText(Context, "DOESN'T EXIST ", Toast.LENGTH_LONG).show()
             return false
         }
         catch (e: Exception){
-            Toast.makeText(Context, "LOOK UP PROBEM "+ e.toString(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(Context, "LOOK UP PROBEM "+ e.toString(), Toast.LENGTH_LONG).show()
         }
         return false
 
@@ -378,7 +378,7 @@ class DatabaseHelper(var Context: Context):
             return false
         }
         catch (e: Exception){
-            Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
+           // Toast.makeText(Context, e.toString(), Toast.LENGTH_LONG).show()
             return false
         }
 
@@ -394,10 +394,10 @@ class DatabaseHelper(var Context: Context):
 
         val result = db.insert(NOTIFICATION, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
     fun insertcont() {
@@ -409,10 +409,10 @@ class DatabaseHelper(var Context: Context):
 
         val result = db.insert(CONTAINS, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
     fun insertbelong() {
@@ -421,14 +421,12 @@ class DatabaseHelper(var Context: Context):
         cv.put(COLUMN_BELONG_CATEGORY_ID, 1)
         cv.put(COLUMN_BELONG_ITEM_ID, 1)
 
-
-
         val result = db.insert(BELONG, null, cv)
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, "Failed", Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success", Toast.LENGTH_LONG).show()
     }
 
     fun insertReceipt(total: Double, store: String){
@@ -441,10 +439,10 @@ class DatabaseHelper(var Context: Context):
 
 
 
-        if (result == -1.toLong())
-            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
-        else
-            Toast.makeText(Context, "Success" + total.toString() + " "+ store, Toast.LENGTH_LONG).show()
+//        if (result == -1.toLong())
+//            Toast.makeText(Context, result.toString(), Toast.LENGTH_LONG).show()
+//        else
+//            Toast.makeText(Context, "Success" + total.toString() + " "+ store, Toast.LENGTH_LONG).show()
 
     }
 
@@ -516,15 +514,6 @@ class DatabaseHelper(var Context: Context):
         }
 
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -664,7 +653,7 @@ class DatabaseHelper(var Context: Context):
         }
 
         var id = cursor.getString(cursor.getColumnIndex(COLUMN_BELONG_CATEGORY_ID)).toInt()
-        Toast.makeText(Context,"category id in belong is " + id, Toast.LENGTH_LONG).show()
+        //Toast.makeText(Context,"category id in belong is " + id, Toast.LENGTH_LONG).show()
         return id
     }
 
@@ -698,7 +687,8 @@ class DatabaseHelper(var Context: Context):
                 "SELECT $COLUMN_BELONG_CATEGORY_ID FROM $BELONG WHERE $COLUMN_BELONG_ITEM_ID = $x"
             val cursor3 = db.rawQuery(query3, null)
             if (!cursor3.moveToNext())
-                throw IllegalAccessException("Item Does Not Exist")
+                Toast.makeText(Context, "Item in associated doesn't not exist no more", Toast.LENGTH_LONG).show()
+                break
             var iCat = getCategoryName(
                 cursor3.getInt(
                     cursor3.getColumnIndex(
@@ -763,7 +753,7 @@ class DatabaseHelper(var Context: Context):
 
             db.close()
         }
-        Toast.makeText(Context, "" + list.size+ " item(s) found ", Toast.LENGTH_LONG).show()
+        //Toast.makeText(Context, "" + list.size+ " item(s) found ", Toast.LENGTH_LONG).show()
         return list
 
     }
@@ -870,7 +860,7 @@ class DatabaseHelper(var Context: Context):
 
         var list: MutableList<Int> = ArrayList()
         val db = this.readableDatabase
-        val query= "SELECT " + COLUMN_RECEIPT_ID + " FROM " + RECEIPT + " ORDER BY " + COLUMN_RECEIPT_ID + " DESC "
+        val query= "SELECT " + COLUMN_RECEIPT_ID + " FROM " + RECEIPT + " ORDER BY " + COLUMN_RECEIPT_ID
         var cursor: Cursor? = null
         try {
             cursor = db.rawQuery(query, null)
@@ -1186,6 +1176,16 @@ class DatabaseHelper(var Context: Context):
 
     }
 
+    fun deleteProfile (favorite: String){
+
+        val database = this.writableDatabase
+        val query = "DELETE FROM "+ PROFILE + " WHERE " + COLUMN_FAVORITE + " = '"+favorite+"' "
+
+        database.execSQL(query)
+        database.close()
+
+    }
+
 
 
 
@@ -1246,7 +1246,7 @@ class DatabaseHelper(var Context: Context):
         //Check if category has changed, if yes, then update
         if (!currentCategory.equals(futureCategory))
         {
-            Toast.makeText(Context, "different category to update", Toast.LENGTH_LONG).show()
+            //Toast.makeText(Context, "different category to update", Toast.LENGTH_LONG).show()
 
             val queryTemp= "UPDATE "+ BELONG + " SET "+ COLUMN_BELONG_CATEGORY_ID + " = " + futureCategory +
                     " WHERE " + COLUMN_BELONG_ITEM_ID + " = " + Itemid

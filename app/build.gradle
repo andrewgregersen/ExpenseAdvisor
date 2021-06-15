@@ -60,6 +60,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-drive:11.8.0'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
     implementation 'com.facebook.android:facebook-core:5.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
 
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
 

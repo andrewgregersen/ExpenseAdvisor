@@ -88,35 +88,35 @@ class LoggedInActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_profile -> {
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
                 val newAct = Intent(applicationContext, ProfileShow::class.java)
                 startActivity(newAct)
             }
             R.id.nav_addreceipt -> {
-                Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Add Receipt", Toast.LENGTH_SHORT).show()
                 val newAct = Intent(applicationContext, ManualEntry::class.java)
                 startActivity(newAct)
             }
             R.id.nav_notification -> {
-                Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Notification", Toast.LENGTH_SHORT).show()
                 val newAct = Intent(applicationContext, Notification::class.java)
                 startActivity(newAct)
             }
             R.id.nav_faq -> {
-                Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "FAQ", Toast.LENGTH_SHORT).show()
                 val newAct = Intent(applicationContext, faq::class.java)
                 startActivity(newAct)
 
             }
             R.id.nav_update -> {
-                Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Update Profile", Toast.LENGTH_SHORT).show()
                 val newAct = Intent(applicationContext, MyProfile::class.java)
                 startActivity(newAct)
 
 
             }
             R.id.nav_logout -> {
-                Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Sign Out", Toast.LENGTH_SHORT).show()
                 val auth = FirebaseAuth.getInstance()
                 auth.signOut()
                 this?.finish()

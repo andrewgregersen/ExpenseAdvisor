@@ -35,7 +35,7 @@ class ActivityReceiptUpdate : AppCompatActivity() {
 
         receiptID = this.intent.extras?.get("ReceiptID") as Int
         if (receiptID == -1) {
-            Toast.makeText(this, "Failed to get Receipt ID", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Failed to get Receipt ID", Toast.LENGTH_SHORT).show()
             finish()
         }
 

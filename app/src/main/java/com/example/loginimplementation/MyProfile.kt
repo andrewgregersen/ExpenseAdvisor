@@ -1,6 +1,7 @@
 package com.example.loginimplementation
 
 import android.app.Notification
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -100,8 +101,8 @@ class MyProfile : AppCompatActivity() {
                 db.editProfil(1, category.toString(),selectedClass.toString() , amount.toDouble())
             }
 
-            Toast.makeText( this@MyProfile, """Class: 	${selectedClass.toString()} Div: 	${category.toString()}  Notification: ${notification.toString()}  Amount: $amount""", Toast.LENGTH_LONG).show()
-
+            intent = Intent(this, ProfileShow::class.java)
+            startActivity(intent)
         }
     }
 }
