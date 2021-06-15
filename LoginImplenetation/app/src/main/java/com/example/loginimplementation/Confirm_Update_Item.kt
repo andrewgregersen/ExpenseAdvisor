@@ -75,7 +75,7 @@ class Confirm_Update_Item : AppCompatActivity() {
             //first get the item id of the element we woud like to edit
             val id= db.getItemID(item)
             //call the update function
-            Toast.makeText(context, ""+ title + " " + price.toString()+ " " + category, Toast.LENGTH_LONG).show()
+            //Toast.makeText(context, ""+ title + " " + price.toString()+ " " + category, Toast.LENGTH_LONG).show()
 
 
              db.updateItem(title, price, category, id )

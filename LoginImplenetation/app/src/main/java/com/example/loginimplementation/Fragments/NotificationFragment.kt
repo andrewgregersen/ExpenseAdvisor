@@ -41,7 +41,7 @@ class NotificationFragment: Fragment() {
         listView.adapter = arrayAdapter
 
         listView.setOnItemClickListener { adapterView, view, position, id ->
-            Toast.makeText(getContext(), " Read and will be deleted ", Toast.LENGTH_LONG).show()
+            //Toast.makeText(getContext(), " Read and will be deleted ", Toast.LENGTH_LONG).show()
             db.deleteNotification(notifications[position])
             arrayAdapter.setNotifyOnChange(true)
         }

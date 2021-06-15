@@ -33,7 +33,7 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
 
         init {
 
-            val context: Context = ContextThemeWrapper(itemView.getContext(), R.style.LightTheme)
+            val context: Context = ContextThemeWrapper(itemView.context, R.style.LightTheme)
             //val dialogBuilder = MaterialAlertDialogBuilder(context)
             deleteItem.setOnClickListener { v: View ->
                 val position: Int= adapterPosition
@@ -72,7 +72,7 @@ RecyclerView.Adapter<RecyclerView_Adapter.ViewHolder>(){
                 bundle.putString("ItemName", itemTitle!!.text.toString())
                 bundle.putString("ItemPrice", itemDetail!!.text.toString())
 
-                Toast.makeText(v.getContext(), ""+  itemTitle!!.text.toString() + " " + itemDetail!!.text.toString() , Toast.LENGTH_LONG).show()
+                //Toast.makeText(v.getContext(), ""+  itemTitle!!.text.toString() + " " + itemDetail!!.text.toString() , Toast.LENGTH_LONG).show()
 //
 
                 val db= DatabaseHelper(v.context)
