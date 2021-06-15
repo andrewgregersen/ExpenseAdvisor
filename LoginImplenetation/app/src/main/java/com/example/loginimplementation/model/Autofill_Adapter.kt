@@ -24,13 +24,13 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
 
         init {
             img.setOnClickListener {
-                Toast.makeText(v.root.context, " clicker image", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(v.root.context, " clicker image", Toast.LENGTH_SHORT).show()
             }
             //val context: Context = ContextThemeWrapper(v.root.getContext(), R.style.LightTheme)
             val context: Context = ContextThemeWrapper(v.root.getContext(), R.style.AppTheme2)
             val dialogBuilder = MaterialAlertDialogBuilder(context)
             deleteItem.setOnClickListener {
-                Toast.makeText(context, " clicker ", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, " clicker ", Toast.LENGTH_SHORT).show()
                 val position: Int= adapterPosition
                 //when click on delete, ask for confirmation
                 //showAlertDialog(v)
@@ -39,7 +39,7 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
                         .setTitle("Warning!")
                         .setMessage("Do you want to delete this item from the category? ")
                         .setNegativeButton("No"){dialog, which ->
-                            Toast.makeText(context, "Cancel ", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(context, "Cancel ", Toast.LENGTH_SHORT).show()
                         }
                         .setPositiveButton("Yes"){dialog, which ->
                             autofillList.drop(adapterPosition)
@@ -68,7 +68,7 @@ class Autofill_Adapter(public var autofillList:MutableList<Autofill_Data>):Recyc
         val autolist = autofillList[position]
         holder.v.isAutofillList = autolist
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.getContext()  , "Clicker pour modifier ii", Toast.LENGTH_LONG).show()
+            //Toast.makeText(holder.itemView.getContext()  , "Clicker pour modifier ii", Toast.LENGTH_LONG).show()
             notifyDataSetChanged()
             notifyItemChanged(holder.adapterPosition)
             holder.v.isAutofillList = autolist

@@ -59,7 +59,7 @@ class Autofill_recyclerView : AppCompatActivity() {
                             if (it.exists()) {
                                 val name = it.child("name").value
                                 val category = it.child("category").value
-                                Toast.makeText(this, "categorie for " + name.toString() + " is " + category.toString(), Toast.LENGTH_LONG).show()
+                                //Toast.makeText(this, "categorie for " + name.toString() + " is " + category.toString(), Toast.LENGTH_LONG).show()
                                 autoData.add(Autofill_Data(R.drawable.auto, item, myList.get(i + 1), "1", category.toString()))
                                 itemList.add(ItemPass(item, myList.get(i + 1),"1", category.toString()))
                                 go = false
